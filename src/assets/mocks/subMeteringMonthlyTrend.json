@@ -1,0 +1,8 @@
+{
+  "meta": { "site_id": 1 },
+  "months": ["Aug","Sep","Oct"],
+  "series": [
+    { "name": "Submeter A", "data": [30,32,31] },
+    { "name": "Submeter B", "data": [20,22,19] }
+  ]
+}

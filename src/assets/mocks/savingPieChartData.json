@@ -1,0 +1,3 @@
+{
+  "series": [{ "name": "Lighting", "y": 40 }, { "name": "HVAC", "y": 35 }, { "name": "Others", "y": 25 }]
+}

@@ -1,0 +1,5 @@
+{
+  "meta": { "site_id": 1 },
+  "months": ["Jan","Feb","Mar"],
+  "series": [{ "name": "Savings (kWh)", "data": [100,110,95] }]
+}

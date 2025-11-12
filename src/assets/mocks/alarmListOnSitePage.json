@@ -1,0 +1,3 @@
+{
+  "alarms": [{ "id": 21, "type": "sensor", "site_id": 1, "message": "Sensor offline" }]
+}

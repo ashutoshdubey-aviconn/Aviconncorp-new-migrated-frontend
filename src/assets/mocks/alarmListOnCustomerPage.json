@@ -1,0 +1,3 @@
+{
+  "alarms": [{ "id": 11, "type": "power", "site_id": 1, "message": "High load" }]
+}
