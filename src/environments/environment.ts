@@ -1,5 +1,6 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://asem.aviconnncorp.com/api/'   //new server path (test_project)
+  // Use the canonical backend hostname (matches production/staging):
+  apiUrl: 'https://asem.aviconncorp.com/api/'   // new server path (test_project)
 };
 
