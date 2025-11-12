@@ -1,87 +1,182 @@
-# movie-rater-web
+# Aviconncorp-new-migrated-frontend — Developer README
+
+This README explains how to set up, run, and understand the repository while migrating to modern Angular standalone components. It documents installation and run steps (PowerShell on Windows), developer toggles (mock fixtures), where key pieces of code live, and quick troubleshooting notes.
+
+## Quick start (Windows PowerShell)
+
+1. Install dependencies
+
+```powershell
+npm install
+```
+
+2. Run the dev server
+
+```powershell
+npm start
+# opens on http://localhost:4200 by default
+```
+
+3. Build (production)
+
+```powershell
+npm run build
+# outputs to dist/Aviconncorp-new-migrated-frontend
+```
+
+4. Run unit tests (Karma/Jasmine)
+
+```powershell
+npm test
+```
+
+5. Lint
+
+```powershell
+npm run lint
+# auto-fix where safe
+npm run lint:fix
+```
+
+## Enabling mock / offline mode
+
+The project includes a lightweight fixture-based mocking system that intercepts requests to the configured `apiUrl` and serves JSON/Blob fixtures from `src/assets/mocks/`.
+
+- Enable for the current browser session:
+
+```javascript
+localStorage.setItem('USE_MOCK_API','true');
+location.reload();
+```
+
+- Or append `?useMock=1` to the app URL.
+
+Mock responses are controlled by `src/app/interceptors/mock-api.interceptor.ts` and fixtures are under `src/assets/mocks/`.
+
+## Environment & exact versions
+
+This project was prepared and tested with the following runtime and package versions (exact installed versions from `npm ls --depth=0` on this machine):
+
+- Node: v20.17.0
+- npm: 10.8.2
+- Angular CLI: 19.2.19
+
+Key Angular packages:
+
+- @angular/core: 19.2.15
+- @angular/common: 19.2.15
+- @angular/compiler: 19.2.15
+- @angular/platform-browser: 19.2.15
+- @angular/platform-browser-dynamic: 19.2.15
+- @angular/forms: 19.2.15
+- @angular/router: 19.2.15
+- @angular/animations: 19.2.15
+- @angular/compiler-cli: 19.2.15
+- @angular/language-service: 19.2.15
+- @angular/material: 19.2.19
+- @angular/cdk: 19.2.19
+
+Runtime / 3rd-party libraries (top-level):
+
+- bootstrap: 4.6.2
+- font-awesome: 4.7.0
+- hammerjs: 2.0.8
+- highcharts: 12.3.0
+- highcharts-angular: 5.2.0
+- rxjs: 6.6.7
+- tslib: 2.8.1
+- zone.js: 0.15.1
+
+Dev / tooling (top-level):
+
+- typescript: 5.5.4
+- eslint: 9.39.1
+- @typescript-eslint/parser: 8.46.4
+- @typescript-eslint/eslint-plugin: 8.46.4
+- @angular-eslint/eslint-plugin: 20.6.0
+- @angular-eslint/eslint-plugin-template: 20.6.0
+- @angular-eslint/template-parser: 20.6.0
+- karma: 6.4.4
+- jasmine-core: 3.99.1
+
+If you need reproducible installs, consider using the exact Node version above (nvm or nvm-windows) before running `npm ci`.
 
 
+## Repo layout & important files
 
-## Getting started
+- `src/main.ts`
+	- App is bootstrapped with Angular's `bootstrapApplication(...)` (standalone components).
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+- `src/app/app.component.ts` / `app.component.html`
+	- Root component. Includes developer helpers: mock banner and dev toggle components.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+- `src/app/shared/material-imports.ts`
+	- Centralized Angular Material modules shared across standalone components.
 
-## Add your files
+- `src/app/highcharts/highcharts-standalone.component.ts`
+	- A self-contained wrapper around Highcharts ESM masters. Use this component (`<app-highcharts>`) instead of `highcharts-angular` where the project has been migrated.
+	- Accepts `options`, `modules`, `constructorType` and `updateFlag` inputs.
 
-- [ ] [Create](https://gitlab.com/-/experiment/new_project_readme_content:eaa277f98a6e6625556d7e3c591cd1d5?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://gitlab.com/-/experiment/new_project_readme_content:eaa277f98a6e6625556d7e3c591cd1d5?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://gitlab.com/-/experiment/new_project_readme_content:eaa277f98a6e6625556d7e3c591cd1d5?https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+- `src/app/interceptors/mock-api.interceptor.ts`
+	- Intercepts requests to `environment.apiUrl` and serves fixtures from `/assets/mocks/` when mock mode is enabled.
+	- Emits a `CustomEvent('mockApi:served', { detail: { url, fixture } })` for dev tooling.
 
+- `src/assets/mocks/`
+	- JSON and blob fixtures used by the mock interceptor.
 
-## Integrate with your tools
+- `src/app/services/`
+	- `data.service.ts` / `user.service.ts` / `dashboard-data.service.ts` — HTTP wrappers for backend endpoints. Note: `getAuthHeaders()` omits `Authorization` header if no token is present to avoid `Token null` being sent.
 
-- [ ] [Set up project integrations](https://gitlab.com/-/experiment/new_project_readme_content:eaa277f98a6e6625556d7e3c591cd1d5?https://gitlab.com/komalrajput22/movie-rater-web/-/settings/integrations)
+- `src/environments/environment.ts` (dev) and `src/environments/environment.prod.ts` (prod)
+	- Configure `apiUrl` here. During local dev the code imports `src/environments/environment` (not `.prod`) so ng serve picks up the dev config.
 
-## Collaborate with your team
+## Typical code flow
 
-- [ ] [Invite team members and collaborators](https://gitlab.com/-/experiment/new_project_readme_content:eaa277f98a6e6625556d7e3c591cd1d5?https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://gitlab.com/-/experiment/new_project_readme_content:eaa277f98a6e6625556d7e3c591cd1d5?https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://gitlab.com/-/experiment/new_project_readme_content:eaa277f98a6e6625556d7e3c591cd1d5?https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://gitlab.com/-/experiment/new_project_readme_content:eaa277f98a6e6625556d7e3c591cd1d5?https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://gitlab.com/-/experiment/new_project_readme_content:eaa277f98a6e6625556d7e3c591cd1d5?https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+1. App bootstrap (`src/main.ts`) mounts `AppComponent`.
+2. `AppComponent` updates state and developer UI (mock toggle, banners).
+3. Components request data via injected services (for example `UserService`, `DataService`).
+4. Services call backend endpoints at `environment.apiUrl`. Requests automatically include `Authorization: Token <token>` only when the token exists in `localStorage`.
+5. `MockApiInterceptor` intercepts HTTP calls: when mock mode is enabled it returns fixture content (JSON/Blob) and dispatches diagnostic events; otherwise requests go to the real backend host (e.g., `https://asem.aviconncorp.com/api/`).
+6. Charts are rendered using `HighchartsStandaloneComponent` which loads Highcharts ESM masters and lazily initializes optional modules (boost, highcharts-more, no-data-to-display) at runtime.
 
-## Test and Deploy
+## Highcharts notes and gotchas
 
-Use the built-in continuous integration in GitLab.
+- The project uses the ESM master entrypoints under `highcharts/es-modules/masters/*` to avoid CommonJS warnings and enable Angular optimizations.
+- Use the `HighchartsStandaloneComponent` where possible. Pass `modules` (array of module initializer functions) if you need boost/solid-gauge/etc.
+- The wrapper skips heavy module initialization when running under Karma tests (the test runner stubs Highcharts internals).
 
-- [ ] [Get started with GitLab CI/CD](https://gitlab.com/-/experiment/new_project_readme_content:eaa277f98a6e6625556d7e3c591cd1d5?https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://gitlab.com/-/experiment/new_project_readme_content:eaa277f98a6e6625556d7e3c591cd1d5?https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://gitlab.com/-/experiment/new_project_readme_content:eaa277f98a6e6625556d7e3c591cd1d5?https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://gitlab.com/-/experiment/new_project_readme_content:eaa277f98a6e6625556d7e3c591cd1d5?https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://gitlab.com/-/experiment/new_project_readme_content:eaa277f98a6e6625556d7e3c591cd1d5?https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+## Development tips
 
-***
+- If a page fails to render, open DevTools and check Console & Network. If you see `Authorization: Token null` in request headers, ensure `localStorage.setItem('token', '<token>')` or log in via the app.
+- To force offline/mocked behavior while developing UI, enable the mock mode as shown above. Mock fixture names and mappings are in `mock-api.interceptor.ts` and `src/assets/mocks/`.
+- Standalone components must be added to the parent component's `imports` array (e.g., `DashboardComponent` imports `SuperAdminComponent`, `WhMeteringComponent`). If a template tag shows "component is not a known element", check the parent `imports`.
 
-# Editing this README
+## CI / Lint / Tests
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://www.makeareadme.com) for this template.
+- Linting is handled by ESLint (flat config). Run `npm run lint` and `npm run lint:fix`.
+- CI workflow (GitHub Actions) runs lint, build and tests on PRs and push (see `.github/workflows/ci.yml`).
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+## Troubleshooting
 
-## Name
-Choose a self-explaining name for your project.
+- Wrong environment used in dev: ensure code imports `src/environments/environment` (dev) not `environment.prod`.
+- Backend hostname: code uses `environment.apiUrl` (recently standardized to `https://asem.aviconncorp.com/api/`). If your dev machine needs to target a local proxy or another host, change `environment.ts` accordingly or enable mock mode.
+- Highcharts errors: check the console for initialization errors; the wrapper logs errors and skips module initialization in tests.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+## Where to look when adding features
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+- New backend endpoints: add to `src/app/services/*` and expand `MockApiInterceptor` + `src/assets/mocks/` fixtures to support offline development.
+- New charts: create `options` in the parent component and render with `<app-highcharts [options]="chartOptions" [modules]="hcModules"></app-highcharts>`.
+- New standalone component used in a template: remember to export it in the parent's `imports` array.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+## Contact / Notes
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+- Backend host used by default: `https://asem.aviconncorp.com/api/` (do not change unless requested).
+- If you want, I can add a short CONTRIBUTING.md describing the migration checkpoints and branch strategy used (`checkpoint/prune-keep-lean`).
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+---
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+If you'd like, I can also:
+- Add a small CONTRIBUTING.md describing the staged migration process and how to create checkpoint branches.
+- Add example fixtures for the Super‑Admin / WH‑metering pages if you'd prefer mock mode by default in development.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
 
