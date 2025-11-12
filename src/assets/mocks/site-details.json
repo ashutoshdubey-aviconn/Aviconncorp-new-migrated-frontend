@@ -2,6 +2,12 @@
   "id": 1,
   "name": "Mock Site A",
   "address": "123 Mock St",
-  "timezone": "UTC",
-  "meters": [{ "id": "M1", "name": "Main Meter" }]
+  "timezone": "Asia/Kolkata",
+  "contact": { "name": "Site Admin", "email": "admin@mocksite.com", "phone": "+91-99999-00000" },
+  "meters": [
+    { "id": "M1", "name": "Main Meter", "type": "main", "phases": 3 },
+    { "id": "M2", "name": "Sub Meter 1", "type": "sub", "phases": 1 }
+  ],
+  "capacity_kw": 250,
+  "status": "active"
 }

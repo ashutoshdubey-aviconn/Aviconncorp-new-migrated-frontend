@@ -1,4 +1,8 @@
 {
+  "meta": { "site_id": 1, "date": "2025-11-12" },
   "categories": ["00:00","01:00","02:00","03:00","04:00","05:00"],
-  "series": [ { "name": "Energy (kWh)", "data": [10,12,9,8,11,13] } ]
+  "series": [
+    { "name": "Energy (kWh)", "data": [10, 12, 9, 8, 11, 13] },
+    { "name": "Reactive (kVAR)", "data": [2, 3, 1, 1, 2, 2] }
+  ]
 }

@@ -17,6 +17,11 @@ export class MockApiInterceptor implements HttpInterceptor {
       .then(r => {
         if (r.ok) {
           try { console.debug(`[MockApi] Serving fixture: ${name}.json`); } catch (_) {}
+          try {
+            if (typeof window !== 'undefined' && (window as any).dispatchEvent) {
+              (window as any).dispatchEvent(new CustomEvent('mockApi:served', { detail: { name } }));
+            }
+          } catch (_){ }
           return r.json();
         }
         try { console.debug(`[MockApi] Fixture not found: ${name}.json — using fallback`); } catch (_) {}
@@ -31,6 +36,11 @@ export class MockApiInterceptor implements HttpInterceptor {
       .then(r => {
         if (r.ok) {
           try { console.debug(`[MockApi] Serving blob fixture: ${name}.json`); } catch (_) {}
+          try {
+            if (typeof window !== 'undefined' && (window as any).dispatchEvent) {
+              (window as any).dispatchEvent(new CustomEvent('mockApi:served', { detail: { name } }));
+            }
+          } catch (_){ }
           return r.json().then(j => new Blob([JSON.stringify(j)], { type: 'application/octet-stream' }));
         }
         try { console.debug(`[MockApi] Blob fixture not found: ${name}.json — using fallback`); } catch (_) {}
