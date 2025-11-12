@@ -8,14 +8,14 @@
 <form (ngSubmit)="onLogin()" [formGroup]="userLogin">
   <div class="form-group">
     <mat-form-field class="example-full-width" appearance="none">
-      <input id="input1" matInput class="form-control" placeholder="Username" formControlName="username" [(ngModel)]="userLoginModel.username">
+  <input id="input-username" matInput class="form-control" placeholder="Username" formControlName="username" [(ngModel)]="userLoginModel.username">
       <mat-error *ngIf="userLogin.get('username').hasError('required')">
                 Username is <strong>required</strong>
               </mat-error>
     </mat-form-field>
     <br>
     <mat-form-field class="example-full-width" appearance="none">
-      <input id="input1" matInput class="form-control" placeholder="Password" type="password" formControlName="password" [(ngModel)]="userLoginModel.password"> 
+  <input id="input-password" matInput class="form-control" placeholder="Password" type="password" formControlName="password" [(ngModel)]="userLoginModel.password"> 
       <mat-error *ngIf="userLogin.get('password').hasError('required')">
         Password is <strong>required</strong>
       </mat-error>
@@ -31,7 +31,8 @@
   background: #1b1b1b;
   position: relative;
   height: 840px;" *ngIf="loading" layout-align="center center">
-      <img src="https://sem.aviconn.in/assets/images/loader.gif" style="max-width: 150px;margin-top: 160px;">
+  <!-- Use local asset to avoid external certificate/name errors during development. Replace with a real loader GIF in assets/image/loader.gif -->
+  <img src="assets/image/loader.gif" style="max-width: 150px;margin-top: 160px;">
   </p>
   <div style="display:inline-block;">
     <a href="http://www.aviconn.in/" target="_blank" style="float: left" id="avc">www.aviconn.in</a></div>
