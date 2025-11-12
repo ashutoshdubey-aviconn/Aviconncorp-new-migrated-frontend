@@ -31,8 +31,10 @@
   background: #1b1b1b;
   position: relative;
   height: 840px;" *ngIf="loading" layout-align="center center">
-  <!-- Use local asset to avoid external certificate/name errors during development. Replace with a real loader GIF in assets/image/loader.gif -->
-  <img src="assets/image/loader.gif" style="max-width: 150px;margin-top: 160px;">
+      <!-- Use Angular Material spinner instead of external GIF -->
+      <div style="display:flex;justify-content:center;padding-top:160px;">
+        <mat-progress-spinner diameter="80" mode="indeterminate" color="accent"></mat-progress-spinner>
+      </div>
   </p>
   <div style="display:inline-block;">
     <a href="http://www.aviconn.in/" target="_blank" style="float: left" id="avc">www.aviconn.in</a></div>
