@@ -167,9 +167,10 @@ export class MockApiInterceptor implements HttpInterceptor {
     }
 
     // Snapshot API
-    if (relative.startsWith('snapShotApi') || relative.startsWith('fireDeviceSnapshotApi')) {
+    if (relative.startsWith('snapShotApi') || relative.startsWith('fireDeviceSnapshotApi') || relative.startsWith('snapshot')) {
+      // Super-admin and other components call 'snapshot/' and 'snapShotApi' variants.
       const body = { snapshot: { uptime: 12345, load: 55 } };
-      return this.loadJsonFixture('snapShotApi', body);
+      return this.loadJsonFixture('snapshot', body);
     }
 
     // Lights / Fans endpoints
@@ -196,6 +197,28 @@ export class MockApiInterceptor implements HttpInterceptor {
     if (relative.startsWith('fluctuatedPowerFactorData') || relative.startsWith('monthlyMinMaxLoadData')) {
       const body = { series: [{ name: 'PF', data: [0.95,0.96,0.94] }], months: ['Oct','Nov','Dec'] };
       return this.loadJsonFixture('fluctuatedPowerFactorData', body);
+    }
+
+    // Super-admin homepage endpoints
+    if (relative.startsWith('alarmTypeApi')) {
+      const body = { data: [{ id: 1, name: 'power', alarm_list: [] }] };
+      return this.loadJsonFixture('alarmTypeApi', body);
+    }
+
+    if (relative.startsWith('customerDetails') || relative.startsWith('customer/')) {
+      // Used by super-admin to list customers
+      const body = { data: [ { customer_id: '1', customer_name: 'Mock Customer', total_WH: '1000', live_Wh: '500', avg_saving: '10', max_saving: '20', min_saving: '5' } ] };
+      return this.loadJsonFixture('customers', body);
+    }
+
+    if (relative.startsWith('getSiteCurrLoadInfo')) {
+      const body = { Total_Load: 120, R_Voltage: 230, Y_Voltage: 231, B_Voltage: 229, R_Current: 10, Y_Current: 11, B_Current: 9, R_Power_Factor: 0.98, Y_Power_Factor: 0.97, B_Power_Factor: 0.96, max_load: 200, min_load: 50, Power_supply: 'Mains' };
+      return this.loadJsonFixture('getSiteCurrLoadInfo', body);
+    }
+
+    if (relative.startsWith('customerSnapShotEnergySavingApi') || relative.startsWith('customerSnapShotEnergySavingApi/')) {
+      const body = { snapshot: { customer_id: 1, saving: 123.4 } };
+      return this.loadJsonFixture('customerSnapShotEnergySavingApi', body);
     }
 
     // DG fuel endpoints
