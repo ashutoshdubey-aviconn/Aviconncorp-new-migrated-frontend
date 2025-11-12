@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'dev-toggle',
+  selector: 'app-dev-toggle',
   template: `
     <div class="dev-toggle" [attr.data-enabled]="enabled">
       <label>

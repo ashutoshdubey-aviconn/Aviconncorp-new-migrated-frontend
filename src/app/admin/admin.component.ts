@@ -70,7 +70,7 @@ export class AdminComponent implements OnInit {
         }
       } catch (e) {
         // ignore failures in test or restricted environments
-        // eslint-disable-next-line no-console
+         
         console.warn('Failed to load Highcharts solid-gauge module', e);
       }
     })();

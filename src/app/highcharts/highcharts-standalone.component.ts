@@ -63,12 +63,12 @@ export class HighchartsStandaloneComponent implements AfterViewInit, OnChanges, 
         }
       } catch (cbErr) {
         // ignore callback errors
-        // eslint-disable-next-line no-console
+         
         console.error('Highcharts: callbackFunction threw', cbErr);
       }
     } catch (e) {
       // Fail gracefully in case of bad options
-      // eslint-disable-next-line no-console
+       
       console.error('Highcharts: failed to create chart', e);
     }
   }
@@ -81,7 +81,7 @@ export class HighchartsStandaloneComponent implements AfterViewInit, OnChanges, 
         const hc = this.Highcharts || Highcharts;
         this.chart = (hc as any).chart(this.chartContainer.nativeElement, this.options || {});
       } catch (e) {
-        // eslint-disable-next-line no-console
+         
         console.error('Highcharts: failed to create chart on changes', e);
       }
       return;
@@ -96,7 +96,7 @@ export class HighchartsStandaloneComponent implements AfterViewInit, OnChanges, 
         // value we received to avoid surprising changes.
         try { this.updateChange.emit(this.update); } catch {}
       } catch (e) {
-        // eslint-disable-next-line no-console
+         
         console.error('Highcharts: failed to update chart', e);
       }
     }
@@ -125,7 +125,7 @@ export class HighchartsStandaloneComponent implements AfterViewInit, OnChanges, 
       // Karma exposes a global __karma__ object on window.
       try {
         if (typeof window !== 'undefined' && (window as any).__karma__) {
-          // eslint-disable-next-line no-console
+           
           console.warn('Highcharts: skipping module initialization in test environment');
           return;
         }
@@ -136,7 +136,7 @@ export class HighchartsStandaloneComponent implements AfterViewInit, OnChanges, 
           }
         });
       } catch (e) {
-        // eslint-disable-next-line no-console
+         
         console.error('Highcharts: failed to initialize modules', e);
       }
   }
