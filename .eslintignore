@@ -1,6 +1,0 @@
-node_modules/
-dist/
-coverage/
-src/assets/
-package-lock.json
-*.log
