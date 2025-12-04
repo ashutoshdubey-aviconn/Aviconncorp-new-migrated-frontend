@@ -421,19 +421,8 @@ export class SubmeteringComponent implements OnInit {
     this.logger.log(obj);
   }
   onChangePwd() {
-
-    if (!this.changePwdForm.valid) return;
-    const oldp = this.changePwdForm.value.old_password;
-    const newp = this.changePwdForm.value.new_password;
-    const conf = this.changePwdForm.value.conf_password;
-    if (newp !== conf) return;
-    this.chngpwd = { 'token': this.token, 'oldpassword': btoa(oldp), 'newpassword': btoa(newp) };
-    this.UserService.changePassword(this.chngpwd).subscribe(
-      data => {
-      },
-      error => {
-        this.logger.log("Server Error: ", error);
-      });
+    // change-password functionality removed from this component; no-op
+    return;
   }
 
   home() {
