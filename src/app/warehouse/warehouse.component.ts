@@ -559,7 +559,7 @@ export class WarehouseComponent implements OnInit {
   }
 
 
-  columnGraphFilterChanged() {
+  columnGraphFilterChanged(event?: any) {
 
     let mode = this.selected_task;
     let tillDate = formatDate(this.date.value, 'yyyy/MM/dd', 'en');
