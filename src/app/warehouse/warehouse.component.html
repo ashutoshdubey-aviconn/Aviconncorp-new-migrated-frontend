@@ -31,56 +31,8 @@
 
  <!-- <div class="container no-margin "> -->
     <div id="page-wrapper" class="container-fluid">
-        <div *ngIf="isShown">
-           <div class="row ">
-               <div class="dashboard_trakcer">Change Password</div>
-               <hr>
-               <!-- change password form  -->
-               <div class="mt-6 col-8 offset-2 chngpwd">
-                   <div class="card">
-                       <div class="card-header">Change Password</div>
-                       <div class="card-body">
-                           <form [formGroup]="changePwdForm" (ngSubmit)="onChangePwd()">
-                               <div class="form-group row">
-                                    <div class="col-sm-10 oldp ">
-                                       <input type="password" formControlName="old_password" class="form-control"
-                                           placeholder="Old Password" required base-sixty-four-input>
-                                   </div>
-                               </div>
-   
-                               <div class="form-group row">
-   
-                                   <div class="col-sm-10 newp">
-                                       <input type="password" formControlName="new_password" class="form-control"
-                                           placeholder="New Password" required>
-                                   </div>
-                               </div>
-   
-                               <div class="form-group row">
-   
-                                   <div class="col-sm-10 confp">
-                                       <input type="password" formControlName="conf_password" class="form-control"
-                                           placeholder="Confirm Password" required>
-                                   </div>
-                               </div>
-   
-                               <div class="form-group row">
-                                   <div class="col-sm-10 chpwd">
-   
-                                       <button type="submit" class="btn btn-primary "
-                                           [disabled]="!changePassword.valid">Submit</button>
-                                   </div>
-                               </div>
-                           </form>
-   
-                       </div>
-                   </div>
-               </div>
-           </div>
-       </div>
-   
        <!-- dashboard content -->
-       <div *ngIf="!isShown">
+       <div>
    
            
            <div class="row">

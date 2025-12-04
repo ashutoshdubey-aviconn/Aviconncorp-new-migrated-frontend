@@ -22,7 +22,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import Highcharts from 'highcharts/es-modules/masters/highcharts.src.js';
 import { MatSort } from '@angular/material/sort';
 import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
-import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { from } from 'rxjs';
 import { formatDate, getLocaleDayNames } from '@angular/common';
@@ -156,7 +156,6 @@ export class SubmeteringComponent implements OnInit {
   oldpwd: string;
   token = localStorage.getItem('token');
   chngpwd;
-  isShown: boolean = false;
   userInfo: object[];
   customerInfo: object[];
   totalLoad: any;
@@ -206,16 +205,8 @@ export class SubmeteringComponent implements OnInit {
   // This site id is just for demo purpose should be replaced by original
   // once the function is moved to customer dashboard
   siteId;
-  changePasswordModel = new changePassword(this.token, '', '');
 
-  changePwdForm: UntypedFormGroup;
-
-  constructor(private dashData: DashboardDataService, private UserService: UserService, private DataService: DataService, public dialog: MatDialog, private router: Router, private logger: LoggerService, private fb: UntypedFormBuilder) {
-    this.changePwdForm = this.fb.group({
-      old_password: ['', Validators.required],
-      new_password: ['', Validators.required],
-      conf_password: ['', Validators.required]
-    });
+  constructor(private dashData: DashboardDataService, private UserService: UserService, private DataService: DataService, public dialog: MatDialog, private router: Router, private logger: LoggerService) {
   }
 
   ngOnInit() {
@@ -424,7 +415,7 @@ export class SubmeteringComponent implements OnInit {
   getRecord(row) {
   }
   onClickChngpwd() {
-    this.isShown = true;
+    // change-password UI removed from this component per request
   }
   customerdetail(obj) {
     this.logger.log(obj);
