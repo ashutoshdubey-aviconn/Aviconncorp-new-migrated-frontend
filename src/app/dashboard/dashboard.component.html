@@ -98,18 +98,18 @@
       </div>
       <div class="modal-body">
         <div *ngIf="!isCollapsed">
-        <form (ngSubmit)="onChangepwd()" #addMountForm="ngForm">
+        <form [formGroup]="resetForm" (ngSubmit)="onChangepwd()">
           <div class="form-group">
             <label>Old Password</label>
-            <input type="password" class="form-control" name="oldPass" [(ngModel)]="changePasswordModel.oldpassword" [ngModelOptions]="{standalone:true}">
+            <input type="password" class="form-control" formControlName="oldPass">
           </div>
           <div class="form-group">
             <label>New Password</label>
-            <input type="password" class="form-control" name="newPass" [(ngModel)]="changePasswordModel.newpassword" [ngModelOptions]="{standalone:true}">
+            <input type="password" class="form-control" formControlName="newPass">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button [disabled]="!addMountForm.form.valid" type="submit" class="btn btn-warning" style="background-color: #ff7a01; color:white;">Submit</button>
+            <button [disabled]="resetForm.invalid" type="submit" class="btn btn-warning" style="background-color: #ff7a01; color:white;">Submit</button>
           </div>
         </form>
       </div>

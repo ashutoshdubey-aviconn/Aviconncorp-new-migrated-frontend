@@ -1,111 +1,115 @@
 <div class="row" id="breadcrumb" style="margin-right:15px !important;">
     <div class="col-md-6 col-sm-8">
         <div class="row" style="margin-left:4px !important">
-        <div id="bc2" class="btn-group btn-breadcrumb" >
-            <a (click)="home()" *ngIf="super_admin_home" class="btn btn-default"><i class="fa fa-home"></i></a>
-            <a (click)="home()" *ngIf="customer_home" class="btn btn-default"><i class="fa fa-home"></i></a>
-            <a (click)="customerPage()" *ngIf="customer_name" class="btn btn-default"><div >Customer Page</div></a>
-            <a (click)="sitePage()" *ngIf="saving_site_dash" class="btn btn-default">Site Page</a>
-        </div></div>
+            <div id="bc2" class="btn-group btn-breadcrumb">
+                <a (click)="home()" *ngIf="super_admin_home" class="btn btn-default"><i class="fa fa-home"></i></a>
+                <a (click)="home()" *ngIf="customer_home" class="btn btn-default"><i class="fa fa-home"></i></a>
+                <a (click)="customerPage()" *ngIf="customer_name" class="btn btn-default">
+                    <div>Customer Page</div>
+                </a>
+                <a (click)="sitePage()" *ngIf="saving_site_dash" class="btn btn-default">Site Page</a>
+                 
+            </div>
+        </div>
     </div>
     <div class="col-md-4 col-sm-8">
-       
+
         <button class="btn btn-float btn-primary" style="margin-left: 30px !important;">
-            <span class ="ng-scope" (click)="openSiteDashboard()" >Select Site</span>
+            <span class="ng-scope" (click)="openSiteDashboard()">Select Site</span>
         </button>
-         <button  *ngIf="customerOnly" class="btn btn-float btn-primary" style="margin-left: 30px !important;">
-            <span class ="ng-scope" (click)="baseline()" >Baseline</span>
-         </button>
-         
-         <button *ngIf="MyntraLightsOnly" class="btn btn-float btn-primary" style="margin-left: 30px !important;">
-            <span class ="ng-scope" (click)="lightsData()" >Lights Data</span>
-         </button>
-         <button *ngIf="MyntraFansOnly" class="btn btn-float btn-primary" style="margin-left: 30px !important;">
-            <span class ="ng-scope" (click)="fansData()" >Fans Data</span>
-         </button>  
-         <button  *ngIf="avgDataValue" class="btn btn-float btn-primary" style="margin-left: 30px !important;">
-            <span class ="ng-scope" (click)="avgData()" >Avg Data</span>
-         </button>      
+        <button *ngIf="customerOnly" class="btn btn-float btn-primary" style="margin-left: 30px !important;">
+            <span class="ng-scope" (click)="baseline()">Baseline</span>
+        </button>
+
+        <button *ngIf="MyntraLightsOnly" class="btn btn-float btn-primary" style="margin-left: 30px !important;">
+            <span class="ng-scope" (click)="lightsData()">Lights Data</span>
+        </button>
+        <button *ngIf="MyntraFansOnly" class="btn btn-float btn-primary" style="margin-left: 30px !important;">
+            <span class="ng-scope" (click)="fansData()">Fans Data</span>
+        </button>
+        <button *ngIf="avgDataValue" class="btn btn-float btn-primary" style="margin-left: 30px !important;">
+            <span class="ng-scope" (click)="avgData()">Avg Data</span>
+        </button>
     </div>
 </div>
 
- <!-- <div class="container no-margin "> -->
-    <div id="page-wrapper" class="container-fluid">
-       <!-- dashboard content -->
-       <div>
-   
-           
-           <div class="row">
-               <div class="dashboard_trakcer"> {{sitename}}</div>
-               <hr>
-   
-   
-               <!-- 1st snapshot start -->
-               <div class="col-lg-3 col-sm-6 col-xs-6">
-                   <div class="circle-title2">
-                       <div class="circle-title-heading">
-                           <i class="fa fa-bell fa-fw fa-3x"></i>
-                       </div>
-                       <div class="box" style="cursor: pointer;" (click)="alarmTable()">
-                           <div class="box-heading text-faded">Alarms</div>
-                            &nbsp;
-                           <div class="box-number1 text-faded">{{alarms}}</div>
-                           
-                           &nbsp;
-                           <a du-smooth-scroll="table" du-scrollspy class="footer">More Info <i
-                                   class="fa fa-chevron-circle-right"></i></a>
-                       </div>
-                   </div>
-   
-               </div>
-   
-   
-               <!-- 1st snapshot end -->
-   
-   
-               <!-- 2nd snapshot start -->
-               <div class="col-lg-3 col-sm-6 col-xs-6">
-                   <div class="circle-title2">
-                       <div class="circle-title-heading">
-                           <img id="img-ctn" src="assets/image/consume.png" width="45">
-                       </div>
-                       <div class="box">
-                           <div class="box-heading text-faded">Energy Consumed</div>
-   
-                           <div class="box-number text-faded">{{energyConsumed | number:'1.1-1'}} kWh</div>
-                                <div>
-                                <span id="sparklineA">from {{liveDate}}</span><br>
-                                <span id="sparklineA">till {{previous}}</span>  
-                           </div>
-                           &nbsp;
-                       </div>
-                   </div>
-   
-               </div>
-   
-   
-               <!-- 2nd snapshot end -->
-   
-               <!-- 3rd snapshot start -->
-               <div  *ngIf="!is_carbon_emission_visible" class="col-lg-3 col-sm-6 col-xs-6">
-                   <div class="circle-title2">
-                       <div class="circle-title-heading">
-                           <img id="img-ctn" src="/assets/image/energy.png" width="45">
-                       </div>
-                       <div class="box">
-                           <div class="box-heading text-faded">Energy Saved</div>
-   
-                           <div class="box-number text-faded">{{savedEnergy | number:'1.1-1'}} kWh </div> 
-                               <div>
-                                <span id="sparklineA">from {{liveDate}}</span><br>
-                                <span id="sparklineA">till {{previous}}</span>    
-                           </div>
-                            &nbsp;
-                       </div>
-                   </div>
-   
-               </div>
-               <div  *ngIf="is_carbon_emission_visible" class="col-lg-3 col-sm-6 col-xs-6">
+<!-- <div class="container no-margin "> -->
+<div id="page-wrapper" class="container-fluid">
+    <!-- dashboard content -->
+    <div>
+
+
+        <div class="row">
+            <div class="dashboard_trakcer"> {{sitename}}</div>
+            <hr>
+
+
+            <!-- 1st snapshot start -->
+            <div class="col-lg-3 col-sm-6 col-xs-6">
+                <div class="circle-title2">
+                    <div class="circle-title-heading">
+                        <i class="fa fa-bell fa-fw fa-3x"></i>
+                    </div>
+                    <div class="box" style="cursor: pointer;" (click)="alarmTable()">
+                        <div class="box-heading text-faded">Alarms</div>
+                        &nbsp;
+                        <div class="box-number1 text-faded">{{alarms}}</div>
+
+                        &nbsp;
+                        <a du-smooth-scroll="table" du-scrollspy class="footer">More Info <i
+                                class="fa fa-chevron-circle-right"></i></a>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- 1st snapshot end -->
+
+
+            <!-- 2nd snapshot start -->
+            <div class="col-lg-3 col-sm-6 col-xs-6">
+                <div class="circle-title2">
+                    <div class="circle-title-heading">
+                        <img id="img-ctn" src="assets/image/consume.png" width="45">
+                    </div>
+                    <div class="box">
+                        <div class="box-heading text-faded">Energy Consumed</div>
+
+                        <div class="box-number text-faded">{{energyConsumed | number:'1.1-1'}} kWh</div>
+                        <div>
+                            <span id="sparklineA">from {{liveDate}}</span><br>
+                            <span id="sparklineA">till {{previous}}</span>
+                        </div>
+                        &nbsp;
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- 2nd snapshot end -->
+
+            <!-- 3rd snapshot start -->
+            <div *ngIf="!is_carbon_emission_visible" class="col-lg-3 col-sm-6 col-xs-6">
+                <div class="circle-title2">
+                    <div class="circle-title-heading">
+                        <img id="img-ctn" src="/assets/image/energy.png" width="45">
+                    </div>
+                    <div class="box">
+                        <div class="box-heading text-faded">Energy Saved</div>
+
+                        <div class="box-number text-faded">{{savedEnergy | number:'1.1-1'}} kWh </div>
+                        <div>
+                            <span id="sparklineA">from {{liveDate}}</span><br>
+                            <span id="sparklineA">till {{previous}}</span>
+                        </div>
+                        &nbsp;
+                    </div>
+                </div>
+
+            </div>
+            <div *ngIf="is_carbon_emission_visible" class="col-lg-3 col-sm-6 col-xs-6">
                 <div class="circle-title2">
                     <div class="circle-title-heading">
                         <img id="img-ctn" src="/assets/image/energy.png" width="45">
@@ -118,98 +122,95 @@
                                 <span style="font-weight: 700">Carbon Emission Saved :</span> {{carbonValue}} <br>
                             </small>
                         </div>
-                            <div>
-                             <span id="sparklineA">from {{liveDate}}</span><br>
-                             <span id="sparklineA">till {{previous}}</span>    
+                        <div>
+                            <span id="sparklineA">from {{liveDate}}</span><br>
+                            <span id="sparklineA">till {{previous}}</span>
                         </div>
-                         &nbsp;
+                        &nbsp;
                     </div>
                 </div>
 
             </div>
-   
-   
-               <!-- 3rd snapshot end -->
-   
-               <!-- 4th snapshot start -->
-               <div class="col-lg-3 col-sm-6 col-xs-6">
-                   <div class="circle-title2">
-                       <div class="circle-title-heading">
-                           <img id="img-ctn" src="/assets/image/low.png" width="45">
-                       </div>
-                       <div class="box">
-                           <div class="box-heading text-faded">% saved</div>
-   
-                           <div class="box-number text-faded">{{percentageSaved}}</div>
-                           <div>
-                           <span id="sparklineA">from {{liveDate}}</span><br>
-                           <span id="sparklineA">till {{previous}}</span>
+
+
+            <!-- 3rd snapshot end -->
+
+            <!-- 4th snapshot start -->
+            <div class="col-lg-3 col-sm-6 col-xs-6">
+                <div class="circle-title2">
+                    <div class="circle-title-heading">
+                        <img id="img-ctn" src="/assets/image/low.png" width="45">
+                    </div>
+                    <div class="box">
+                        <div class="box-heading text-faded">% saved</div>
+
+                        <div class="box-number text-faded">{{percentageSaved}}</div>
+                        <div>
+                            <span id="sparklineA">from {{liveDate}}</span><br>
+                            <span id="sparklineA">till {{previous}}</span>
                         </div>
-                           
-                            &nbsp;
 
-                       </div>
-                   </div>
-   
-               </div>
-           </div>
+                        &nbsp;
 
-           <!--Alarm details table-->
-           
-           <!--power-status and customer power-status start-->
-           <div class="row mt-4">
-   
-               <div class="col-md-12 col-sm-12">
-   
-                   <div class="panel-heading">
-                       <i class="fa fa-bar-chart-o"></i> Trend Overview
-                   </div>
-                   <div class="chart-body">
-                    
-                        <app-highcharts
-                            [Highcharts]="Highcharts"
-                            [constructorType]="chartConstructor"
-                            [options]="lineChartOptions"
-                            [callbackFunction]="chartCallback"
-                            [(update)]="updateFlag"
-                            [isOneToOne]="oneToOneFlag"
-                    
-                            style="width: 100%; height: 100%; display: block;"
-                        ></app-highcharts>
+                    </div>
                 </div>
-               </div>               
-           </div>
-           <!--End of the power-status and customer power-status-->
-       
-           <!--chart start-->
-            <div class="row mt-4">
+
+            </div>
+        </div>
+
+        <!--Alarm details table-->
+
+        <!--power-status and customer power-status start-->
+        <div class="row mt-4">
+
+            <div class="col-md-12 col-sm-12">
+
+                <div class="panel-heading">
+                    <i class="fa fa-bar-chart-o"></i> Trend Overview
+                </div>
+                <div class="chart-body">
+
+                    <app-highcharts [Highcharts]="Highcharts" [constructorType]="chartConstructor"
+                        [options]="lineChartOptions" [callbackFunction]="chartCallback" [(update)]="updateFlag"
+                        [isOneToOne]="oneToOneFlag" style="width: 100%; height: 100%; display: block;"></app-highcharts>
+                </div>
+            </div>
+        </div>
+        <!--End of the power-status and customer power-status-->
+
+        <!--chart start-->
+        <div class="row mt-4">
             <div class="col-sm-12 ">
                 <div class="heading-panel">
 
                     <div class="row">
                         <div class="col-md-7">
-                            <i class="fa fa-bar-chart-o"></i>Total <mat-form-field style="max-width: 34%; font-size: 16px">
-                            <mat-select [(value)]="selected_graph" #energyValue (selectionChange)="columnGraphFilterChanged($event)">
-                                <mat-option *ngFor="let graphType of graphTypes" [value]="graphType.value">
-                                    {{graphType.viewValue}}
-                                </mat-option>
-                            </mat-select>
+                            <i class="fa fa-bar-chart-o"></i>Total <mat-form-field
+                                style="max-width: 34%; font-size: 16px">
+                                <mat-select [(value)]="selected_graph" #energyValue
+                                    (selectionChange)="columnGraphFilterChanged($event)">
+                                    <mat-option *ngFor="let graphType of graphTypes" [value]="graphType.value">
+                                        {{graphType.viewValue}}
+                                    </mat-option>
+                                </mat-select>
                             </mat-form-field>
                         </div>
-                        
+
                         <div class="col-md-3">
                             <mat-form-field appearance="outline">
-                                <input matInput [max] ="maxDate" [min]="minDate" [matDatepicker]="picker1" [formControl]="date" [value]="date.value" (dateChange)="columnGraphFilterChanged()">
+                                <input matInput [max]="maxDate" [min]="minDate" [matDatepicker]="picker1"
+                                    [formControl]="date" [value]="date.value" (dateChange)="columnGraphFilterChanged()">
                                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                                 <mat-datepicker #picker1></mat-datepicker>
                             </mat-form-field>
                         </div>
-                   
+
                         <div *ngIf="showIntervalOptions; then thenTemplate else elseTemplate"></div>
                         <ng-template #thenTemplate>
                             <div class="col-md-2">
                                 <mat-form-field appearance="outline">
-                                    <mat-select [(value)]="selected_task" (selectionChange)="columnGraphFilterChanged()">
+                                    <mat-select [(value)]="selected_task"
+                                        (selectionChange)="columnGraphFilterChanged()">
                                         <mat-option *ngFor="let interval of intervals" [value]="interval.value">
                                             {{interval.viewValue}}
                                         </mat-option>
@@ -223,48 +224,36 @@
                     </div>
                 </div>
                 <div class="chart-body" *ngIf="showDailygraph">
-                    <app-highcharts #chart 
-                        [Highcharts]="Highcharts"
-                        [constructorType]="chartConstructor"
-                        [options]="barChartOptions"
-                        [callbackFunction]="chartCallback"
-                
-                        [(update)]="updateFlag"
-                        [isOneToOne]="oneToOneFlag"
-                
-                        style="width: 100%; height: 100%; display: block;"
-                    ></app-highcharts>
+                    <app-highcharts #chart [Highcharts]="Highcharts" [constructorType]="chartConstructor"
+                        [options]="barChartOptions" [callbackFunction]="chartCallback" [(update)]="updateFlag"
+                        [isOneToOne]="oneToOneFlag" style="width: 100%; height: 100%; display: block;"></app-highcharts>
                 </div>
-                    <div *ngIf="showHourlygraph">
-                        <app-highcharts #chart
-                        [Highcharts]="Highcharts"
-                        [constructorType]="chartConstructor"
-                        [options]="updatedbarChartOptions"
-                        [callbackFunction]="chartCallback"
-                
-                        [(update)]="updateFlag"
-                        [isOneToOne]="oneToOneFlag"
-                
-                        style="width: 100%; height: 100%; display: block;"
-                        ></app-highcharts></div>  
+                <div *ngIf="showHourlygraph">
+                    <app-highcharts #chart [Highcharts]="Highcharts" [constructorType]="chartConstructor"
+                        [options]="updatedbarChartOptions" [callbackFunction]="chartCallback" [(update)]="updateFlag"
+                        [isOneToOne]="oneToOneFlag" style="width: 100%; height: 100%; display: block;"></app-highcharts>
+                </div>
 
-                    <div class="row">
-                        <div class="col-6"></div>
-                        <div class="col-6">
-                            <button class="md-raised md-primary md-button md-link-ripple" type="button" style="float: right;" (click)="exportExcelData()">
-                                <span class ="ng-scope">Export Excel</span>
-                            </button>
-                            <button class="md-raised md-primary md-button md-link-ripple" type="button" id="excelbtn" style="float: right;" (click)="changeGraphStacking()">
-                                <span class ="ng-scope">Change Graph</span>
-                            </button>
-                            <button class="md-raised md-primary md-button md-link-ripple" id="button" type="button" (click)="reenable()">
-                                <span class ="ng-scope" *ngIf="graphShown">Disable All</span>
-                                <span class ="ng-scope" *ngIf="!graphShown">Enable All</span>
-                            </button>
+                <div class="row">
+                    <div class="col-6"></div>
+                    <div class="col-6">
+                        <button class="md-raised md-primary md-button md-link-ripple" type="button"
+                            style="float: right;" (click)="exportExcelData()">
+                            <span class="ng-scope">Export Excel</span>
+                        </button>
+                        <button class="md-raised md-primary md-button md-link-ripple" type="button" id="excelbtn"
+                            style="float: right;" (click)="changeGraphStacking()">
+                            <span class="ng-scope">Change Graph</span>
+                        </button>
+                        <button class="md-raised md-primary md-button md-link-ripple" id="button" type="button"
+                            (click)="reenable()">
+                            <span class="ng-scope" *ngIf="graphShown">Disable All</span>
+                            <span class="ng-scope" *ngIf="!graphShown">Enable All</span>
+                        </button>
 
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-   </div>
+    </div>
+</div>

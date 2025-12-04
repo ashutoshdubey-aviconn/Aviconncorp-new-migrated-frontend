@@ -30,6 +30,8 @@ import Highcharts from 'highcharts/es-modules/masters/highcharts.src.js';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogSwitchdashComponent } from '../dialog-switchdash/dialog-switchdash.component';
 import { LoggerService } from '../services/logger.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -53,7 +55,7 @@ import { LoggerService } from '../services/logger.service';
     MatMenuModule,
     MatButtonModule,
     MatDialogModule
-    , ...SHARED_MAT_MODULES]
+    , ReactiveFormsModule, ...SHARED_MAT_MODULES]
 })
 export class DashboardComponent implements OnInit {
   isSupperAdmin = true;
@@ -72,6 +74,7 @@ export class DashboardComponent implements OnInit {
   oldpwd: string;
   token = localStorage.getItem('token');
   changePasswordModel = new changePassword(this.token, '', '');
+  resetForm: UntypedFormGroup;
 
   superAdmin: boolean = false;
   admin: boolean = false;
@@ -111,7 +114,12 @@ export class DashboardComponent implements OnInit {
 
   constructor(private data: DataService, private breakpointObserver: BreakpointObserver,
     private router: Router, private tokenService: TokenService, private global: GlobalService,
-    private user_service: UserService, public dialog: MatDialog, private logger: LoggerService) { }
+    private user_service: UserService, public dialog: MatDialog, private logger: LoggerService, private fb: UntypedFormBuilder) {
+    this.resetForm = this.fb.group({
+      oldPass: ['', Validators.required],
+      newPass: ['', Validators.required]
+    });
+  }
 
   ngOnInit() {
     this.siteId = localStorage.getItem('siteId');
@@ -337,11 +345,11 @@ export class DashboardComponent implements OnInit {
   }
 
   onChangepwd() {
-    this.logger.log("New Password :", this.changePasswordModel.newpassword);
+    this.logger.log("New Password :", this.resetForm.value.newPass);
     this.chngpwd = {
       'token': this.token,
-      'old_password': btoa(this.changePasswordModel.oldpassword),
-      'new_password': btoa(this.changePasswordModel.newpassword)
+      'old_password': btoa(this.resetForm.value.oldPass),
+      'new_password': btoa(this.resetForm.value.newPass)
     };
 
     this.user_service.changePassword(this.chngpwd).subscribe

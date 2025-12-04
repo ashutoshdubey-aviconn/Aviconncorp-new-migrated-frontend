@@ -1,8 +1,8 @@
 import { DataService } from './../services/data.service';
 import { DataTableItem, DataTableDataSource } from '../super-admin/data-table-datasource';
-import { changePassword } from './../models/changepassword';
+
 import { DashboardDataService } from './../services/dashboard-data.service';
-import { LoginComponent } from './../login/login.component';
+
 
 import { UserService } from './../services/user.service';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
@@ -28,11 +28,7 @@ import { from } from 'rxjs';
 import { formatDate, getLocaleDayNames } from '@angular/common';
 import { SiteDetailsModel, LiveMeteringDataModel } from './../models/siteDataModel';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
-import { DialogSwitchdashComponent } from '../dialog-switchdash/dialog-switchdash.component';
 import { Router } from '@angular/router';
-import { preserveWhitespacesDefault } from '@angular/compiler';
-import { LightsWattDataComponent } from '../lights-watt-data/lights-watt-data.component';
-import { FanswattdataComponent } from '../fanswattdata/fanswattdata.component';
 import { ExcelsheetComponent } from '../excelsheet/excelsheet.component';
 import { LoggerService } from '../services/logger.service';
 

@@ -22,7 +22,7 @@ This short audit lists occurrences of Angular `ngModel` in the codebase and note
     - Previously mixed `formControlName` with `[(ngModel)]` on the same inputs. This has been fixed: `[(ngModel)]` removed and the component now updates reactive controls using `avgDataForm.patchValue(...)` after data fetch.
 
   - `src/app/dashboard/dashboard.component.html`:
-    - Uses `[(ngModel)]` for password change inputs (pure template-driven). No `formControlName` found in this file.
+    - Previously used `[(ngModel)]` for password change inputs; migrated to a reactive `FormGroup` (`resetForm`) in this patch.
 
 - **Recommendations**:
   - Preferred: migrate forms to a single strategy per form — for complex forms prefer reactive (`FormGroup` + `formControlName`).
