@@ -66,20 +66,20 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+          <div class="modal-body">
         <div *ngIf="!isCollapsed">
-          <form (ngSubmit)="onForgottpwd()" #addMountForm="ngForm">
+          <form [formGroup]="forgotForm" (ngSubmit)="onForgottpwd()">
             <!-- user name input box -->
             <div class="form-group">
               <label class="col-form-label">User Name:</label>
-              <input type="text" #nameRef="ngModel" maxlength="20" minlength="4" required class="form-control"
-                id="recipient-name" name="userid" [(ngModel)]="forgotModel.Username">
-              <div *ngIf="nameRef.errors && (nameRef.dirty || nameRef.touched)" class="alert alert-danger">
-                <div [hidden]="!nameRef.errors.required">
+              <input type="text" formControlName="userid" maxlength="20" minlength="4" required class="form-control"
+                id="recipient-name" name="userid">
+              <div *ngIf="forgotForm.get('userid')?.errors && (forgotForm.get('userid')?.dirty || forgotForm.get('userid')?.touched)" class="alert alert-danger">
+                <div *ngIf="forgotForm.get('userid')?.errors?.required">
                   Please enter a Username
                 </div>
-                <div [hidden]="!nameRef.errors.minlength">
-                  please enter atleast 8 characters
+                <div *ngIf="forgotForm.get('userid')?.errors?.minlength">
+                  please enter atleast 4 characters
 
                 </div>
               </div>
@@ -89,13 +89,13 @@
             <!-- Mobile Input box -->
             <div class="form-group">
               <label class="col-form-label">Mobile No.:</label>
-              <input type="text" #mobileRef="ngModel" maxlength="10" minlength="10" required class="form-control"
-                name="mobile" [(ngModel)]="forgotModel.mobile">
-              <div *ngIf="mobileRef.errors && (mobileRef.dirty || mobileRef.touched)" class="alert alert-danger">
-                <div [hidden]="!mobileRef.errors.required">
+              <input type="text" formControlName="mobile" maxlength="10" minlength="10" required class="form-control"
+                name="mobile">
+              <div *ngIf="forgotForm.get('mobile')?.errors && (forgotForm.get('mobile')?.dirty || forgotForm.get('mobile')?.touched)" class="alert alert-danger">
+                <div *ngIf="forgotForm.get('mobile')?.errors?.required">
                   Please enter a Mobile No.
                 </div>
-                <div [hidden]="!mobileRef.errors.minlength">
+                <div *ngIf="forgotForm.get('mobile')?.errors?.minlength">
                   please enter 10-digit correct Number
 
                 </div>
@@ -103,23 +103,23 @@
             </div>
             <div class="form-group">
               <label class="col-form-label">Email</label>
-              <input style="color: rgb(197, 27, 27);" type="email" #emailRef="ngModel" maxlength="30" required email
-                class="form-control" name="email" [(ngModel)]="forgotModel.email">
-              <div *ngIf="emailRef.errors && (emailRef.dirty || emailRef.touched)" class="alert alert-danger">
-                <div [hidden]="!emailRef.errors.required">
+              <input style="color: rgb(197, 27, 27);" type="email" formControlName="email" maxlength="30" required email
+                class="form-control" name="email">
+              <div *ngIf="forgotForm.get('email')?.errors && (forgotForm.get('email')?.dirty || forgotForm.get('email')?.touched)" class="alert alert-danger">
+                <div *ngIf="forgotForm.get('email')?.errors?.required">
                   Please enter a Email ID.
 
                 </div>
-                <div [hidden]="!emailRef.errors.email">
+                <div *ngIf="forgotForm.get('email')?.errors?.email">
                   please enter valid Email ID
 
                 </div>
               </div>
             </div>
 
-            <div class="modal-footer">
+              <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button [disabled]="!addMountForm.form.valid" type="submit" class="btn btn-warning">Submit</button>
+              <button [disabled]="!forgotForm.valid" type="submit" class="btn btn-warning">Submit</button>
             </div>
           </form>
         </div>
@@ -127,18 +127,18 @@
 
         <!-- 2nd form update password-->
         <div *ngIf="isCollapsed">
-          <form (ngSubmit)="onResetpwd()" #addResetForm="ngForm" autocomplete="true">
+          <form [formGroup]="resetForm" (ngSubmit)="onResetpwd()" autocomplete="true">
             <!-- user name input box -->
             <div class="form-group">
               <label class="col-form-label">OTP:</label>
-              <input type="text" #otpRef="ngModel" maxlength="5" minlength="5" required class="form-control"
-                id="recipient-otp" name="otp" [(ngModel)]="resetModel.otp">
-              <div *ngIf="otpRef.errors && (otpRef.dirty || otpRef.touched)" class="alert alert-danger">
-                <div [hidden]="!otpRef.errors.required">
+              <input type="text" formControlName="otp" maxlength="5" minlength="5" required class="form-control"
+                id="recipient-otp" name="otp">
+              <div *ngIf="resetForm.get('otp')?.errors && (resetForm.get('otp')?.dirty || resetForm.get('otp')?.touched)" class="alert alert-danger">
+                <div *ngIf="resetForm.get('otp')?.errors?.required">
                   Please enter a valid otp
 
                 </div>
-                <div [hidden]="!otpRef.errors.minlength">
+                <div *ngIf="resetForm.get('otp')?.errors?.minlength">
                   please enter 5 characters
 
                 </div>
@@ -147,14 +147,14 @@
 
             <div class="form-group">
               <label class="col-form-label">New Password :</label>
-              <input type="password" #newpwdRef="ngModel" maxlength="15" minlength="8" required class="form-control"
-                name="newpassword" [(ngModel)]="resetModel.newpassword">
-              <div *ngIf="newpwdRef.invalid && (newpwdRef.dirty || newpwdRef.touched)" class="alert alert-danger">
-                <div [hidden]="!newpwdRef.errors.required">
+              <input type="password" formControlName="newpassword" maxlength="15" minlength="8" required class="form-control"
+                name="newpassword">
+              <div *ngIf="resetForm.get('newpassword')?.invalid && (resetForm.get('newpassword')?.dirty || resetForm.get('newpassword')?.touched)" class="alert alert-danger">
+                <div *ngIf="resetForm.get('newpassword')?.errors?.required">
                   Please enter a New password
 
                 </div>
-                <div [hidden]="!newpwdRef.errors.minlength">
+                <div *ngIf="resetForm.get('newpassword')?.errors?.minlength">
                   please enter valid New password
 
                 </div>
@@ -162,24 +162,24 @@
             </div>
             <div class="form-group">
               <label class="col-form-label">Confirm Password:</label>
-              <input type="password" #cpwdRef="ngModel" maxlength="15" minlength="8" required compare
-                class="form-control" name="confirmpassword" [(ngModel)]="resetModel.confirmpassword">
-              <div *ngIf="cpwdRef.errors && (cpwdRef.dirty || cpwdRef.touched)" class="alert alert-danger">
-                <div [hidden]="!cpwdRef.errors.required">
+              <input type="password" formControlName="confirmpassword" maxlength="15" minlength="8" required compare
+                class="form-control" name="confirmpassword">
+              <div *ngIf="resetForm.get('confirmpassword')?.errors && (resetForm.get('confirmpassword')?.dirty || resetForm.get('confirmpassword')?.touched)" class="alert alert-danger">
+                <div *ngIf="resetForm.get('confirmpassword')?.errors?.required">
                   Please enter a Confirm Password.
 
                 </div>
-                <div *ngIf="cpwdRef.errors['compare']">Password not match..try again</div>
-                <div [hidden]="!cpwdRef.errors.minlength">
+                <div *ngIf="resetForm.errors?.passwordMismatch">Password not match..try again</div>
+                <div *ngIf="resetForm.get('confirmpassword')?.errors?.minlength">
                   please enter valid Confirm Password
 
                 </div>
               </div>
             </div>
 
-            <div class="modal-footer">
+              <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-              <button [disabled]="!addResetForm.form.valid" type="submit" class="btn btn-warning">OK</button>
+              <button [disabled]="!resetForm.valid" type="submit" class="btn btn-warning">OK</button>
             </div>
           </form>
         </div>

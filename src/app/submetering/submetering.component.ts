@@ -22,6 +22,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import Highcharts from 'highcharts/es-modules/masters/highcharts.src.js';
 import { MatSort } from '@angular/material/sort';
 import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { from } from 'rxjs';
 import { formatDate, getLocaleDayNames } from '@angular/common';
@@ -207,9 +208,14 @@ export class SubmeteringComponent implements OnInit {
   siteId;
   changePasswordModel = new changePassword(this.token, '', '');
 
-  constructor(private dashData: DashboardDataService, private UserService: UserService, private DataService: DataService, public dialog: MatDialog, private router: Router, private logger: LoggerService) {
+  changePwdForm: UntypedFormGroup;
 
-
+  constructor(private dashData: DashboardDataService, private UserService: UserService, private DataService: DataService, public dialog: MatDialog, private router: Router, private logger: LoggerService, private fb: UntypedFormBuilder) {
+    this.changePwdForm = this.fb.group({
+      old_password: ['', Validators.required],
+      new_password: ['', Validators.required],
+      conf_password: ['', Validators.required]
+    });
   }
 
   ngOnInit() {
@@ -425,7 +431,12 @@ export class SubmeteringComponent implements OnInit {
   }
   onChangePwd() {
 
-    this.chngpwd = { 'token': this.token, 'oldpassword': btoa(this.changePasswordModel.oldpassword), 'newpassword': btoa(this.changePasswordModel.newpassword) };
+    if (!this.changePwdForm.valid) return;
+    const oldp = this.changePwdForm.value.old_password;
+    const newp = this.changePwdForm.value.new_password;
+    const conf = this.changePwdForm.value.conf_password;
+    if (newp !== conf) return;
+    this.chngpwd = { 'token': this.token, 'oldpassword': btoa(oldp), 'newpassword': btoa(newp) };
     this.UserService.changePassword(this.chngpwd).subscribe(
       data => {
       },

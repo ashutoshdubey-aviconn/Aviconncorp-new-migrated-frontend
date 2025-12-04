@@ -103,7 +103,7 @@
                                 <mat-header-cell *matHeaderCellDef>Actual Consumption </mat-header-cell>
                                 <mat-cell *matCellDef="let row">
                                     <mat-form-field floatLabel="name">
-                                    <input matInput placeholder="Actual Consumption" [value]="row.CurrentConsump" [(ngModel)]="row.CurrentConsump">
+                                    <input matInput placeholder="Actual Consumption" [value]="row.CurrentConsump" [(ngModel)]="row.CurrentConsump" [ngModelOptions]="{standalone:true}">
                                     </mat-form-field>
                                 </mat-cell>
                                 </ng-container>

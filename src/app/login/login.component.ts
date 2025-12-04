@@ -35,6 +35,8 @@ import { LoggerService } from '../services/logger.service';
 
 export class LoginComponent implements OnInit {
   userLogin: UntypedFormGroup;
+  forgotForm: UntypedFormGroup;
+  resetForm: UntypedFormGroup;
   loading: boolean;
   adminDashboard: string;
   dashbaordData;
@@ -60,6 +62,20 @@ export class LoginComponent implements OnInit {
     this.userLogin = this.fb.group({
       username: ['', Validators.required],
       password: [btoa(''), Validators.required]
+    });
+
+    // Reactive form for forgot password modal
+    this.forgotForm = this.fb.group({
+      userid: ['', [Validators.required, Validators.minLength(4)]],
+      mobile: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      email: ['', [Validators.required, Validators.email]]
+    });
+
+    // Reactive form for reset password modal
+    this.resetForm = this.fb.group({
+      otp: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]],
+      newpassword: ['', [Validators.required, Validators.minLength(8)]],
+      confirmpassword: ['', [Validators.required]]
     });
   }
 
@@ -141,8 +157,16 @@ export class LoginComponent implements OnInit {
   }
 
   onForgottpwd() {
-    this.logger.log("forgot password: ", this.forgotModel);
-    this.userService.forgetpassword(this.forgotModel).subscribe(
+    if (!this.forgotForm.valid) {
+      return;
+    }
+    const payload = {
+      Username: this.forgotForm.value.userid,
+      mobile: this.forgotForm.value.mobile,
+      email: this.forgotForm.value.email
+    };
+    this.logger.log("forgot password payload: ", payload);
+    this.userService.forgetpassword(payload).subscribe(
       data => {
         this.logger.log('Server Response ! ', data)
         this.Result = data.result;
@@ -161,9 +185,25 @@ export class LoginComponent implements OnInit {
   }
 
   onResetpwd() {
-    this.logger.log("reset value: ", this.resetModel);
+    if (!this.resetForm.valid) return;
+    // simple password match validation
+    const newpwd = this.resetForm.value.newpassword;
+    const confpwd = this.resetForm.value.confirmpassword;
+    if (newpwd !== confpwd) {
+      try { this.resetForm.setErrors({ passwordMismatch: true }); } catch (_) { }
+      return;
+    } else {
+      try { this.resetForm.setErrors(null); } catch (_) { }
+    }
+
+    const payload = {
+      otp: this.resetForm.value.otp,
+      newpassword: this.resetForm.value.newpassword,
+      confirmpassword: this.resetForm.value.confirmpassword
+    };
+    this.logger.log("reset payload: ", payload);
     this.isCollapsed = false;
-    this.userService.resetPassword(this.resetModel).subscribe(
+    this.userService.resetPassword(payload).subscribe(
       data => {
         this.Result = data.result;
         if (this.Result == 1) {

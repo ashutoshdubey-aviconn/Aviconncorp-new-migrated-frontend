@@ -71,7 +71,18 @@ export class AvgDataComponent implements OnInit {
         this.logger.log("response : ", response)
         this.avgDatavalue = response['value'];
         this.totalDatavalue = response['energyConsumed'];
-        this.noofDays = response['totalDays']
+        this.noofDays = response['totalDays'];
+        // Update the reactive form controls so the template bound to formControlName
+        // reflects the newly fetched values. Use patchValue for resilience.
+        try {
+          this.avgDataForm.patchValue({
+            avgvalue: response['value'] ?? this.avgDataForm.value.avgvalue,
+            totalvalue: response['energyConsumed'] ?? this.avgDataForm.value.totalvalue,
+            noOfDays: response['totalDays'] ?? this.avgDataForm.value.noOfDays
+          });
+        } catch (e) {
+          this.logger.warn('AvgDataComponent: failed to patch form with response', e);
+        }
       }
     )
   }
