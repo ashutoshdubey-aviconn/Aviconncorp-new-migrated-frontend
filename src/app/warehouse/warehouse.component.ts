@@ -1,7 +1,7 @@
 
 import { DataService } from './../services/data.service';
 import { DataTableItem, DataTableDataSource } from '../super-admin/data-table-datasource';
-import { changePassword } from './../models/changepassword';
+// changePassword model removed from this component during migration
 import { DashboardDataService } from './../services/dashboard-data.service';
 import { LoginComponent } from './../login/login.component';
 // import {LightsDataComponent} from './lights-data/lights-data.component';
