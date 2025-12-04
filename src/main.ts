@@ -10,6 +10,7 @@ import { NetworkErrorInterceptor } from './app/interceptors/network-error.interc
 import { MockApiInterceptor } from './app/interceptors/mock-api.interceptor';
 
 import 'hammerjs';
+import { LoggerService } from './app/services/logger.service';
 
 if (environment.production) {
   enableProdMode();
@@ -29,4 +30,4 @@ bootstrapApplication(AppComponent, {
     // Mock API interceptor (no-op unless you enable mock mode via query param or localStorage)
     ,{ provide: HTTP_INTERCEPTORS, useClass: MockApiInterceptor, multi: true }
   ]
-}).catch(err => console.error(err));
+}).catch(err => new LoggerService().error(err));

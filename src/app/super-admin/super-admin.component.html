@@ -37,7 +37,7 @@
         <div class="box">
           <div class="box-heading text-faded">Energy Consumed</div>
 
-          <div class="box-number text-faded">{{energyConsumed}} kWh
+          <div class="box-number text-faded">{{energyConsumed | number:'1.1-1'}} kWh
              <br> 
             <span style=font-size:medium id="sparklineA">from {{date}}</span>
             <br>
@@ -57,7 +57,7 @@
         </div>
         <div class="box">
           <div class="box-heading text-faded">Energy Saved</div>
-          <div class="box-number text-faded">{{energySaved}} kWh
+          <div class="box-number text-faded">{{energySaved | number:'1.1-1'}} kWh
             <br> 
             <span style=font-size:medium id="sparklineA">from {{date}}</span> 
             <br>

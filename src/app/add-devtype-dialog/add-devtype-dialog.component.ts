@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { DataService } from '../services/data.service';
+import { LoggerService } from '../services/logger.service';
 
 export interface DialogData {
   serialNo: string;
@@ -30,7 +31,7 @@ export interface DialogData {
 export class AddDevtypeDialogComponent implements OnInit {
 
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<AddDevtypeDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData, private dataService:DataService) { }
+    @Inject(MAT_DIALOG_DATA) public data: DialogData, private dataService:DataService, private logger: LoggerService) { }
      
       siteId= localStorage.getItem('siteId');
      
@@ -54,10 +55,10 @@ export class AddDevtypeDialogComponent implements OnInit {
   
   onSubmitDevType(){
    let data = {"siteId":this.siteId,"deviceName":['deviceName'],"category":['category'],}
-    console.log("This is a site id:",data);
+    this.logger.log("This is a site id:",data);
     this.dataService.fireDeviceTypeAdd(this.devTypeDataForm.value).subscribe(
       response =>{
-        console.log("response : ", response)
+        this.logger.log("response : ", response)
       }
     )
     this.dataService.success('Device type saved successfully !');

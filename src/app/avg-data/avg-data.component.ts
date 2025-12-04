@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { DataService } from '../services/data.service';
+import { LoggerService } from '../services/logger.service';
 export interface DialogData {
 
      from_date: string;
@@ -31,7 +32,7 @@ export class AvgDataComponent implements OnInit {
   totalDatavalue: any;
   noofDays: any;
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<AvgDataComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData, private dataService:DataService) { }
+    @Inject(MAT_DIALOG_DATA) public data: DialogData, private dataService:DataService, private logger: LoggerService) { }
 
     siteId= localStorage.getItem('siteId');
     date = new UntypedFormControl(new Date());
@@ -47,7 +48,7 @@ export class AvgDataComponent implements OnInit {
 
     });
   ngOnInit() {
-    console.log("#################### I am in ngOnInit fuction: ", this.data);
+    this.logger.log("#################### I am in ngOnInit fuction: ", this.data);
     if (this.data) {
       // use patchValue so missing controls don't cause setValue to throw
       this.avgDataForm.patchValue({
@@ -64,10 +65,10 @@ export class AvgDataComponent implements OnInit {
   
   onSubmit(){
     let data = {"siteId":this.siteId,"from_date":this.avgDataForm.value.startDate,"till_date":this.avgDataForm.value.endDate,}
-     console.log("function called", this.avgDataForm.value);
+    this.logger.log("function called", this.avgDataForm.value);
     this.dataService.avgDataValue(data).subscribe(
       response =>{
-        console.log("response : ", response)
+        this.logger.log("response : ", response)
         this.avgDatavalue = response['value'];
         this.totalDatavalue = response['energyConsumed'];
         this.noofDays = response['totalDays']

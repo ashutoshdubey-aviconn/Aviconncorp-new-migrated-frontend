@@ -21,11 +21,12 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { User } from '../models/user';
 import { resetpassword } from '../models/resetpassword';
 import { SHARED_MAT_MODULES } from '../shared/material-imports';
+import { LoggerService } from '../services/logger.service';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css'],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
   encapsulation: ViewEncapsulation.None,
   providers: [UserService],
   standalone: true,
@@ -54,6 +55,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private fb: UntypedFormBuilder, private router: Router, private userService: UserService, public dialog: MatDialog,
     private global: GlobalService, private data: DataService, private dashData: DashboardDataService,
+    private logger: LoggerService
   ) {
     this.userLogin = this.fb.group({
       username: ['', Validators.required],
@@ -86,8 +88,9 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    console.log("sending value: ", this.userLoginModel.username, btoa(this.userLoginModel.password));
-    if (this.userLoginModel.username == '' || this.userLoginModel.password == '') {
+    const { username, password } = this.userLogin.value;
+    this.logger.log('sending value: ', username, btoa(password || ''));
+    if (!username || !password) {
       this.loginerror = "All fields are mandatory";
       const dialogRef = this.dialog.open(DialogOverComponent, {
         data: this.loginerror,
@@ -98,10 +101,10 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
-    this.loginValue = { 'username': this.userLoginModel.username, 'password': btoa(this.userLoginModel.password) };
+    this.loginValue = { username, password: btoa(password) };
     this.userService.loginUser(this.loginValue).subscribe(
       response => {
-        console.log("Login Response : ", response)
+        this.logger.log("Login Response : ", response)
         this.loading = false;
         localStorage.setItem('token', response['token']);
         localStorage.setItem('Saved Engergy', response['Saved Engergy']);
@@ -138,13 +141,13 @@ export class LoginComponent implements OnInit {
   }
 
   onForgottpwd() {
-    console.log("forgot password: ", this.forgotModel);
+    this.logger.log("forgot password: ", this.forgotModel);
     this.userService.forgetpassword(this.forgotModel).subscribe(
       data => {
-        console.log('Server Response ! ', data)
+        this.logger.log('Server Response ! ', data)
         this.Result = data.result;
         this.msg = data.Error;
-        console.log('Result : ', this.Result);
+        this.logger.log('Result : ', this.Result);
         if (this.Result == 1) {
           this.isCollapsed = true;
         }
@@ -153,12 +156,12 @@ export class LoginComponent implements OnInit {
         }
       },
       error => {
-        console.log('Error! ', error)
+        this.logger.error('Error! ', error)
       });
   }
 
   onResetpwd() {
-    console.log("reset value: ", this.resetModel);
+    this.logger.log("reset value: ", this.resetModel);
     this.isCollapsed = false;
     this.userService.resetPassword(this.resetModel).subscribe(
       data => {

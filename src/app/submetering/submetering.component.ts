@@ -33,6 +33,7 @@ import { preserveWhitespacesDefault } from '@angular/compiler';
 import { LightsWattDataComponent } from '../lights-watt-data/lights-watt-data.component';
 import { FanswattdataComponent } from '../fanswattdata/fanswattdata.component';
 import { ExcelsheetComponent } from '../excelsheet/excelsheet.component';
+import { LoggerService } from '../services/logger.service';
 
 
 declare var $: any;
@@ -206,7 +207,7 @@ export class SubmeteringComponent implements OnInit {
   siteId;
   changePasswordModel = new changePassword(this.token, '', '');
 
-  constructor(private dashData: DashboardDataService, private UserService: UserService, private DataService: DataService, public dialog: MatDialog, private router: Router,) {
+  constructor(private dashData: DashboardDataService, private UserService: UserService, private DataService: DataService, public dialog: MatDialog, private router: Router, private logger: LoggerService) {
 
 
   }
@@ -214,7 +215,7 @@ export class SubmeteringComponent implements OnInit {
   ngOnInit() {
     this.siteId = localStorage.getItem('siteId');
     this.sitename = localStorage.getItem('sitename')
-    console.log('here site id in energy saving', this.siteId)
+    this.logger.log('here site id in energy saving', this.siteId)
 
     //here is implementation of breadcrumb...
     if (this.user_type == '1') {
@@ -278,7 +279,7 @@ export class SubmeteringComponent implements OnInit {
 
   valuechange(newValue) {
     //mymodel = newValue;
-    console.log(newValue)
+    this.logger.log(newValue)
   }
   getCust() {
     this.dashData.getCustomerDetail().subscribe(
@@ -317,26 +318,26 @@ export class SubmeteringComponent implements OnInit {
         this.barChartOptions.plotOptions.column.stacking = ''; // for daily
       }
       catch {
-        console.log("error in daily")
+        this.logger.log("error in daily")
       }
       try {
         this.updatedbarChartOptions.plotOptions.column.stacking = '';  // for hourly
       }
       catch {
-        console.log("err in hourly")
+        this.logger.log("err in hourly")
       }
       this.updateFlag = true;
-      console.log('Inside normal stacking false')
+      this.logger.log('Inside normal stacking false')
     }
     else {
       try {
         this.barChartOptions.plotOptions.column.stacking = 'normal'; // for daily
-      } catch { console.log("error in daily....") }
+      } catch { this.logger.log("error in daily....") }
       try {
         this.updatedbarChartOptions.plotOptions.column.stacking = 'normal'; // for hourly
-      } catch { console.log("error in hourly ....") }
+      } catch { this.logger.log("error in hourly ....") }
       this.updateFlag = true;
-      console.log('Inside normal stacking True')
+      this.logger.log('Inside normal stacking True')
     }
   }
 
@@ -348,17 +349,17 @@ export class SubmeteringComponent implements OnInit {
       this.graphShown = true
       let chartData = this.chart.chart.legend.allItems
       for (let i = 0; i <= chartData.length - 1; i++) {
-        console.log("data : ", chartData[i])
+        this.logger.log("data : ", chartData[i])
         chartData[i].setVisible(true, false)
       }
       this.chart.chart.redraw()
-      console.log("reenable function true")
+      this.logger.log("reenable function true")
     }
     else {
       this.graphShown = false
       let chartData = this.chart.chart.legend.allItems
       for (let i = 0; i <= chartData.length - 1; i++) {
-        console.log("data : ", chartData[i])
+        this.logger.log("data : ", chartData[i])
         chartData[i].setVisible(false, false)
       }
       this.chart.chart.redraw()
@@ -390,7 +391,7 @@ export class SubmeteringComponent implements OnInit {
           })
         }
         this.dataSource = new MatTableDataSource(data);
-        console.log(data);
+        this.logger.log(data);
         this.dataSource.paginator = this.paginator;  //mandeep
         this.dataSource.sort = this.sort;  //mandeep
 
@@ -404,7 +405,7 @@ export class SubmeteringComponent implements OnInit {
     let data = { "site_id": this.siteId }
     this.UserService.siteSnapshot(data).subscribe(
       response => {
-        console.log(response);
+        this.logger.log(response);
 
       }
     )
@@ -420,7 +421,7 @@ export class SubmeteringComponent implements OnInit {
     this.isShown = true;
   }
   customerdetail(obj) {
-    console.log(obj);
+    this.logger.log(obj);
   }
   onChangePwd() {
 
@@ -429,7 +430,7 @@ export class SubmeteringComponent implements OnInit {
       data => {
       },
       error => {
-        console.log("Server Error: ", error);
+        this.logger.log("Server Error: ", error);
       });
   }
 
@@ -452,7 +453,7 @@ export class SubmeteringComponent implements OnInit {
     let data1 = { 'site_id': this.siteId, 'from_date': fromDate, 'till_date': tillDate, "user_type": this.user_type };
     this.UserService.submeteringMonthlyBarChart(data1).subscribe(
       response => {
-        console.log("ressnw  : ", response)
+        this.logger.log("ressnw  : ", response)
         // $(function () {
         this.barChartOptions = {
           colorCount: '12',
@@ -623,7 +624,7 @@ export class SubmeteringComponent implements OnInit {
         this.showDailygraph = false;
         this.showHourlygraph = true;
         let data = { 'site_id': this.siteId, 'date': hourlySelectedDate };
-        console.log('This is mine selected Date in hourly data', hourlySelectedDate);
+        this.logger.log('This is mine selected Date in hourly data', hourlySelectedDate);
         // this.barChartOptions.plotOptions.column.stacking='percent';
 
         this.UserService.submeteringHourlyData(data).subscribe(
@@ -728,7 +729,7 @@ export class SubmeteringComponent implements OnInit {
               },
               series: this.normalizeSeries(response["Data"]),
             }
-            console.log("hour : ", this.updatedbarChartOptions);
+            this.logger.log("hour : ", this.updatedbarChartOptions);
             setTimeout(() => {
               this.updateFlag = true;
               try { if (this.chart && this.chart.chart) this.chart.chart.reflow(); } catch (e) { }
@@ -768,10 +769,10 @@ export class SubmeteringComponent implements OnInit {
         this.showHourlygraph = true;
         // Graph Filter is for hourly data
         let data = { 'site_id': this.siteId, 'date': hourlySelectedDate };
-        console.log('This is mine selected Date in hourly data for energy saving data', hourlySelectedDate);
+        this.logger.log('This is mine selected Date in hourly data for energy saving data', hourlySelectedDate);
         this.UserService.energySavingHourlyData(data).subscribe(
           response => {
-            console.log("respsmdksk: ", response)
+            this.logger.log("respsmdksk: ", response)
             categories = response['Hours'];
             series = response['SavingData'];
             this.updateFlag = true;

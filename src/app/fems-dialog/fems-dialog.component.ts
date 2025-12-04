@@ -6,6 +6,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { SHARED_MAT_MODULES } from '../shared/material-imports';
 import { DataService } from '../services/data.service';
+import { LoggerService } from '../services/logger.service';
 export interface DialogData {
   animal: string;
   name: string;
@@ -26,7 +27,7 @@ export class FemsDialogComponent implements OnInit {
  
 
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<FemsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData, private DataService:DataService) {
+    @Inject(MAT_DIALOG_DATA) public data: DialogData, private DataService:DataService, private logger: LoggerService) {
       
      }
 
@@ -36,10 +37,10 @@ export class FemsDialogComponent implements OnInit {
   }
 
   deleteRecord(){
-    console.log("##################", this.data)
+    this.logger.log("##################", this.data)
       this.DataService.deleteInventoryData(this.data).subscribe(
     response =>{
-      console.log("response : ", response);
+      this.logger.log("response : ", response);
       this.dialogRef.close();
     }
   )

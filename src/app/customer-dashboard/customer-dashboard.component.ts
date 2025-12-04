@@ -17,6 +17,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { from } from 'rxjs';
 import Highcharts from 'highcharts/es-modules/masters/highcharts.src.js';
+import { LoggerService } from '../services/logger.service';
 @Component({
   selector: 'app-customer-dashboard',
   templateUrl: './customer-dashboard.component.html',
@@ -54,8 +55,7 @@ export class CustomerDashboardComponent {
   customerDetails = new CustomerDetailsModel();
   Highcharts = Highcharts;
 
-  constructor(private dataService: DataService, private userService: UserService, private router: Router) {
-
+  constructor(private dataService: DataService, private userService: UserService, private router: Router, private logger: LoggerService) {
 
   }
 
@@ -167,7 +167,7 @@ export class CustomerDashboardComponent {
           },
           series: response["Data"]
         }
-        console.log("graph data", this.lineChartOptions)
+        this.logger.log("graph data", this.lineChartOptions)
       });
 
   }
@@ -178,7 +178,7 @@ export class CustomerDashboardComponent {
       this.data1 = { "id": this.user_id }
     }
 
-    console.log("data in customer details:", this.data1)
+    this.logger.log("data in customer details:", this.data1)
     this.userService.getCustomerDetails(this.data1).subscribe(
       response => {
         let responseData = response['data'];
@@ -202,12 +202,11 @@ export class CustomerDashboardComponent {
     } else {
       this.data1 = { "id": this.user_id }
     }
-    console.log("data in site details########:", this.data1)
+    this.logger.log("data in site details########:", this.data1)
     this.dataService.getWarehouseList(this.data1).subscribe(
       response => {
         let sites = [];
         for (let i = 0; i <= response['site'].length - 1; i++) { /*users.push(createNewUser(i));*/
-          //console.log(response['site'][i]);
           let data = response['site'][i];
           let is_pf_visible = data['is_pf_visible']
           let is_carbon_emission_visible = data['is_carbon_emission_visible']
@@ -269,8 +268,8 @@ export class CustomerDashboardComponent {
 
         }
         this.dataSource = new MatTableDataSource(sites);
-        console.log(this.dataSource);
-        console.log('This is site data source' + ": " + this.dataSource);
+        this.logger.log(this.dataSource);
+        this.logger.log('This is site data source' + ": " + this.dataSource);
         this.dataSource.paginator = this.paginator;  //mandeep
         this.dataSource.sort = this.sort;  //mandeep
 
@@ -288,7 +287,7 @@ export class CustomerDashboardComponent {
     }
     this.userService.getCustomerSnapshot(this.data1).subscribe(
       response => {
-        console.log('Here is data for customer snapshot ', response);
+        this.logger.log('Here is data for customer snapshot ', response);
         this.Custalarms = response['alarms'];
         this.CustenergyConsumed = response['energy_consumed'];
         this.CustsavedEnergy = response['saved_energy'];
@@ -307,7 +306,7 @@ export class CustomerDashboardComponent {
     let is_carbon_emission_visible = row.is_carbon_emission_visible
     let is_load_graph_visible = row.is_load_graph_visible;
     let dg_fuel_system_installed = row.dg_fuel_system_installed
-    console.log("carbon_emission_visible : ", is_carbon_emission_visible)
+    this.logger.log("carbon_emission_visible : ", is_carbon_emission_visible)
     localStorage.setItem("pf_visible", is_pf_visible);
     localStorage.setItem("carbon_emission_visible", is_carbon_emission_visible);
     localStorage.setItem("is_load_graph_visible", is_load_graph_visible);
@@ -316,8 +315,8 @@ export class CustomerDashboardComponent {
     localStorage.setItem("dg_fuel_system_installed", dg_fuel_system_installed)
     localStorage.setItem("customer_visible_dg_fuel_data", row.customer_visible_dg_fuel_data)
     localStorage.setItem("is_hourly_data_visible", row.is_hourly_data_visible)
-    console.log("site type going to set is : ", siteType)
-    console.log("dg/mains runtime value", row.show_dg_mains_run_time)
+    this.logger.log("site type going to set is : ", siteType)
+    this.logger.log("dg/mains runtime value", row.show_dg_mains_run_time)
 
     if (siteType == "WH METERING") {
       this.dataService.changeMessage("wh_metering");
@@ -357,11 +356,11 @@ export class CustomerDashboardComponent {
   }
 
   openSiteDashOnAlarmClick(row: any): void {
-    console.log('%%%%%%%%%%%%%%%%%%%%', row)
+    this.logger.log('%%%%%%%%%%%%%%%%%%%%', row)
     let siteType = row.sitetype;
     let siteId = row.siteid;
     let siteName = row.sitename;
-    console.log("site type going to set is : ", siteType)
+    this.logger.log("site type going to set is : ", siteType)
     if (siteType == "WH_Metering") {
       this.dataService.changeMessage("wh_metering");
       localStorage.setItem('siteId', siteId);
@@ -389,7 +388,7 @@ export class CustomerDashboardComponent {
     }
     this.userService.getAlarmsOnCustomerPage(this.data1).subscribe(
       response => {
-        console.log("response data of alarms $$$$$$$$: ", response["data"])
+        this.logger.log("response data of alarms $$$$$$$$: ", response["data"])
         let data = [];
         for (let i = 0; i <= response['data'].length - 1; i++) {
           let res = response['data'][i]
@@ -398,7 +397,7 @@ export class CustomerDashboardComponent {
           let total_alarm_count = res['total_alarm_count'];
           let alarms = res["alarms"]
           let site_type = res['site_type']
-          console.log("alarms ##### ", alarms)
+          this.logger.log("alarms ##### ", alarms)
           let internet_down = alarms["Internet_Gone"];
           if (internet_down == undefined) {
             internet_down = '0'
@@ -434,8 +433,8 @@ export class CustomerDashboardComponent {
           })
         }
         this.dataSource1 = new MatTableDataSource(data);
-        console.log(data);
-        console.log('This is alarm data source' + ": " + data);
+        this.logger.log(data);
+        this.logger.log('This is alarm data source' + ": " + data);
         this.dataSource1.paginator = this.paginator;
         this.dataSource1.sort = this.sort;
 

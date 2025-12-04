@@ -22,6 +22,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatSlideToggleChange, MatSlideToggle } from '@angular/material/slide-toggle';
 import { MovieService } from '../services/movie.service';
+import { LoggerService } from '../services/logger.service';
 // Prefer the ESM masters entrypoint to avoid CommonJS optimization warnings
 import Highcharts from 'highcharts/es-modules/masters/highcharts.src.js';
 // Load the Solid Gauge module from the ESM masters path when needed
@@ -53,7 +54,7 @@ export class AdminComponent implements OnInit {
   Highcharts = Highcharts;
   siteId;
   // SolidGaugeChart=SolidGaugeChart;
-  constructor(private UserService:UserService,private dataService:DataService, private fb:UntypedFormBuilder, private album:MovieService) { 
+  constructor(private UserService:UserService,private dataService:DataService, private fb:UntypedFormBuilder, private album:MovieService, private logger: LoggerService) { 
     this.userData = this.fb.group({
       countryName: ['', Validators.required],
       stateName: [(''), Validators.required],
@@ -71,7 +72,7 @@ export class AdminComponent implements OnInit {
       } catch (e) {
         // ignore failures in test or restricted environments
          
-        console.warn('Failed to load Highcharts solid-gauge module', e);
+        this.logger.warn('Failed to load Highcharts solid-gauge module', e);
       }
     })();
     
@@ -121,10 +122,10 @@ export class AdminComponent implements OnInit {
     this.dataService.data(data).subscribe(
       response=>{
         let result = response["result"]
-        console.log("submit data result: ", result)
+        this.logger.log("submit data result: ", result)
       }
     )
-    console.log("data is:- ",this.form.value)
+    this.logger.log("data is:- ",this.form.value)
   }
   // On user change I clear the title of that album 
   onUserChange(event, album: UntypedFormGroup) {
@@ -135,20 +136,20 @@ export class AdminComponent implements OnInit {
     // Notice the ngIf at the title cell definition. The user with id 3 can't set the title of the albums
   }
   onClick(){
-   console.log("dataa :> ", this.data.value) 
+  this.logger.log("dataa :> ", this.data.value) 
    this.data.reset()
   }
  
 
   onChange(ob: MatSlideToggleChange, id,date) {
-    console.log("toggle changed")
-    console.log(ob.checked);
-    console.log(id)
-    console.log(formatDate(date,'yyyy/MM/dd','en'))
+    this.logger.log("toggle changed")
+    this.logger.log(ob.checked);
+    this.logger.log(id)
+    this.logger.log(formatDate(date,'yyyy/MM/dd','en'))
   } 
 
   edit(row){
-    console.log("edited data :- ", row)
+    this.logger.log("edited data :- ", row)
     this.showModal = true;
   }
   hide(){
@@ -161,11 +162,11 @@ export class AdminComponent implements OnInit {
 getCustomers(){
   this.UserService.getAllCustomers().subscribe(
     response =>{
-      console.log('response', response)
+      this.logger.log('response', response)
       let customer=[];
         for (let i = 0; i <= response['data'].length-1; i++) {
           let data = response['data'][i];
-          console.log("data", data)
+          this.logger.log("data", data)
           let customer_details = data['customer'];
           let customer_id = customer_details['id'];
           let customer_username = customer_details['username'];
@@ -180,8 +181,8 @@ getCustomers(){
         }
       
         this.dataSource = new MatTableDataSource(customer);
-        console.log(this.dataSource);
-        console.log('This is site data source'+ ": " + this.dataSource);
+        this.logger.log(this.dataSource);
+        this.logger.log('This is site data source'+ ": " + this.dataSource);
    
       
     }

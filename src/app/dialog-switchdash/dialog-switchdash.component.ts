@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { DataService } from './../services/data.service';
+import { LoggerService } from '../services/logger.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -38,7 +39,8 @@ export class DialogSwitchdashComponent implements OnInit {
 
   constructor(private dataService:DataService,
     public dialogRef: MatDialogRef<DialogSwitchdashComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private logger: LoggerService) {
 
       this.siteId = localStorage.getItem('siteId');
     }
@@ -68,19 +70,18 @@ displayedColumns = ['siteid', 'sitename','sitetype'];
   getCustomerSiteLists(){
     if(this.user_type == 1){
       let current_customer = localStorage.getItem('id')
-      console.log("current customer: ", current_customer)
+      this.logger.log("current customer: ", current_customer)
       this.data = {'customer_id':current_customer,'site_id':this.siteId};
     }else{
       this.data = {'customer_id':this.user_id,'site_id':this.siteId};
     }
     
-    console.log('site id in switch dashboard function',this.siteId);
-    console.log("user_id",this.user_id)
+    this.logger.log('site id in switch dashboard function',this.siteId);
+    this.logger.log("user_id",this.user_id)
     this.dataService.switchSiteDashboardApi(this.data).subscribe(
       response => {
         let sites=[];
         for (let i = 0; i <= response['data'].length-1; i++) { /*users.push(createNewUser(i));*/
-          //console.log(response['site'][i]);
           let data = response['data'][i];
 
           let TypeOfSite;
@@ -100,8 +101,8 @@ displayedColumns = ['siteid', 'sitename','sitetype'];
      
         //userData.push(users1);
         this.dataSource = new MatTableDataSource(sites);
-        console.log(this.dataSource);
-        console.log('This is site data source'+ ": " + this.dataSource);
+        this.logger.log(this.dataSource);
+        this.logger.log('This is site data source:', this.dataSource);
         this.dataSource.paginator = this.paginator;  //mandeep
         this.dataSource.sort = this.sort;  //mandeep
         
@@ -112,7 +113,7 @@ displayedColumns = ['siteid', 'sitename','sitetype'];
 //Onclick function for switching a dashboard
   switchSiteDashboard(row: any): void {
     let siteType = row.sitetype;
-    console.log("site type$$$$", siteType)
+    this.logger.log("site type$$$$", siteType)
     let siteId = row.siteid;
     let siteName = row.sitename;
     

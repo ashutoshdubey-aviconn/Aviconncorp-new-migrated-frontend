@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { Inject} from '@angular/core';
 import { DataService } from '../services/data.service';
+import { LoggerService } from '../services/logger.service';
 import { SHARED_MAT_MODULES } from '../shared/material-imports';
 export interface DialogData {
 
@@ -30,7 +31,7 @@ export class ExcelsheetComponent implements OnInit {
   user_type = this.myObj["UserType"];
 
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<ExcelsheetComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData, private dataService:DataService,) { }
+    @Inject(MAT_DIALOG_DATA) public data: DialogData, private dataService:DataService, private logger: LoggerService) { }
 
     siteId= localStorage.getItem('siteId');
     date = new UntypedFormControl(new Date());
@@ -57,13 +58,13 @@ export class ExcelsheetComponent implements OnInit {
     
   onSubmit(){
     let data = {"user_id":this.user_id,"user_type":this.user_type,"site_id":this.siteId,"from_date":this.excelDataForm.value.startDate,"end_date":this.excelDataForm.value.endDate,}
-     console.log("function called", this.excelDataForm.value);
+     this.logger.log("function called", this.excelDataForm.value);
     this.dataService.showLoader();
     this.dataService.excelDataValue(data).subscribe(
       (response:any) =>{
-        console.log("response : ", response)
+        this.logger.log("response : ", response)
         let date = new Date().getDate().toString()+'-'+ new Date().toLocaleDateString("en-US", { month: 'short' })  + '-' + new Date().getFullYear().toString();
-        console.log("date : ",date)
+        this.logger.log("date : ",date)
         let blob:Blob=response.body as Blob;
         var downloadURL = window.URL.createObjectURL(blob);
         var link = document.createElement('a');

@@ -2,6 +2,7 @@ import { Component, OnInit ,Inject ,ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DataService } from './../services/data.service';
+import { LoggerService } from '../services/logger.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -51,7 +52,8 @@ export class LightsWattDataComponent implements OnInit {
 
   constructor(private dataService:DataService,
     public dialogRef: MatDialogRef<LightsWattDataComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private logger: LoggerService) {
 
       this.siteId = localStorage.getItem('siteId');
     }
@@ -76,7 +78,7 @@ displayedColumns = ['area', 'totalLights','Watt18','Watt20','Watt24','Watt36','W
   }
   
   lightsData(){
-    console.log('site id in switch dashboard function',this.siteId);
+    this.logger.log('site id in switch dashboard function',this.siteId);
     this.dataService.lightsData(this.data).subscribe(
       response => {
         let lightsData = []

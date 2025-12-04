@@ -106,7 +106,7 @@
                     <div class="box">
                         <div class="box-heading text-faded">Total Energy Consumed</div>
 
-                        <div class="box-number text-faded">{{energyConsumed}} kWh</div>
+                        <div class="box-number text-faded">{{energyConsumed | number:'1.1-1'}} kWh</div>
                         <div>
                             <span id="sparklineA">from {{liveDate}}</span><br>
                             <span id="sparklineA">till {{previous}}</span>
@@ -129,7 +129,7 @@
                     <div class="box">
                         <div class="box-heading text-faded">Monthly Units</div>
 
-                        <div class="box-number text-faded">{{monthlyAvg}} kWh </div>
+                        <div class="box-number text-faded">{{monthlyAvg | number:'1.1-1'}} kWh </div>
                         <div>
                             <span id="sparklineA">from {{monthdate}}</span><br>
                             <span id="sparklineA">till {{previous}}</span>
@@ -153,7 +153,7 @@
                     <div class="box">
                         <div class="box-heading text-faded">Avg. Daily Units</div>
 
-                        <div class="box-number text-faded">{{dailyAvg}} kWh</div>
+                        <div class="box-number text-faded">{{dailyAvg | number:'1.1-1'}} kWh</div>
                         <div>
                             <span id="sparklineA">from {{liveDate}}</span><br>
                             <span id="sparklineA">till {{previous}}</span>

@@ -16,6 +16,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { formatDate } from '@angular/common';
+import { LoggerService } from '../services/logger.service';
 
 
 export class DialogData{
@@ -49,7 +50,8 @@ export class PfTableComponent implements OnInit {
 
   constructor(private dataService:DataService,
     public dialogRef: MatDialogRef<PfTableComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { 
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private logger: LoggerService) { 
       this.siteId = localStorage.getItem('siteId');
     }
 
@@ -65,7 +67,7 @@ export class PfTableComponent implements OnInit {
     let data = {'site_id': this.siteId};
     this.dataService.fetch_power_factor_fluctuation_data(data).subscribe(
       response => {
-        console.log("res of pf table : ",response)
+        this.logger.log("res of pf table : ",response)
         let pfData = []
         for (let i = 0; i <= response['data'].length-1; i++){
           let data = response['data'][i]
@@ -89,7 +91,7 @@ export class PfTableComponent implements OnInit {
     let data = {"site_id": this.siteId}
     this.dataService.exportPFFluctuationData(data).subscribe(
         (response:any) =>{
-            console.log("response: ", response);
+            this.logger.log("response: ", response);
             let current_date = formatDate(new Date(), 'yyyy/MM/dd', 'en')
             let blob:Blob=response.body as Blob;
             var downloadURL = window.URL.createObjectURL(blob);

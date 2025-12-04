@@ -23,6 +23,7 @@ import { AfterViewInit, ViewChildren, QueryList } from '@angular/core';
 import { DeviceDetailsFemsComponent } from '../device-details-fems/device-details-fems.component';
 import { ExpiredDeviceDetailsFemsComponent } from '../expired-device-details-fems/expired-device-details-fems.component';
 import { SHARED_MAT_MODULES } from '../shared/material-imports';
+import { LoggerService } from '../services/logger.service';
 export interface femsData{
    data:any;
    deviceCat:any;
@@ -65,7 +66,7 @@ export class FemsComponent implements OnInit {
   totalDevices:any;
   warrenty:any;
   expiry:any;
-  constructor(public dialog: MatDialog,private router: Router,private DataService : DataService ,) {
+  constructor(public dialog: MatDialog,private router: Router,private DataService : DataService, private logger: LoggerService ) {
       
       
   }
@@ -100,7 +101,7 @@ export class FemsComponent implements OnInit {
     let data = {"site_id" :  parseInt(localStorage.getItem("siteId"))}
     this.DataService.fireDeviceSnapshotApi(data).subscribe(
       response=>{
-        console.log('response of snapshot',response)
+        this.logger.log('response of snapshot',response)
         this.totalDevices=response['totalDevices']
         this.warrenty=response['warrenty']
         this.expiry=response['expiredDevice']
@@ -112,7 +113,7 @@ export class FemsComponent implements OnInit {
   /*Below is the api binding for device fetch device list data from database*/
 
   fireDevicefetchdata(row: any): void{
-    console.log('%%%%%%%%%%%%%%%%%%%%',row)
+    this.logger.log('%%%%%%%%%%%%%%%%%%%%',row)
     let row_id = row.row_id;
     this.devName = row.devName;
     if (this.devName == undefined){
@@ -122,17 +123,17 @@ export class FemsComponent implements OnInit {
       localStorage.setItem('devName',this.devName);
     }
     
-    console.log("Device Name going to set is : ", this.devName)
+    this.logger.log("Device Name going to set is : ", this.devName)
     localStorage.setItem('row_id',row_id);
-    console.log("Row id going to set is : ", row_id)
+    this.logger.log("Row id going to set is : ", row_id)
     // let data1 = {"devName" :  localStorage.getItem("devName")}
     let data1 = {"row_id" :  row_id}
-    console.log("Row id in data1 set is : ", data1)
+    this.logger.log("Row id in data1 set is : ", data1)
     this.DataService.fireDevicefetchdata(data1).subscribe
     (
       response=>
       {
-        console.log("response of fireDevicefetchdata",response)
+        this.logger.log("response of fireDevicefetchdata",response)
         let inventoryData = []
         for (let i = 0; i <= response['data'].length-1; i++){
           let inventory = response['data'][i]
@@ -163,7 +164,7 @@ export class FemsComponent implements OnInit {
     (
       response=>
       {
-        console.log("response of fetchfireDeviceTypeData list",response)
+        this.logger.log("response of fetchfireDeviceTypeData list",response)
         let deviceTypeData = []
         for (let i = 0; i <= response['data'].length-1; i++){
           let devTypeList = response['data'][i]
@@ -182,7 +183,7 @@ export class FemsComponent implements OnInit {
 
 
   addDevice(){
-        console.log("Device saved successfully", this.devName)
+        this.logger.log("Device saved successfully", this.devName)
         const dialogConfig = new MatDialogConfig();
         dialogConfig.disableClose =true;
         dialogConfig.autoFocus = true;
@@ -190,7 +191,7 @@ export class FemsComponent implements OnInit {
         dialogConfig.data = {"deviceName": localStorage.getItem('devName')}
         const dialogRef = this.dialog.open( AddDeviceDialogComponent,dialogConfig);
         dialogRef.afterClosed().subscribe(result =>{
-          console.log("add device closed")
+          this.logger.log("add device closed")
           this.fireDevicefetchdata({"row_id":localStorage.getItem("row_id")})
           
         })
@@ -198,7 +199,7 @@ export class FemsComponent implements OnInit {
 
    }
    editData(row){
-    console.log("Device saved successfully")
+    this.logger.log("Device saved successfully")
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose =true;
     dialogConfig.autoFocus = true;
@@ -206,7 +207,7 @@ export class FemsComponent implements OnInit {
     dialogConfig.data = row
     const dialogRef = this.dialog.open( AddDeviceDialogComponent,dialogConfig);
     dialogRef.afterClosed().subscribe(result =>{
-      console.log("add device closed")
+      this.logger.log("add device closed")
       this.fireDevicefetchdata({"row_id":localStorage.getItem("row_id")})
     })
     
@@ -215,20 +216,20 @@ export class FemsComponent implements OnInit {
 
 }
 addDevType():void{
-  console.log("Device typed dialog box open successfully")
+  this.logger.log("Device typed dialog box open successfully")
   const dialogConfig = new MatDialogConfig();
   dialogConfig.disableClose =true;
   dialogConfig.autoFocus = true;
   dialogConfig.width="40%";
   const dialogRef = this.dialog.open( AddDevtypeDialogComponent,dialogConfig);
   dialogRef.afterClosed().subscribe(result =>{
-    console.log("device type after closed")
+    this.logger.log("device type after closed")
     this.fetchfireDeviceTypeData();
   })
 }
 
 deleteData(row){
-  console.log("row data : ", row);
+  this.logger.log("row data : ", row);
   var data = {"id": row.id}
   const dialogRef = this.dialog.open(FemsDialogComponent, {
     width: "40%",
@@ -241,7 +242,7 @@ deleteData(row){
 }
 
 baseline(){
-  console.log("baseline html hit")
+  this.logger.log("baseline html hit")
   this.DataService.changeMessage("fems");
   localStorage.setItem("fems-page", 'true');
 }

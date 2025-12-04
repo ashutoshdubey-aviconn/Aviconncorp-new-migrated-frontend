@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Observable, of, from } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { LoggerService } from '../services/logger.service';
 
 /**
  * Mock API interceptor for local development. Enable by adding `?useMock=1` to the URL
@@ -12,11 +13,12 @@ import { environment } from 'src/environments/environment';
  */
 @Injectable()
 export class MockApiInterceptor implements HttpInterceptor {
+  constructor(private logger: LoggerService) {}
   private loadJsonFixture(name: string, fallback: any): Observable<HttpResponse<any>> {
     return from(fetch('/assets/mocks/' + name + '.json')
       .then(r => {
         if (r.ok) {
-          try { console.debug(`[MockApi] Serving fixture: ${name}.json`); } catch (_) {}
+          try { this.logger.log(`[MockApi] Serving fixture: ${name}.json`); } catch (_) {}
           try {
             if (typeof window !== 'undefined' && (window as any).dispatchEvent) {
               (window as any).dispatchEvent(new CustomEvent('mockApi:served', { detail: { name } }));
@@ -24,7 +26,7 @@ export class MockApiInterceptor implements HttpInterceptor {
           } catch (_){ }
           return r.json();
         }
-        try { console.debug(`[MockApi] Fixture not found: ${name}.json — using fallback`); } catch (_) {}
+        try { this.logger.log(`[MockApi] Fixture not found: ${name}.json — using fallback`); } catch (_) {}
         return fallback;
       })
       .then(body => new HttpResponse({ status: 200, body }))
@@ -35,7 +37,7 @@ export class MockApiInterceptor implements HttpInterceptor {
     return from(fetch('/assets/mocks/' + name + '.json')
       .then(r => {
         if (r.ok) {
-          try { console.debug(`[MockApi] Serving blob fixture: ${name}.json`); } catch (_) {}
+          try { this.logger.log(`[MockApi] Serving blob fixture: ${name}.json`); } catch (_) {}
           try {
             if (typeof window !== 'undefined' && (window as any).dispatchEvent) {
               (window as any).dispatchEvent(new CustomEvent('mockApi:served', { detail: { name } }));
@@ -43,7 +45,7 @@ export class MockApiInterceptor implements HttpInterceptor {
           } catch (_){ }
           return r.json().then(j => new Blob([JSON.stringify(j)], { type: 'application/octet-stream' }));
         }
-        try { console.debug(`[MockApi] Blob fixture not found: ${name}.json — using fallback`); } catch (_) {}
+        try { this.logger.log(`[MockApi] Blob fixture not found: ${name}.json — using fallback`); } catch (_) {}
         return new Blob([fallbackContent], { type: 'application/octet-stream' });
       })
       .then(blob => new HttpResponse({ status: 200, body: blob }))
@@ -69,7 +71,7 @@ export class MockApiInterceptor implements HttpInterceptor {
       return next.handle(req);
     }
 
-    try { console.info('[MockApi] Mock mode enabled — intercepting requests'); } catch (_) {}
+    try { this.logger.log('[MockApi] Mock mode enabled — intercepting requests'); } catch (_) {}
 
     const url = req.url || '';
     // Only mock API calls that target the production API base URL

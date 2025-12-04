@@ -35,6 +35,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { HighchartsStandaloneComponent } from '../highcharts/highcharts-standalone.component';
 import { SHARED_MAT_MODULES } from '../shared/material-imports';
+import { LoggerService } from '../services/logger.service';
 
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { DialogSwitchdashComponent } from '../dialog-switchdash/dialog-switchdash.component';
@@ -244,6 +245,7 @@ export class WhMeteringComponent implements OnInit {
         private user_service: UserService,
         private router: Router,
         public dialog: MatDialog,
+        private logger: LoggerService,
     ) {
                 // Try to require Highcharts modules at runtime. Wrap in try/catch so
                 // tests (which stub Highcharts) or environments without require don't
@@ -283,91 +285,7 @@ export class WhMeteringComponent implements OnInit {
 
     }
 
-    /*ngOnInit() {
-        if (this.pf_visible == "true"){
-            this.pf_visible = true;
-        }else{
-            this.pf_visible = false
-        }
-        //here is implementation of breadceumb...
-        if (this.user_type == '1') {
-            this.super_admin_home = true
-            this.customer_home = false
-            this.customer_name = true //false
-            this.site_dash = true
-            this.Admindata = true
-            this.showIntervalOptions = true
-            this.showLoadIntervalOptions = true;
-        }
-        else if (this.user_type == '4' || this.user_type == '5') {
-            this.super_admin_home = false
-            this.customer_home = true
-            this.customer_name = false
-            this.site_dash = true
-            this.Admindata = false
-            this.showLoadIntervalOptions = true;
-            if(this.is_hourly_data_visible == 'true'){
-                this.showIntervalOptions = true
-            }else{
-                this.showIntervalOptions = false;
-            }
-            
-        }
-        else {
-            this.super_admin_home = false
-            this.customer_home = true
-            this.customer_name = false
-            this.site_dash = true
-            this.Admindata = false
-        }
-
-        
-        /**
-         * These functions need to be called whenever the page is loaded
-         
-        // Get Site Details
-        this.getSiteDetails();
-        // Live data to be fetched every 5 sec
-        this.getSiteCurrLoadInfoData();
-        this.dgFuelMonthlyTrend();
-
-
-        // Get Power source distribution data
-        this.getPowerSourceDistData();
-        // Highcharts.chart('chartcontainer',this.barChartOptions);
-        this.isShown = true;
-        console.log("is_load_graph_visible: ", this.is_load_graph_visible)
-        console.log("is pf visible: ", this.pf_visible)
-        if(this.is_load_graph_visible == "true"){
-            this.load_graph(); // this function will call for particular customer and site
-        }
-        console.log("show fuel data: ", this.dg_fuel_system_installed)
-        if(this.dg_fuel_system_installed == 'true'){
-            console.log("#########################", this.customer_visible_dg_fuel_data)
-            if (this.user_type == '1'){
-                this.showFuelGraph=true
-                this.dgFuelConsumptionGraph()
-            }
-            else if(this.customer_visible_dg_fuel_data == 'true'){
-                this.showFuelGraph=true
-                this.dgFuelConsumptionGraph()
-            }   
-            
-        }
-        
-
-
-        // Consumption Graph data
-        this.getConsumptionData();
-
-        //  if( this.updateFlag=true){
-        //    this.getConsumptionData();
-        //  }
-
-        
-        
-
-    }*/
+    
 
     ngOnInit() {
         const accountStr = localStorage.getItem("account");
@@ -376,12 +294,11 @@ export class WhMeteringComponent implements OnInit {
             this.user_id = this.myObj["id"];
             this.user_type = this.myObj["UserType"];
         } else {
-            console.error("Account info missing — redirecting to login");
+            this.logger.error("Account info missing — redirecting to login");
             this.router.navigate(['/login']);
         }
         // this.fetchDGCountFromAPI();
         // this.fetchDGOptions(this.siteIds);
-        // console.log(this.fetchDGOptions(this.siteIds));
         if (this.pf_visible == "true") {
             this.pf_visible = true;
         } else {
@@ -432,8 +349,8 @@ export class WhMeteringComponent implements OnInit {
         this.getPowerSourceDistData();
         // Highcharts.chart('chartcontainer',this.barChartOptions);
         this.isShown = true;
-        console.log("is_load_graph_visible: ", this.is_load_graph_visible)
-        console.log("is pf visible: ", this.pf_visible)
+        this.logger.log("is_load_graph_visible: ", this.is_load_graph_visible)
+        this.logger.log("is pf visible: ", this.pf_visible)
         // Set defaults
         this.selected_load_options = "0"; // datewise
         this.loadDate.setValue(new Date());
@@ -446,9 +363,9 @@ export class WhMeteringComponent implements OnInit {
         if (this.is_load_graph_visible == "true") {
             this.load_graph({}); // call with empty data object (previous accidental import created a global 'data')
         }
-        console.log("show fuel data: ", this.dg_fuel_system_installed)
+        this.logger.log("show fuel data: ", this.dg_fuel_system_installed)
         if (this.dg_fuel_system_installed == 'true') {
-            console.log("#########################", this.customer_visible_dg_fuel_data)
+            this.logger.log("#########################", this.customer_visible_dg_fuel_data)
             if (this.user_type == '1') {
                 this.showFuelGraph = true
                 this.dgFuelConsumptionGraph()
@@ -499,8 +416,7 @@ export class WhMeteringComponent implements OnInit {
                 let dgConsumptionDataSeries = res["dg_unit_data"]
                 dgConsumptionDataSeries["yAxis"] = 1
                 dgConsumptionDataSeries["dataLabels"] = { "enabled": true }
-                console.log("dgConsumptionDataSeries", dgConsumptionDataSeries)
-                // console.log("api data: ", dataSeries)
+                this.logger.log("dgConsumptionDataSeries", dgConsumptionDataSeries)
                 this.chartLoading = true;
                 this.dgFuelConsumptionOptions = {
                     colorCount: '5',
@@ -649,9 +565,9 @@ export class WhMeteringComponent implements OnInit {
                 let dgConsumptionDataSeries = res["dg_unit_data"]
                 dgConsumptionDataSeries["yAxis"] = 1
                 dgConsumptionDataSeries["dataLabels"] = { "enabled": true }
-                console.log("################## ", dataSeries[0]['x'])
+                this.logger.log("################## ", dataSeries[0]['x'])
                 let alertData = res["alert_data"]
-                console.log("api data: ", dataSeries)
+                this.logger.log("api data: ", dataSeries)
                 this.chartLoading = true;
                 this.dgFuelConsumptionSelectionOptions = {
                     colorCount: '5',
@@ -780,7 +696,7 @@ export class WhMeteringComponent implements OnInit {
             response => {
                 this.sessionVerify = response['result']
                 if (this.sessionVerify == 'true') {
-                    console.log(this.sessionVerify + 'Session verified')
+                    this.logger.log(this.sessionVerify + 'Session verified')
 
                 }
                 else {
@@ -808,7 +724,6 @@ export class WhMeteringComponent implements OnInit {
     //     let data = { "site_id": this.siteId, "epoch_time": epoch_time }
     //     this.DataService.load_graph_every_sec(data).subscribe(
     //         res => {
-    //             console.log("live load data every second api res: ", res);
     //             for (let i = 0; i <= res['data'].length - 1; i++) {
     //                 this.loadChart.chart.series[0].addPoint(res['data'][i], true, false)
     //             }
@@ -825,7 +740,6 @@ export class WhMeteringComponent implements OnInit {
 
     //     this.DataService.load_graph_every_sec(req_data).subscribe(res => {
     //         if (res && res["data"]) {
-    //             console.log("live load data every second api res: ", res);
     //             const supplyNames = Object.keys(res["data"]);
     //             let latestEpoch = parseInt(epoch_time, 10);
 
@@ -866,7 +780,7 @@ export class WhMeteringComponent implements OnInit {
 
         this.DataService.new_load_data_sec(req_data).subscribe(res => {
             if (res && res["data"]) {
-                console.log("live load data every second api res: ", res);
+                this.logger.log("live load data every second api res: ", res);
                 const supplyNames = Object.keys(res["data"]);
                 let latestEpoch = parseInt(epoch_time, 10);
 
@@ -1042,7 +956,7 @@ export class WhMeteringComponent implements OnInit {
 
 
     loadGraphFilterChanged() {
-        console.log("#######################", formatDate(this.loadDate.value, 'yyyy/MM/dd', 'en'), this.selected_load_options)
+        this.logger.log("#######################", formatDate(this.loadDate.value, 'yyyy/MM/dd', 'en'), this.selected_load_options)
         // Always clear all series before rendering new data
         if (this.loadChart && this.loadChart.chart && this.loadChart.chart.series) {
             while (this.loadChart.chart.series.length) {
@@ -1216,7 +1130,7 @@ export class WhMeteringComponent implements OnInit {
 
             this.DataService.new_load_data_sec(req_data).subscribe(res => {
                 if (res && res["data"]) {
-                    console.log("live load data api res: 4 ", res);
+                    this.logger.log("live load data api res: 4 ", res);
                     const supplyNames = Object.keys(res["data"]);
 
                     supplyNames.forEach((supply, idx) => {
@@ -1268,7 +1182,7 @@ export class WhMeteringComponent implements OnInit {
                     site_type = 'WH_ENERGY SAVING'
                 }
 
-                console.log("Site Details" + siteDetails);
+                this.logger.log("Site Details" + siteDetails);
                 this.siteDetails.site_id = siteDetails['id'];
                 this.siteDetails.site_name = siteDetails['site_name'];
                 this.siteDetails.site_addr = siteDetails['location'];
@@ -1358,7 +1272,7 @@ export class WhMeteringComponent implements OnInit {
                         data: seriesData
                     }]
                 }
-                console.log("this is series data", this.pieChartOptions);
+                this.logger.log("this is series data", this.pieChartOptions);
                 // else {
                 //   // Show the meaningful text on  graph
                 // }
@@ -1374,8 +1288,8 @@ export class WhMeteringComponent implements OnInit {
         let todayDate = new Date();
         let tillDate = formatDate(new Date(), 'yyyy/MM/dd', 'en');
         let fromDate = formatDate(new Date().setDate(todayDate.getDate() - 30), 'yyyy/MM/dd', 'en');
-        console.log("till Date is : " + tillDate);
-        console.log("From Date is : " + fromDate);
+        this.logger.log("till Date is : " + tillDate);
+        this.logger.log("From Date is : " + fromDate);
         let data1 = { 'site_id': this.siteId, 'from_date': fromDate, 'till_date': tillDate };
         this.DataService.getGraphData(data1).subscribe(
             response => {
@@ -1461,17 +1375,17 @@ export class WhMeteringComponent implements OnInit {
 
                     series: response['Data'],
                 }
-                console.log("graph data", this.barChartOptions)
+                this.logger.log("graph data", this.barChartOptions)
             });
     }
 
     onChange(value) {
-        console.log("@@@@@@@ ", value)
+        this.logger.log("@@@@@@@ ", value)
     }
 
     columnGraphFilterChanged(interval) {
         let mode = this.selected_task;
-        console.log("value of selected task is", mode);
+        this.logger.log("value of selected task is", mode);
         let tillDate = formatDate(this.date.value, 'yyyy/MM/dd', 'en');
         let graphType = this.selected_graph;
         let todayDate = new Date();
@@ -1810,12 +1724,12 @@ export class WhMeteringComponent implements OnInit {
         if (this.whichGraph == 0) {
             this.barChartOptions.plotOptions.column.stacking = '';
             this.updateFlag = true;
-            console.log('Inside normal stacking false')
+            this.logger.log('Inside normal stacking false')
         }
         else {
             this.barChartOptions.plotOptions.column.stacking = 'normal';
             this.updateFlag = true;
-            console.log('Inside normal stacking True')
+            this.logger.log('Inside normal stacking True')
         }
     }
     changeGraphStackingRunTime() {
@@ -1824,12 +1738,12 @@ export class WhMeteringComponent implements OnInit {
         if (this.whichGraph == 0) {
             this.barChartOptionsRunTime.plotOptions.column.stacking = '';
             this.updateFlag = true;
-            console.log('Inside normal stacking false')
+            this.logger.log('Inside normal stacking false')
         }
         else {
             this.barChartOptionsRunTime.plotOptions.column.stacking = 'normal';
             this.updateFlag = true;
-            console.log('Inside normal stacking True')
+            this.logger.log('Inside normal stacking True')
         }
     }
 
@@ -1869,7 +1783,7 @@ export class WhMeteringComponent implements OnInit {
         let data = { "site_id": this.siteId, "date": formatDate(this.loadDate.value, 'yyyy/MM/dd', 'en'), "graph_type": this.selected_load_options }
         this.DataService.download_excel_load_data(data).subscribe(
             (response: any) => {
-                console.log("response: ", response);
+                this.logger.log("response: ", response);
                 let selectedGraphName = this.loadGraphintervals[parseInt(this.selected_load_options)].viewValue
                 let blob: Blob = response.body as Blob;
                 var downloadURL = window.URL.createObjectURL(blob);
@@ -1886,7 +1800,7 @@ export class WhMeteringComponent implements OnInit {
         let data = { 'site_id': this.siteId };
         this.dashData.getSiteCurrentLoadInfo(data).subscribe(
             response => {
-                console.log("Response#####", response)
+                this.logger.log("Response#####", response)
                 this.liveData.totalLoad = response.Total_Load;
                 this.liveData.r_volt = response.R_Voltage;
                 this.liveData.y_volt = response.Y_Voltage;
@@ -1927,7 +1841,7 @@ export class WhMeteringComponent implements OnInit {
     }
 
     customRangePopup() {
-        console.log("function called")
+        this.logger.log("function called")
         const dialogConfig = new MatDialogConfig();
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
@@ -1936,7 +1850,7 @@ export class WhMeteringComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result.length > 0 && result[0].from_date != '' && result[0].end_date != '') {
-                console.log("#############:", result.length, result)
+                this.logger.log("#############:", result.length, result)
                 result = result[0]
                 let start_date = result.from_date;
                 let end_date = result.end_date;
@@ -1945,7 +1859,7 @@ export class WhMeteringComponent implements OnInit {
                     res => {
                         this.dgFuelData = false;
                         this.dgFuelDataSelectionChange = true;
-                        console.log("response: ", res);
+                        this.logger.log("response: ", res);
                         let dataSeries = res["data"]
                         // dataSeries["dataLabels"] = {"enabled": true}
                         let refuelSeries = res["refuel_alert"]
@@ -1959,9 +1873,9 @@ export class WhMeteringComponent implements OnInit {
                         let dgConsumptionDataSeries = res["dg_unit_data"]
                         dgConsumptionDataSeries["yAxis"] = 1
                         dgConsumptionDataSeries["dataLabels"] = { "enabled": true }
-                        console.log("################## ", dataSeries[0]['x'])
+                        this.logger.log("################## ", dataSeries[0]['x'])
                         let alertData = res["alert_data"]
-                        console.log("api data: ", dataSeries)
+                        this.logger.log("api data: ", dataSeries)
                         this.chartLoading = true;
                         this.dgFuelConsumptionSelectionOptions = {
                             colorCount: '5',
@@ -2101,13 +2015,13 @@ export class WhMeteringComponent implements OnInit {
     }
 
     dgFuelMonthlyTrend() {
-        console.log("5%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        this.logger.log("5%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
         let data1 = { 'site_id': this.siteId, "user_type": this.user_type };
         // this.dgFuelData=true;
 
         this.DataService.dgFuelConsumptionMonthlyTrend(data1).subscribe(
             response => {
-                console.log('**************************', response)
+                this.logger.log('**************************', response)
                 let seriesData = [];
                 //this.Highcharts = Highcharts;
                 //let xyz = [response['Data'],{"leg":'baseline', 'type': "spline", 'data':[{"a":100,'b':90,'c':80,'d':86,'e':90,'f':100,'g':100,'h':100,'i':100,'j':100,'k':100,'l':100,'m':100,'n':100,'o':100,'p':100,'q':100,'r':100,'s':100,'t':100,'u':100,'v':100,'w':100,'x':100,'y':100,'z':100,'ca':100,'cb':100,'cc':100,'cd':100,}]}]

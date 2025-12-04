@@ -4,6 +4,7 @@ import Highcharts from 'highcharts/es-modules/masters/highcharts.src.js';
 import { HighchartsStandaloneComponent } from '../highcharts/highcharts-standalone.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DataService } from '../services/data.service';
+import { LoggerService } from '../services/logger.service';
 import { Observable } from 'rxjs';
 import { SHARED_MAT_MODULES } from '../shared/material-imports';
 
@@ -23,11 +24,11 @@ export class LoadGraphComponent implements OnInit {
   
   
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService, private logger: LoggerService) { }
 
   ngOnInit() {
     this.load_graph();
-    console.log("############################");
+    this.logger.log("############################");
   }
 
   randomInteger(min, max) {
@@ -35,7 +36,7 @@ export class LoadGraphComponent implements OnInit {
 }
   
   load_data_every_second(){
-    console.log("load function called")
+    this.logger.log("load function called")
     this.dataService.load_graph_every_sec({}).subscribe(
       res=>{
         for (let i = 0; i <= res['data'].length-1; i++){
@@ -53,7 +54,7 @@ export class LoadGraphComponent implements OnInit {
     this.dataService.dgFuelConsumptionData(reqData).subscribe(
       res=>{
         let dataSeries = res["data"]
-        console.log("api data: ", dataSeries)
+        this.logger.log("api data: ", dataSeries)
         this.chartLoading=true;
         this.lineChartOptions = {
       

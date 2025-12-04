@@ -25,6 +25,7 @@ import { DataService } from './../services/data.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { DialogSwitchdashComponent } from '../dialog-switchdash/dialog-switchdash.component';
 import { MatSnackBar, MatSnackBarConfig, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { LoggerService } from '../services/logger.service';
 
 
 @Component({
@@ -81,13 +82,12 @@ export class BaselineComponent implements OnInit {
 
 
 
-  constructor(private UserService: UserService, private DataService: DataService, public dialog: MatDialog) {
-
+  constructor(private UserService: UserService, private DataService: DataService, public dialog: MatDialog, private logger: LoggerService) {
 
   }
 
   ngOnInit() {
-    console.log('baseline component');
+    this.logger.log('baseline component');
 
     // this.getConsumptionData();
     this.baselineData();
@@ -131,22 +131,22 @@ export class BaselineComponent implements OnInit {
       response => this.dashboardType = response
 
     );
-    console.log("Dashboard type in baseline typescript file", this.dashboardType)
+    this.logger.log("Dashboard type in baseline typescript file", this.dashboardType)
   }
 
   displayedColumns: string[] = ['serialNo', 'AisleGroup', 'TotalLights', 'ExpectedConsump', 'CurrentConsump', 'actions'];
   dataSource: MatTableDataSource<UserData>;
 
-  saveConsumption(row: any) {
-    console.log(row)
-    console.log('function clicked ')
+    saveConsumption(row: any) {
+    this.logger.log(row)
+    this.logger.log('function clicked ')
   }
 
 
   save(row: any) {
-    console.log("save clicked")
+    this.logger.log("save clicked")
 
-    console.log('consumption :', row);
+    this.logger.log('consumption :', row);
   }
   openSiteDashboard() {
     const dialogConfig = new MatDialogConfig();
@@ -161,8 +161,8 @@ export class BaselineComponent implements OnInit {
     let todayDate = new Date();
     let tillDate = formatDate(new Date(), 'yyyy/MM/dd', 'en');
     let fromDate = formatDate(new Date().setDate(todayDate.getDate() - 30), 'yyyy/MM/dd', 'en');
-    console.log("From Date is : " + fromDate);
-    console.log("From Date is : " + tillDate);
+    this.logger.log("From Date is : " + fromDate);
+    this.logger.log("From Date is : " + tillDate);
     let data1 = { 'site_id': this.siteId, 'from_date': fromDate, 'till_date': tillDate };
     this.UserService.energySavingMonthlyData(data1).subscribe(
       response => {
@@ -181,7 +181,7 @@ export class BaselineComponent implements OnInit {
           seriesData2.push(data);
         }
 
-        console.log("graph data", this.barChartOptions)
+        this.logger.log("graph data", this.barChartOptions)
       });
   }
   columnGraphFilterChanged() {
@@ -305,7 +305,7 @@ export class BaselineComponent implements OnInit {
             'CurrentConsump': data['current_consumption']
           })
         }
-        console.log("baseline data is here...", baselinedata)
+        this.logger.log("baseline data is here...", baselinedata)
         this.dataSource = new MatTableDataSource(baselinedata);
         this.dataSource.paginator = this.paginator;  //mandeep
         this.dataSource.sort = this.sort;
@@ -315,10 +315,10 @@ export class BaselineComponent implements OnInit {
 
   getBaselineHistory() {
     let data = { 'site_id': this.siteId, "userType": this.usertype };
-    console.log('Here usertype is', data)
+    this.logger.log('Here usertype is', data)
     this.UserService.getBaselineHistory(data).subscribe(
       response => {
-        console.log('This is data of baseline history', response)
+        this.logger.log('This is data of baseline history', response)
 
         this.barChartOptions = {
           colorCount: '12',
@@ -389,18 +389,18 @@ export class BaselineComponent implements OnInit {
 
 
     )
-    console.log("baseline history bar chart data", this.barChartOptions)
+    this.logger.log("baseline history bar chart data", this.barChartOptions)
 
 
   }
 
   saveBaselineData(row) {
     let data = { "siteId": this.siteId, "legId": row['AisleGroup'], "baselineValue": row["CurrentConsump"], "date": formatDate(this.date.value, 'yyyy/MM/dd', 'en') }
-    console.log("saving baseline data", row)
+    this.logger.log("saving baseline data", row)
     this.DataService.saveBaselineData(data).subscribe(
       response => {
 
-        console.log("baseline saved successfully")
+        this.logger.log("baseline saved successfully")
       }
 
     )
@@ -435,15 +435,15 @@ export class BaselineComponent implements OnInit {
   changeGraphStacking() {
     this.whichGraph ^= 0x1;
 
-    if (this.whichGraph == 0) {
+      if (this.whichGraph == 0) {
       this.barChartOptions.plotOptions.column.stacking = '';
       this.updateFlag = true;
-      console.log('Inside normal stacking false')
+      this.logger.log('Inside normal stacking false')
     }
     else {
       this.barChartOptions.plotOptions.column.stacking = 'normal';
       this.updateFlag = true;
-      console.log('Inside normal stacking True')
+      this.logger.log('Inside normal stacking True')
     }
   }
 

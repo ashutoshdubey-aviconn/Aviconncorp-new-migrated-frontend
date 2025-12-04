@@ -11,6 +11,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DataService } from '../services/data.service';
+import { LoggerService } from '../services/logger.service';
 import {formatDate, getLocaleDayNames} from '@angular/common';
 import { FemsComponent } from '../fems/fems.component';
 import { NgModule } from '@angular/core';
@@ -38,7 +39,7 @@ export interface DialogData {
 })
 export class AddDeviceDialogComponent implements OnInit {
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<AddDeviceDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData, private dataService:DataService) { }
+    @Inject(MAT_DIALOG_DATA) public data: DialogData, private dataService:DataService, private logger: LoggerService) { }
 
     siteId= localStorage.getItem('siteId');
     date = new UntypedFormControl(new Date());
@@ -58,7 +59,7 @@ export class AddDeviceDialogComponent implements OnInit {
 
     });
   ngOnInit() {
-    console.log("#################### I am in ngOnInit fuction: ", this.data);
+    this.logger.log("#################### I am in ngOnInit fuction: ", this.data);
     this.getDeviceName();
     if (this.data) {
       // patchValue so tests with undefined MAT_DIALOG_DATA don't fail
@@ -88,13 +89,13 @@ export class AddDeviceDialogComponent implements OnInit {
   onSubmit(){
     
     let row_id = localStorage.getItem('row_id'); 
-    console.log("row id in add device fuction", row_id);
+    this.logger.log("row id in add device fuction", row_id);
     let data = {"id":this.inventoryDataForm.value.deviceId,"row_id":row_id,"deviceName":this.inventoryDataForm.value.deviceName,"assetNo":this.inventoryDataForm.value.deviceAssetNo,"updated_by":this.inventoryDataForm.value.updatedBy,"modelNo":this.inventoryDataForm.value.deviceModelNo,"location":this.inventoryDataForm.value.location,"warrenty":this.inventoryDataForm.value.warrantyTillDate,"last_service":this.inventoryDataForm.value.lastServiceDate,"next_service":this.inventoryDataForm.value.nextServiceDate}
-    console.log("This is a site id:",data);
-     console.log("function called", this.inventoryDataForm.value);
+    this.logger.log("This is a site id:",data);
+     this.logger.log("function called", this.inventoryDataForm.value);
     this.dataService.saveInventoryData(data).subscribe(
       response =>{
-        console.log("response : ", response)
+        this.logger.log("response : ", response)
       }
     )
     this.dataService.success('Device saved successfully !');

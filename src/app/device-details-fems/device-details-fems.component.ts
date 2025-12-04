@@ -7,6 +7,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DataService } from './../services/data.service';
+import { LoggerService } from '../services/logger.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatTable } from '@angular/material/table';
@@ -44,7 +45,8 @@ export class DeviceDetailsFemsComponent implements OnInit {
 
   constructor(private dataService:DataService,
     public dialogRef: MatDialogRef<DeviceDetailsFemsComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private logger: LoggerService) { }
     onNoClick(): void {
       this.dialogRef.close();
     }
@@ -67,7 +69,7 @@ displayedColumns = ['assetNo','deviceName', 'ModalNo','LocInWH', 'WarrentyTill',
     let data = {"site_id" :  parseInt(localStorage.getItem("siteId"))}
     this.dataService.fireDeviceSnapshotApi(data).subscribe(
       response=>{
-        console.log('response of snapshot',response)
+        this.logger.log('response of snapshot',response)
         let inventoryData = []
         for (let i = 0; i <= response['data'].length-1; i++){
           let inventory = response['data'][i]
@@ -94,7 +96,7 @@ displayedColumns = ['assetNo','deviceName', 'ModalNo','LocInWH', 'WarrentyTill',
     let data = {"site_id" :  parseInt(localStorage.getItem("siteId"))}
     this.dataService.fireDeviceSnapshotApi(data).subscribe(
       response=>{
-        console.log('response of snapshot',response)
+        this.logger.log('response of snapshot',response)
         let inventoryData = []
         for (let i = 0; i <= response['list'].length-1; i++){
           let inventory = response['list'][i]

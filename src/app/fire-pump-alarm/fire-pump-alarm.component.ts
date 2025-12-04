@@ -14,6 +14,7 @@ import { DataTableItem, DataTableDataSource } from '../super-admin/data-table-da
 import { filter } from 'rxjs/operators';
 import { DataService } from './../services/data.service';
 import { SHARED_MAT_MODULES } from '../shared/material-imports';
+import { LoggerService } from '../services/logger.service';
 
 export interface EmailData {
   serialno: any;
@@ -41,7 +42,7 @@ export class FirePumpAlarmComponent implements OnInit {
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChild(MatTable, { static: true }) table: MatTable<DataTableItem>;
   
-  constructor(private user: UserService,private dataService:DataService) { }
+  constructor(private user: UserService,private dataService:DataService, private logger: LoggerService) { }
   myObj = JSON.parse(localStorage.getItem("account"));
   user_id = this.myObj["id"];
   user_type = this.myObj["UserType"];
@@ -95,53 +96,52 @@ export class FirePumpAlarmComponent implements OnInit {
     location.reload();
 }
 
-  getFireAlarmEmailHistory(){
-   let data = { "site_id": parseInt(localStorage.getItem("siteId"))}; 
-   console.log("dataofsite",data)
-   
-    this.user.getEmailHistorySnapShotData(data).subscribe(
-      response => {
-        console.log("responseofemail: ",response)
-        let emailData = []
-        for (let i = 0; i <= response['data'].length-1; i++){
-          let data = response['data'][i]
-          let email_var:any;
-          if(data['email_for'] == 1){
-            email_var = 'Sent-for Manual Mode'
-          }
-          else if(data['email_for'] == 2){
-            email_var = 'Sent-for Auto Mode'
-          }
-          else if(data['email_for'] == 3){
-            email_var = 'PowerSource'
-          }
-          else if(data['email_for'] == 4){
-            email_var = 'Sent-for OFF Mode'
-          }
-          else if(data['email_for'] == 5){
-            email_var = 'Sent-for Motor On'
-          }
-          else{
-            email_var = 'Not define'
-          }
+  getFireAlarmEmailHistory() {
+    const data = { site_id: parseInt(localStorage.getItem('siteId')) };
+    this.logger.log('dataofsite', data);
 
-          emailData.push({
-          "sitename": data["site"],
-          "devicename":data['device_name'],
-          "emailFor": email_var,
-          "emaildatetime":data["datetime"],
-          })
-          
+    this.user.getEmailHistorySnapShotData(data).subscribe(response => {
+      this.logger.log('responseofemail: ', response);
+      const emailData: Array<any> = [];
+
+      for (let i = 0; i < (response['data'] || []).length; i++) {
+        const item = response['data'][i];
+        let email_var: any;
+        switch (item['email_for']) {
+          case 1:
+            email_var = 'Sent-for Manual Mode';
+            break;
+          case 2:
+            email_var = 'Sent-for Auto Mode';
+            break;
+          case 3:
+            email_var = 'PowerSource';
+            break;
+          case 4:
+            email_var = 'Sent-for OFF Mode';
+            break;
+          case 5:
+            email_var = 'Sent-for Motor On';
+            break;
+          default:
+            email_var = 'Not define';
         }
-        this.emailDataSource = new MatTableDataSource(emailData);
-        this.emailDataSource.paginator = this.paginator.toArray()[0];
-        this.emailDataSource.sort = this.sort.toArray()[0];
-      })
-    }
-   
-    
-   
-    getFireAlarmData(){
+
+        emailData.push({
+          sitename: item['site'],
+          devicename: item['device_name'],
+          emailFor: email_var,
+          emaildatetime: item['datetime'],
+        });
+      }
+
+      this.emailDataSource = new MatTableDataSource(emailData);
+      this.emailDataSource.paginator = this.paginator.toArray()[0];
+      this.emailDataSource.sort = this.sort.toArray()[0];
+    });
+  }
+
+  getFireAlarmData() {
       let data = {"site_id" :  parseInt(localStorage.getItem("siteId"))}
       this.user.getFireAlarmSnapShotData(data).subscribe
           (
@@ -184,7 +184,7 @@ export class FirePumpAlarmComponent implements OnInit {
                     })
 
                 }
-                console.log("response : ", response)
+                this.logger.log("response : ", response)
               })
 
   }

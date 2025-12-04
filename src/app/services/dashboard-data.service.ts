@@ -1,6 +1,7 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { LoggerService } from './logger.service';
 import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
@@ -18,7 +19,7 @@ export class DashboardDataService {
 
   setData(data){
     this.data = data;
-    console.log("3rd service class : ", data);
+    this.logger.log("3rd service class : ", data);
   }
 
   getData(){
@@ -31,7 +32,7 @@ export class DashboardDataService {
     this.data = undefined;
   }
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private logger: LoggerService) {
     
    }
   getSiteCurrentLoadInfo(data): Observable<any> {

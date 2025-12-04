@@ -15,6 +15,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { SHARED_MAT_MODULES } from '../shared/material-imports';
+import { LoggerService } from '../services/logger.service';
 
 export class DialogData{
 
@@ -47,7 +48,8 @@ export class LoadDataTableComponent implements OnInit {
 
   constructor(private dataService:DataService,
     public dialogRef: MatDialogRef<LoadDataTableComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { 
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private logger: LoggerService) { 
       this.siteId = localStorage.getItem('siteId');
     }
 
@@ -63,7 +65,7 @@ export class LoadDataTableComponent implements OnInit {
     let data = {'id': this.siteId};
     this.dataService.monthly_min_max_load_data(data).subscribe(
       response => {
-        console.log("res of load table : ",response)
+        this.logger.log("res of load table : ",response)
         let loadData = []
         for (let i = 0; i <= response['data'].length-1; i++){
           let data = response['data'][i]
@@ -89,7 +91,7 @@ export class LoadDataTableComponent implements OnInit {
     let data = {"site_id": this.siteId}
     this.dataService.exportMonthlyMinMaxData(data).subscribe(
         (response:any) =>{
-            console.log("response: ", response);
+          this.logger.log("response: ", response);
             let blob:Blob=response.body as Blob;
             var downloadURL = window.URL.createObjectURL(blob);
             var link = document.createElement('a');

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LoggerService } from '../services/logger.service';
 
 @Component({
   selector: 'app-dev-toggle',
@@ -30,7 +31,7 @@ import { Component } from '@angular/core';
 })
 export class DevToggleComponent {
   enabled = false;
-  constructor() {
+  constructor(private logger: LoggerService) {
     try {
       this.enabled = (typeof window !== 'undefined') && window.localStorage && window.localStorage.getItem('USE_MOCK_API') === 'true';
     } catch (_){ this.enabled = false; }
@@ -40,7 +41,7 @@ export class DevToggleComponent {
     try {
       if (this.enabled) window.localStorage.setItem('USE_MOCK_API', 'true');
       else window.localStorage.removeItem('USE_MOCK_API');
-      console.info('[DevToggle] USE_MOCK_API =', this.enabled);
+      this.logger.log('[DevToggle] USE_MOCK_API =', this.enabled);
     } catch (_) {}
   }
 }

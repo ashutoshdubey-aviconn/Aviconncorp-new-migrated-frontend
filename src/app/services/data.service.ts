@@ -6,6 +6,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.prod';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { LoggerService } from './logger.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class DataService {
   private messageSource = new BehaviorSubject<string>("superAdmin");
   currentMessage = this.messageSource.asObservable();
 
-  constructor(private http: HttpClient,public snackBar: MatSnackBar) { }
+  constructor(private http: HttpClient,public snackBar: MatSnackBar, private logger: LoggerService) { }
   
   showLoader(isModal: boolean = false) {
     if (isModal) {
@@ -56,7 +57,7 @@ export class DataService {
   }
   
   changeMessage(message: string){
-    console.log("New message source received :"+message);
+    this.logger.log("New message source received :"+message);
     this.messageSource.next(message);
   }
   

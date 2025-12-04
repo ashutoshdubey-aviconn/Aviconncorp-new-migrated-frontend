@@ -29,6 +29,7 @@ import { UserService } from '../services/user.service';
 import Highcharts from 'highcharts/es-modules/masters/highcharts.src.js';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogSwitchdashComponent } from '../dialog-switchdash/dialog-switchdash.component';
+import { LoggerService } from '../services/logger.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -110,7 +111,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(private data: DataService, private breakpointObserver: BreakpointObserver,
     private router: Router, private tokenService: TokenService, private global: GlobalService,
-    private user_service: UserService, public dialog: MatDialog) { }
+    private user_service: UserService, public dialog: MatDialog, private logger: LoggerService) { }
 
   ngOnInit() {
     this.siteId = localStorage.getItem('siteId');
@@ -206,33 +207,33 @@ export class DashboardComponent implements OnInit {
       this.ifSiteDashboard = true;
     }
 
-    console.log("Dashboard Type :" + this.dashboardType);
+    this.logger.log("Dashboard Type :" + this.dashboardType);
     this.customer = localStorage.getItem('customer');
-    console.log("user login by", this.customer);
+    this.logger.log("user login by", this.customer);
     // this account.username
 
     this.user_category = localStorage.getItem('user_category');
-    console.log("user login by user caterory ", this.user_category);
+    this.logger.log("user login by user caterory ", this.user_category);
 
     this.whouser = localStorage.getItem('whouser');
-    console.log("User login by pta nhi", this.whouser)
+    this.logger.log("User login by pta nhi", this.whouser)
 
     this.wh_metering = localStorage.getItem('wh_metering');
-    console.log("dashboard type is WH_M", this.wh_metering)
+    this.logger.log("dashboard type is WH_M", this.wh_metering)
 
     this.energy_saving = localStorage.getItem('energy_saving');
-    console.log("Dashboard type is WH_S", this.energy_saving)
+    this.logger.log("Dashboard type is WH_S", this.energy_saving)
 
     this.firealarm_monitoring_system = localStorage.getItem('firealarm_monitoring_system');
-    console.log("Dashboard type is WH_monitoring", this.firealarm_monitoring_system)
+    this.logger.log("Dashboard type is WH_monitoring", this.firealarm_monitoring_system)
 
     this.firealarm_equipments_system = localStorage.getItem('firealarm_equipments_system');
-    console.log("Dashboard type is WH_management", this.firealarm_equipments_system)
+    this.logger.log("Dashboard type is WH_management", this.firealarm_equipments_system)
 
     this.warehouseName = localStorage.getItem('siteName');
 
     this.submetering = localStorage.getItem('submetering')
-    console.log("dashboard type is wh_submetering")
+    this.logger.log("dashboard type is wh_submetering")
 
     //Here is handling for baseline and jump dashboard
     if ((this.wh_metering == true) && (this.energy_saving == true)) {
@@ -256,7 +257,7 @@ export class DashboardComponent implements OnInit {
         response => {
           this.sessionVerify = response['result']
           if (this.sessionVerify == 'true') {
-            console.log(this.sessionVerify + 'Session verified')
+            this.logger.log(this.sessionVerify + 'Session verified')
           }
           else {
             localStorage.clear();
@@ -275,28 +276,28 @@ export class DashboardComponent implements OnInit {
       (
         response => {
           this.infoToken = response;
-          console.log('My-token', response);
+          this.logger.log('My-token', response);
         },
 
         error => {
-          console.log('error', error);
+          this.logger.error('error', error);
         }
       );
   }
 
   baseline() {
-    console.log("baseline html hit")
+    this.logger.log("baseline html hit")
     this.data.changeMessage("baseline");
     localStorage.setItem('siteId', this.siteId);
     localStorage.setItem("baseline", 'true');
   }
 
   logOut() {
-    console.log('system is going to logout')
+    this.logger.log('system is going to logout')
     localStorage.clear();
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
-    console.log('system is successfully logout')
+    this.logger.log('system is successfully logout')
   }
 
   home() {
@@ -332,11 +333,11 @@ export class DashboardComponent implements OnInit {
 
     location.reload();
 
-    console.log("Super_Admin_Home Clicked at dashboard")
+    this.logger.log("Super_Admin_Home Clicked at dashboard")
   }
 
   onChangepwd() {
-    console.log("New Password :", this.changePasswordModel.newpassword);
+    this.logger.log("New Password :", this.changePasswordModel.newpassword);
     this.chngpwd = {
       'token': this.token,
       'old_password': btoa(this.changePasswordModel.oldpassword),
@@ -346,7 +347,6 @@ export class DashboardComponent implements OnInit {
     this.user_service.changePassword(this.chngpwd).subscribe
       (
         response => {
-          //console.log("server_Res: ", data);
           if (response['result'] == '1')
             this.data.success(response['msg']);
           else
@@ -354,7 +354,7 @@ export class DashboardComponent implements OnInit {
         },
 
         error => {
-          console.log("Server Error: ", error);
+          this.logger.error("Server Error: ", error);
         }
       );
   }

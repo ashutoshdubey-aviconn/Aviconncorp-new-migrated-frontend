@@ -45,6 +45,7 @@ import { LightsWattDataComponent } from '../lights-watt-data/lights-watt-data.co
 import { FanswattdataComponent } from '../fanswattdata/fanswattdata.component';
 import { AvgDataComponent } from '../avg-data/avg-data.component';
 import { ExcelsheetComponent } from '../excelsheet/excelsheet.component';
+import { LoggerService } from '../services/logger.service';
 
 
 declare var $: any;
@@ -196,7 +197,7 @@ export class WarehouseComponent implements OnInit {
   MyntraFansOnly: boolean = false
   siteId;
   changePasswordModel = new changePassword(this.token, '', '');
-  constructor(private dashData: DashboardDataService, private UserService: UserService, private DataService: DataService, public dialog: MatDialog, private router: Router,) {
+  constructor(private dashData: DashboardDataService, private UserService: UserService, private DataService: DataService, public dialog: MatDialog, private router: Router, private logger: LoggerService) {
 
 
   }
@@ -210,7 +211,7 @@ export class WarehouseComponent implements OnInit {
 
     this.siteId = localStorage.getItem('siteId');
     this.sitename = localStorage.getItem('sitename')
-    console.log('here site id in energy saving', this.siteId)
+    this.logger.log('here site id in energy saving', this.siteId)
 
     //here is implementation of breadcrumb...
     if (this.user_type == '1') {
@@ -280,7 +281,7 @@ export class WarehouseComponent implements OnInit {
 
   valuechange(newValue) {
     //mymodel = newValue;
-    console.log(newValue)
+    this.logger.log(newValue)
   }
   getCust() {
     this.dashData.getCustomerDetail().subscribe(
@@ -320,26 +321,26 @@ export class WarehouseComponent implements OnInit {
         this.barChartOptions.plotOptions.column.stacking = ''; // for daily
       }
       catch {
-        console.log("error in daily")
+        this.logger.log("error in daily")
       }
       try {
         this.updatedbarChartOptions.plotOptions.column.stacking = '';  // for hourly
       }
       catch {
-        console.log("err in hourly")
+        this.logger.log("err in hourly")
       }
       this.updateFlag = true;
-      console.log('Inside normal stacking false')
+      this.logger.log('Inside normal stacking false')
     }
     else {
       try {
         this.barChartOptions.plotOptions.column.stacking = 'normal'; // for daily
-      } catch { console.log("error in daily....") }
+      } catch { this.logger.log("error in daily....") }
       try {
         this.updatedbarChartOptions.plotOptions.column.stacking = 'normal'; // for hourly
-      } catch { console.log("error in hourly ....") }
+      } catch { this.logger.log("error in hourly ....") }
       this.updateFlag = true;
-      console.log('Inside normal stacking True')
+      this.logger.log('Inside normal stacking True')
     }
   }
 
@@ -351,17 +352,17 @@ export class WarehouseComponent implements OnInit {
       this.graphShown = true;
       let chartData = this.chart.chart.legend.allItems
       for (let i = 0; i <= chartData.length - 1; i++) {
-        console.log("data : ", chartData[i])
+        this.logger.log("data : ", chartData[i])
         chartData[i].setVisible(true, false)
       }
       this.chart.chart.redraw()
-      console.log("reenable function true")
+      this.logger.log("reenable function true")
     }
     else {
       this.graphShown = false
       let chartData = this.chart.chart.legend.allItems
       for (let i = 0; i <= chartData.length - 1; i++) {
-        console.log("data : ", chartData[i])
+        this.logger.log("data : ", chartData[i])
         chartData[i].setVisible(false, false)
       }
       this.chart.chart.redraw()
@@ -393,7 +394,7 @@ export class WarehouseComponent implements OnInit {
           })
         }
         this.dataSource = new MatTableDataSource(data);
-        console.log(data);
+        this.logger.log(data);
         this.dataSource.paginator = this.paginator;  //mandeep
         this.dataSource.sort = this.sort;  //mandeep
 
@@ -407,7 +408,7 @@ export class WarehouseComponent implements OnInit {
     let data = { "site_id": this.siteId }
     this.UserService.siteSnapshot(data).subscribe(
       response => {
-        console.log(response);
+        this.logger.log(response);
 
       }
     )
@@ -415,7 +416,6 @@ export class WarehouseComponent implements OnInit {
 
   toggleCollapse() {
     this.isCollapsed = !this.isCollapsed;
-    //console.log("Table Ka Click", "gkgkgkgkgk");
   }
 
   getRecord(row) {
@@ -424,17 +424,17 @@ export class WarehouseComponent implements OnInit {
     this.isShown = true;
   }
   customerdetail(obj) {
-    console.log(obj);
+    this.logger.log(obj);
   }
   onChangePwd() {
 
     this.chngpwd = { 'token': this.token, 'oldpassword': btoa(this.changePasswordModel.oldpassword), 'newpassword': btoa(this.changePasswordModel.newpassword) };
     this.UserService.changePassword(this.chngpwd).subscribe(
       data => {
-        //console.log("server_Res: ", data);
+      
       },
       error => {
-        console.log("Server Error: ", error);
+        this.logger.log("Server Error: ", error);
       });
   }
 
@@ -457,7 +457,7 @@ export class WarehouseComponent implements OnInit {
     let data1 = { 'site_id': this.siteId, 'from_date': fromDate, 'till_date': tillDate, "user_type": this.user_type };
     this.UserService.energySavingMonthlyData(data1).subscribe(
       response => {
-        console.log("ressnw  : ", response)
+        this.logger.log("ressnw  : ", response)
         // $(function () {
         this.barChartOptions = {
           colorCount: '12',
@@ -631,7 +631,7 @@ export class WarehouseComponent implements OnInit {
         this.showDailygraph = false;
         this.showHourlygraph = true;
         let data = { 'site_id': this.siteId, 'date': hourlySelectedDate };
-        console.log('This is mine selected Date in hourly data', hourlySelectedDate);
+        this.logger.log('This is mine selected Date in hourly data', hourlySelectedDate);
         // this.barChartOptions.plotOptions.column.stacking='percent';
 
         this.UserService.energySavingHourlyData(data).subscribe(
@@ -724,7 +724,7 @@ export class WarehouseComponent implements OnInit {
               series: response["Data"],
             }
             // this.chart.chart.redraw()
-            console.log("hour : ", this.updatedbarChartOptions);
+            this.logger.log("hour : ", this.updatedbarChartOptions);
           },
           error => { }
         );
@@ -760,10 +760,10 @@ export class WarehouseComponent implements OnInit {
         this.showHourlygraph = true;
         // Graph Filter is for hourly data
         let data = { 'site_id': this.siteId, 'date': hourlySelectedDate };
-        console.log('This is mine selected Date in hourly data for energy saving data', hourlySelectedDate);
+        this.logger.log('This is mine selected Date in hourly data for energy saving data', hourlySelectedDate);
         this.UserService.energySavingHourlyData(data).subscribe(
           response => {
-            console.log("respsmdksk: ", response)
+            this.logger.log("respsmdksk: ", response)
             categories = response['Hours'];
             series = response['SavingData'];
             this.updateFlag = true;
@@ -906,11 +906,11 @@ export class WarehouseComponent implements OnInit {
               }
             ]
           }
-          console.log("graph data", this.lineChartOptions)
+          this.logger.log("graph data", this.lineChartOptions)
         });
     }
     else {
-      console.log("else##################################")
+      this.logger.log("else##################################")
       this.UserService.energySavingMonthlyTrend(data1).subscribe(
         response => {
           let seriesData = [];
@@ -1024,7 +1024,7 @@ export class WarehouseComponent implements OnInit {
               }
             ]
           }
-          console.log("graph data", this.lineChartOptions)
+          this.logger.log("graph data", this.lineChartOptions)
         });
 
     }
@@ -1075,7 +1075,7 @@ export class WarehouseComponent implements OnInit {
   }
 
   baseline() {
-    console.log("baseline html hit")
+    this.logger.log("baseline html hit")
     this.DataService.changeMessage("baseline");
     localStorage.setItem('siteId', this.siteId);
     localStorage.setItem("baseline", 'true');

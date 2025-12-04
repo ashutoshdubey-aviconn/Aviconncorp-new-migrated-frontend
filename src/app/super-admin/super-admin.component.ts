@@ -15,6 +15,7 @@ import { SHARED_MAT_MODULES } from '../shared/material-imports';
 import { UntypedFormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { LoggerService } from '../services/logger.service';
 
 //--------------------new---------------------------------
 import { MatTableDataSource, MatTable } from '@angular/material/table';
@@ -113,7 +114,7 @@ export class SuperAdminComponent {
   supply_source: any;
   isCustomer: boolean = false;
   isShownDiv: boolean = false;
-  constructor(private dashData: DashboardDataService, private router: Router, private UserService: UserService, private dataService: DataService) {
+  constructor(private dashData: DashboardDataService, private router: Router, private UserService: UserService, private dataService: DataService, private logger: LoggerService) {
   }
 
   ngOnInit() {
@@ -123,7 +124,7 @@ export class SuperAdminComponent {
     // calling snapshot api
     this.UserService.getSuperAdminSnapShot(data).subscribe(
       response => {
-        console.log("super admin snapshot response : ", response)
+        this.logger.log("super admin snapshot response : ", response)
         this.date = response["current_date"]
         this.alarms = response["alarms"]
         this.energyConsumed = response["total_unit_consumed"]
@@ -132,7 +133,7 @@ export class SuperAdminComponent {
       },
       error => {
         // If backend is unreachable, populate with lightweight fallback so UI renders
-        console.error('SuperAdmin snapshot API failed', error);
+        this.logger.error('SuperAdmin snapshot API failed', error);
   try { this.serializedDate.setValue(new Date().toISOString().substring(0,10)); } catch (e) {}
         this.alarms = [];
         this.energyConsumed = 0;
@@ -143,7 +144,7 @@ export class SuperAdminComponent {
     // calling alarm priority table api
     this.UserService.getSuperAdminAlarmPriorityTable(data).subscribe(
       response => {
-        console.log("response : ", response)
+        this.logger.log("response : ", response)
         let alarmPriorityData = []
         for (let i = 0; i <= response['data'].length - 1; i++) {
           let alarm_data = response['data'][i]
@@ -172,10 +173,9 @@ export class SuperAdminComponent {
         this.alarmDataSource = new MatTableDataSource(alarmPriorityData);
         this.alarmDataSource.paginator = this.paginator.toArray()[0];
         this.alarmDataSource.sort = this.sort.toArray()[0];
-        // console.log("paginator : ", this.paginator)
       },
       error => {
-        console.error('SuperAdmin alarm table API failed', error);
+        this.logger.error('SuperAdmin alarm table API failed', error);
         // show an empty table instead of leaving UI broken
         this.alarmDataSource = new MatTableDataSource([]);
       }
@@ -202,7 +202,7 @@ export class SuperAdminComponent {
         this.dataSource.sort = this.sort.toArray()[1];
       },
       error => {
-        console.error('SuperAdmin customers API failed', error);
+        this.logger.error('SuperAdmin customers API failed', error);
         // Provide a minimal fallback customer so the table renders for dev
         const fallback = [{ custId: '0', custUserName: 'No backend', totalWH: '0', liveWH: '0', WHavgsaving: '0', maxsaving: '0', minsaving: '0' }];
         this.dataSource = new MatTableDataSource(fallback);
@@ -211,7 +211,7 @@ export class SuperAdminComponent {
   }
 
   openCustDashboard(row: any): void {
-    console.log("dskdnqkwkd: ", row)
+    this.logger.log("dskdnqkwkd: ", row)
     let custId = row.custId
     this.dataService.changeMessage("customer");
     localStorage.setItem('id', custId);
