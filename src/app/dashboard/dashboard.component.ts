@@ -53,7 +53,7 @@ import { LoggerService } from '../services/logger.service';
     MatMenuModule,
     MatButtonModule,
     MatDialogModule
-  , ...SHARED_MAT_MODULES]
+    , ...SHARED_MAT_MODULES]
 })
 export class DashboardComponent implements OnInit {
   isSupperAdmin = true;
