@@ -4,10 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UntypedFormGroup, UntypedFormControl,Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
+import { SHARED_MAT_MODULES } from '../shared/material-imports';
 import { DataService } from '../services/data.service';
 import { LoggerService } from '../services/logger.service';
 
@@ -25,7 +22,7 @@ export interface DialogData {
   templateUrl: './add-devtype-dialog.component.html',
   styleUrls: ['./add-devtype-dialog.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule]
+  imports: [CommonModule, ReactiveFormsModule, ...SHARED_MAT_MODULES]
 })
 
 export class AddDevtypeDialogComponent implements OnInit {

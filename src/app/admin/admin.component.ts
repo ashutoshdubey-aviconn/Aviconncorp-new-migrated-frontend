@@ -6,16 +6,7 @@ import { UserService } from './../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { SHARED_MAT_MODULES } from '../shared/material-imports';
 import { HighchartsStandaloneComponent } from '../highcharts/highcharts-standalone.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -35,7 +26,7 @@ import { formatDate } from '@angular/common';
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatTableModule, MatPaginatorModule, MatSortModule, MatSlideToggleModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatNativeDateModule, MatDialogModule]
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, ...SHARED_MAT_MODULES]
 })
 export class AdminComponent implements OnInit {
   show:Boolean = false;

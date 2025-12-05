@@ -13,7 +13,7 @@ import { SuperAdminComponent } from './super-admin/super-admin.component';
 import { BaselineComponent } from './baseline/baseline.component';
 import { FirePumpAlarmComponent} from './fire-pump-alarm/fire-pump-alarm.component';
 import { FemsComponent } from './fems/fems.component'
-import { LoadGraphComponent } from './load-graph/load-graph.component';
+
 
 
 const routes: Routes = [
@@ -30,7 +30,6 @@ const routes: Routes = [
   { path: 'admin', component:AdminComponent},
   { path: 'firePumpAlarm',component:FirePumpAlarmComponent},
   { path: 'fems',component:FemsComponent},
-  { path: 'load_graph',component:LoadGraphComponent}
 ];
 
 @NgModule({

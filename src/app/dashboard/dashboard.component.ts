@@ -12,13 +12,6 @@ import { SuperAdminComponent } from '../super-admin/super-admin.component';
 import { WhMeteringComponent } from '../wh-metering/wh-metering.component';
 
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
 import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -48,14 +41,7 @@ import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms
     SuperAdminComponent,
     WhMeteringComponent,
 
-    MatSidenavModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatListModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatDialogModule
-    , ReactiveFormsModule, ...SHARED_MAT_MODULES]
+    ReactiveFormsModule, ...SHARED_MAT_MODULES]
 })
 export class DashboardComponent implements OnInit {
   isSupperAdmin = true;

@@ -10,20 +10,7 @@ import { UserService } from './../services/user.service';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatListModule } from '@angular/material/list';
+// Material modules are provided via `SHARED_MAT_MODULES` to avoid duplication
 import { HighchartsStandaloneComponent } from '../highcharts/highcharts-standalone.component';
 import { SHARED_MAT_MODULES } from '../shared/material-imports';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
@@ -62,7 +49,7 @@ export interface KeyValueIf {
   templateUrl: './warehouse.component.html',
   styleUrls: ['./warehouse.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatTableModule, MatPaginatorModule, MatSortModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatButtonModule, MatIconModule, MatMenuModule, MatSidenavModule, MatToolbarModule, MatListModule, HighchartsStandaloneComponent, ...SHARED_MAT_MODULES]
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, HighchartsStandaloneComponent, ...SHARED_MAT_MODULES]
 })
 
 
@@ -171,7 +158,7 @@ export class WarehouseComponent implements OnInit {
     });
   }
   chartConstructor: string = 'chart';
-  chartCallback: any = function(){};
+  chartCallback: any = function () { };
   oneToOneFlag: boolean = true;
   //breadcrumbs keywords 
   myObj = JSON.parse(localStorage.getItem("account"));
@@ -542,20 +529,16 @@ export class WarehouseComponent implements OnInit {
 
               }
             }
-
-
           },
           series: this.normalizeSeries(response["Data"]),
 
         }
         setTimeout(() => {
           this.updateFlag = true;
-          try{ if(this.chart && this.chart.chart) this.chart.chart.reflow(); } catch(e){}
-        },0);
-  this.updateFlag = true;
-
+          try { if (this.chart && this.chart.chart) this.chart.chart.reflow(); } catch (e) { }
+        }, 0);
+        this.updateFlag = true;
       });
-
   }
 
 
@@ -609,8 +592,8 @@ export class WarehouseComponent implements OnInit {
             this.barChartOptions.series = this.normalizeSeries(series);
             setTimeout(() => {
               this.updateFlag = true;
-              try{ if(this.chart && this.chart.chart) this.chart.chart.reflow(); } catch(e){}
-            },0);
+              try { if (this.chart && this.chart.chart) this.chart.chart.reflow(); } catch (e) { }
+            }, 0);
           },
           error => { }
         );
@@ -738,8 +721,8 @@ export class WarehouseComponent implements OnInit {
             this.barChartOptions.series = this.normalizeSeries(series);
             setTimeout(() => {
               this.updateFlag = true;
-              try{ if(this.chart && this.chart.chart) this.chart.chart.reflow(); } catch(e){}
-            },0);
+              try { if (this.chart && this.chart.chart) this.chart.chart.reflow(); } catch (e) { }
+            }, 0);
           },
           error => { }
         );
@@ -760,8 +743,8 @@ export class WarehouseComponent implements OnInit {
             this.updatedbarChartOptions.series = this.normalizeSeries(series);
             setTimeout(() => {
               this.updateFlag = true;
-              try{ if(this.chart && this.chart.chart) this.chart.chart.reflow(); } catch(e){}
-            },0);
+              try { if (this.chart && this.chart.chart) this.chart.chart.reflow(); } catch (e) { }
+            }, 0);
           },
           error => { }
         );

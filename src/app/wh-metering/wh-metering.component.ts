@@ -23,18 +23,8 @@ import { formatDate, getLocaleDayNames } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatButtonModule } from '@angular/material/button';
-import { HighchartsStandaloneComponent } from '../highcharts/highcharts-standalone.component';
 import { SHARED_MAT_MODULES } from '../shared/material-imports';
+import { HighchartsStandaloneComponent } from '../highcharts/highcharts-standalone.component';
 import { LoggerService } from '../services/logger.service';
 
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
@@ -71,16 +61,6 @@ export interface KeyValueIf {
             CommonModule,
             ReactiveFormsModule,
             FormsModule,
-            MatTableModule,
-            MatPaginatorModule,
-            MatSortModule,
-            MatDialogModule,
-            MatFormFieldModule,
-            MatInputModule,
-            MatSelectModule,
-            MatDatepickerModule,
-            MatNativeDateModule,
-                    MatButtonModule,
                     // local Highcharts wrapper (standalone)
                     HighchartsStandaloneComponent,
                     ...SHARED_MAT_MODULES

@@ -1,13 +1,7 @@
 import { Component, OnInit ,Inject ,ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
+// Material modules are provided via SHARED_MAT_MODULES
 import { DataService } from './../services/data.service';
 import { LoggerService } from '../services/logger.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -25,7 +19,7 @@ export class DialogData{
     templateUrl: './dialog-switchdash.component.html',
     styleUrls: ['./dialog-switchdash.component.css'],
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, ...SHARED_MAT_MODULES]
+  imports: [CommonModule, ...SHARED_MAT_MODULES]
 })
 export class DialogSwitchdashComponent implements OnInit {
   dataSource: MatTableDataSource<UserData>; //mandeep

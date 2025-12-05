@@ -9,21 +9,15 @@ import { MatSort } from '@angular/material/sort';
 import { AfterViewInit, ViewChildren, QueryList } from '@angular/core';
 import { DataTableItem } from '../super-admin/data-table-datasource';
 import { MatTable } from '@angular/material/table';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { DialogData } from '../dialog-switchdash/dialog-switchdash.component';
 import { SHARED_MAT_MODULES } from '../shared/material-imports';
+import { DialogData } from '../dialog-switchdash/dialog-switchdash.component';
 
 @Component({
     selector: 'app-fanswattdata',
     templateUrl: './fanswattdata.component.html',
     styleUrls: ['./fanswattdata.component.css'],
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule, MatFormFieldModule, MatInputModule, ...SHARED_MAT_MODULES]
+  imports: [CommonModule, ...SHARED_MAT_MODULES]
 })
 export class FanswattdataComponent implements OnInit {
   dataSource: MatTableDataSource<UserData>; 

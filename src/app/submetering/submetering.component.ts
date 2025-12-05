@@ -7,15 +7,7 @@ import { DashboardDataService } from './../services/dashboard-data.service';
 import { UserService } from './../services/user.service';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule, formatDate as _formatDate } from '@angular/common';
-import { MatTableDataSource, MatTable, MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { HighchartsStandaloneComponent } from '../highcharts/highcharts-standalone.component';
 import { SHARED_MAT_MODULES } from '../shared/material-imports';
 import { MatPaginator } from '@angular/material/paginator';
@@ -48,15 +40,6 @@ export interface KeyValueIf {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
     // local Highcharts wrapper used across the app
     HighchartsStandaloneComponent,
     ...SHARED_MAT_MODULES,

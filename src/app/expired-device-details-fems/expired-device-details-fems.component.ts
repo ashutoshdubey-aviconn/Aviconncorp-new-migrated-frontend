@@ -1,11 +1,6 @@
 import { Component, OnInit,Inject ,ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+// Material modules are provided via `SHARED_MAT_MODULES`
 import { DataService } from './../services/data.service';
 import { LoggerService } from '../services/logger.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
@@ -38,7 +33,7 @@ export interface UserData {
     templateUrl: './expired-device-details-fems.component.html',
     styleUrls: ['./expired-device-details-fems.component.css'],
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule, MatFormFieldModule, MatInputModule, ...SHARED_MAT_MODULES]
+  imports: [CommonModule, ...SHARED_MAT_MODULES]
 })
 export class ExpiredDeviceDetailsFemsComponent implements OnInit {
   dataSource: MatTableDataSource<UserData>; 

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
+// Material modules are provided by SHARED_MAT_MODULES
 import { UserService } from '../services/user.service';
 import { Observable, interval } from 'rxjs';
 import { DataRowOutlet } from '@angular/cdk/table';
@@ -30,7 +28,7 @@ export interface EmailData {
   templateUrl: './fire-pump-alarm.component.html',
   styleUrls: ['./fire-pump-alarm.component.css'],
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatSortModule, ...SHARED_MAT_MODULES]
+  imports: [CommonModule, ...SHARED_MAT_MODULES]
 })
 
 

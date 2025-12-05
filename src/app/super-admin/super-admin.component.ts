@@ -21,11 +21,7 @@ import { LoggerService } from '../services/logger.service';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+// Material modules are provided via `SHARED_MAT_MODULES` - avoid duplicate explicit imports
 //----------------------------------------------------------
 
 
@@ -55,12 +51,6 @@ export interface AlarmData {
     standalone: true,
     imports: [
       CommonModule,
-      // Material modules used in the template
-      MatTableModule,
-      MatPaginatorModule,
-      MatSortModule,
-      MatFormFieldModule,
-      MatInputModule,
       ...SHARED_MAT_MODULES
     ]
 })

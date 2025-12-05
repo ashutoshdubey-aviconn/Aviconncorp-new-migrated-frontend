@@ -3,14 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { SHARED_MAT_MODULES } from '../shared/material-imports';
 import { UserData } from './../customer-dashboard/customer-dashboard.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { FemsDialogComponent } from '../fems-dialog/fems-dialog.component';
@@ -22,7 +15,6 @@ import { DataService } from './../services/data.service';
 import { AfterViewInit, ViewChildren, QueryList } from '@angular/core';
 import { DeviceDetailsFemsComponent } from '../device-details-fems/device-details-fems.component';
 import { ExpiredDeviceDetailsFemsComponent } from '../expired-device-details-fems/expired-device-details-fems.component';
-import { SHARED_MAT_MODULES } from '../shared/material-imports';
 import { LoggerService } from '../services/logger.service';
 export interface femsData{
    data:any;
@@ -47,14 +39,6 @@ export interface DialogData {
     standalone: true,
     imports: [
       CommonModule,
-      MatTableModule,
-      MatPaginatorModule,
-      MatSortModule,
-      MatDialogModule,
-      MatButtonModule,
-      MatIconModule,
-      MatFormFieldModule,
-      MatInputModule,
       ...SHARED_MAT_MODULES
     ]
 })

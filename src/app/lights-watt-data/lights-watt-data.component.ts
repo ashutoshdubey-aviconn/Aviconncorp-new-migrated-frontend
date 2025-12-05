@@ -6,16 +6,10 @@ import { LoggerService } from '../services/logger.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatDialogModule } from '@angular/material/dialog';
 import { AfterViewInit, ViewChildren, QueryList } from '@angular/core';
+import { SHARED_MAT_MODULES } from '../shared/material-imports';
 import { DataTableItem } from '../super-admin/data-table-datasource';
 import { MatTable } from '@angular/material/table';
-import { SHARED_MAT_MODULES } from '../shared/material-imports';
 
 
 export class DialogData{
@@ -27,16 +21,7 @@ export class DialogData{
     templateUrl: './lights-watt-data.component.html',
     styleUrls: ['./lights-watt-data.component.css'],
     standalone: true,
-    imports: [
-      CommonModule,
-      MatTableModule,
-      MatPaginatorModule,
-      MatSortModule,
-      MatFormFieldModule,
-      MatInputModule,
-      MatDialogModule,
-      ...SHARED_MAT_MODULES
-    ]
+    imports: [CommonModule, ...SHARED_MAT_MODULES]
 })
 
 
