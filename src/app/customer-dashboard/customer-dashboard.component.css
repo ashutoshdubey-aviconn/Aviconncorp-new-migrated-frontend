@@ -51,10 +51,9 @@ hr {
 /* status and energy power status row Starts */
 .panel-heading{
    position: relative;
-
-   background-color: #ff7a01;
-
-   border: 1px;
+   /* background moved to template via Tailwind utilities; keep minimal fallback */
+   background: transparent;
+   border: none;
    border-radius: 3px;
    text-align: left;
    padding: 5px;
@@ -297,11 +296,11 @@ body {
 }
 
 #breadcrumb{
+   /* breadcrumb positioning/styling handled by Tailwind classes in template */
    position: fixed;
    z-index: 999;
    top: 50px;
    width: 100%;
-   background: #222222;
 }
 
 
@@ -412,11 +411,9 @@ body {
           max-width: 170px;
       }
   }
-  #page-wrapper {
+#page-wrapper {
+   /* page padding/background now controlled by Tailwind utilities on the element */
    width: 100%;
-   padding: 130px 25px 130px 25px;
-   background: #0F0F0F;
-
 }
 .close {
    float: right;
