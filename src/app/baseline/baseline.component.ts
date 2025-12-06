@@ -1,6 +1,6 @@
 import { UntypedFormControl } from '@angular/forms';
 import { UserData } from './../customer-dashboard/customer-dashboard.component';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SHARED_MAT_MODULES } from '../shared/material-imports';
@@ -10,7 +10,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { DataTableItem, DataTableDataSource } from '../super-admin/data-table-datasource';
 import { DataSource } from '@angular/cdk/collections';
-import { Observable, BehaviorSubject, of } from 'rxjs';
+import { Observable, BehaviorSubject, of, Subscription } from 'rxjs';
 import { UserService } from './../services/user.service';
 import { formatDate, getLocaleDayNames } from '@angular/common';
 import Highcharts from 'highcharts/es-modules/masters/highcharts.src.js';
@@ -28,7 +28,7 @@ import { LoggerService } from '../services/logger.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule, ...SHARED_MAT_MODULES, HighchartsStandaloneComponent]
 })
-export class BaselineComponent implements OnInit {
+export class BaselineComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   sites;
@@ -79,6 +79,8 @@ export class BaselineComponent implements OnInit {
 
   }
 
+  private _subs: Subscription[] = [];
+
   ngOnInit() {
     this.logger.log('baseline component');
 
@@ -120,11 +122,18 @@ export class BaselineComponent implements OnInit {
     }
 
 
-    this.DataService.currentMessage.subscribe(
+    this._subs.push(this.DataService.currentMessage.subscribe(
       response => this.dashboardType = response
-
-    );
+    ));
     this.logger.log("Dashboard type in baseline typescript file", this.dashboardType)
+  }
+
+  ngOnDestroy(): void {
+    try {
+      this._subs.forEach(s => s && s.unsubscribe && s.unsubscribe());
+    } catch (e) {
+      this.logger.warn('BaselineComponent: failed to cleanup subscriptions', e);
+    }
   }
 
   displayedColumns: string[] = ['serialNo', 'AisleGroup', 'TotalLights', 'ExpectedConsump', 'CurrentConsump', 'actions'];

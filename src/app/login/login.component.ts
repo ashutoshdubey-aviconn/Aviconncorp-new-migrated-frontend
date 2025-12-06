@@ -173,7 +173,8 @@ export class LoginComponent implements OnInit {
           this.isCollapsed = true;
         }
         else {
-          alert(this.msg);
+          // Use the shared dialog component for consistent UI instead of alert
+          this.dialog.open(DialogOverComponent, { data: this.msg });
         }
       },
       error => {

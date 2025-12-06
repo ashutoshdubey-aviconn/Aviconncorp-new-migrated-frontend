@@ -3,11 +3,10 @@ import { DataService } from './../services/data.service';
 import { DataTableItem, DataTableDataSource } from '../super-admin/data-table-datasource';
 // changePassword model removed from this component during migration
 import { DashboardDataService } from './../services/dashboard-data.service';
-import { LoginComponent } from './../login/login.component';
 // import {LightsDataComponent} from './lights-data/lights-data.component';
 
 import { UserService } from './../services/user.service';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 // Material modules are provided via `SHARED_MAT_MODULES` to avoid duplication

@@ -1,12 +1,10 @@
 import { DataService } from './../services/data.service';
 
 import { DataTableItem } from './data-table-datasource';
-import { changePassword } from './../models/changepassword';
 import { DashboardDataService } from './../services/dashboard-data.service';
-import { LoginComponent } from './../login/login.component';
 
 import { UserService } from './../services/user.service';
-import { AfterViewInit, Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // import { MatPaginator, MatSort, MatTableDataSource, MatTable } from '@angular/material';
 import Highcharts from 'highcharts/es-modules/masters/highcharts.src.js';
@@ -55,7 +53,7 @@ export interface AlarmData {
     ]
 })
 
-export class SuperAdminComponent {
+export class SuperAdminComponent implements OnInit {
   dataSource: MatTableDataSource<UserData>;
   customerDisplayedColumns: string[] = ['custId', 'custUserName', 'totalWH', 'liveWH', 'WHavgsaving', 'maxsaving', 'minsaving'];
   alarmDataSource: MatTableDataSource<AlarmData>;

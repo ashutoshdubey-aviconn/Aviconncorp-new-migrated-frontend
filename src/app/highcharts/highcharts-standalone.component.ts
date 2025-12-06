@@ -53,6 +53,9 @@ export class HighchartsStandaloneComponent implements AfterViewInit, OnChanges, 
   // Milliseconds to debounce rapid updateFlag toggles/option changes
   private readonly updateDebounceMs = 50;
 
+  // Track module functions we've already initialized to avoid double-patching Highcharts
+  private static _initializedModules: WeakSet<Function> | Set<Function> = new WeakSet<Function>();
+
   constructor(private logger: LoggerService) {}
 
   // Disable Highcharts accessibility module warnings by default for the
@@ -162,11 +165,18 @@ export class HighchartsStandaloneComponent implements AfterViewInit, OnChanges, 
         this.modules.forEach(mod => {
           if (typeof mod === 'function') {
             try {
-              mod(hc as any);
-            } catch (mErr) {
-              // Log and continue; some modules (solid-gauge in Karma) can
-              // throw during initialization in test harnesses — skip them.
-              try { this.logger.warn('Highcharts: skipping module due to init error', mErr); } catch (_) { }
+              // Avoid initializing the same module function more than once
+              const initSet = (HighchartsStandaloneComponent as any)._initializedModules as WeakSet<Function> | Set<Function>;
+              if (typeof initSet.has === 'function' && !initSet.has(mod)) {
+                try {
+                  mod(hc as any);
+                  try { initSet.add(mod); } catch (_) { /* ignore if WeakSet.add not allowed */ }
+                } catch (mErr) {
+                  try { this.logger.warn('Highcharts: skipping module due to init error', mErr); } catch (_) { }
+                }
+              }
+            } catch (mErrOuter) {
+              try { this.logger.warn('Highcharts: module init check failed', mErrOuter); } catch (_) { }
             }
           }
         });

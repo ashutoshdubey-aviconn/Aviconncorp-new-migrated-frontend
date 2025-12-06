@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LoggerService } from '../services/logger.service';
 
 @Component({
   selector: 'app-mock-banner',
@@ -26,22 +27,33 @@ import { CommonModule } from '@angular/common';
     `
   ]
 })
-export class MockBannerComponent {
+export class MockBannerComponent implements OnDestroy {
   visible = false;
   last = '';
   count = 0;
+  private _listener?: (e: any) => void;
 
-  constructor() {
+  constructor(private logger: LoggerService) {
     try {
       if (typeof window !== 'undefined' && (window as any).addEventListener) {
-        (window as any).addEventListener('mockApi:served', (e: any) => {
+        this._listener = (e: any) => {
           this.count++;
           this.last = e && e.detail && e.detail.name ? e.detail.name : '(fixture)';
           this.visible = true;
           // hide after 3s
           setTimeout(() => this.visible = false, 3000);
-        });
+          try { this.logger.log('mock-banner: event', this.last, this.count); } catch (_) { }
+        };
+        (window as any).addEventListener('mockApi:served', this._listener);
       }
-    } catch (_){ /* no-op */ }
+    } catch (err){ this.logger.warn('mock-banner: failed to attach listener', err); }
+  }
+
+  ngOnDestroy(): void {
+    try {
+      if (this._listener && typeof window !== 'undefined' && (window as any).removeEventListener) {
+        (window as any).removeEventListener('mockApi:served', this._listener);
+      }
+    } catch (_){ }
   }
 }

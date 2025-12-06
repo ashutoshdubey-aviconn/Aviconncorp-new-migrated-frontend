@@ -91,10 +91,10 @@ export class CustomerDashboardComponent {
   }
 
   addbut() {
-    window.alert("addbutton");
+    this.logger.log('addbutton');
   }
   editbut() {
-    window.alert("editbutton");
+    this.logger.log('editbutton');
   }
   alarmTable() {
     this.showAlarm = true;

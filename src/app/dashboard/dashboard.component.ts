@@ -1,6 +1,6 @@
 import { GlobalService } from './../services/global.service';
 import { DataService } from './../services/data.service';
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SHARED_MAT_MODULES } from '../shared/material-imports';
 import { CustomerDashboardComponent } from '../customer-dashboard/customer-dashboard.component';
@@ -43,7 +43,7 @@ import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms
 
     ReactiveFormsModule, ...SHARED_MAT_MODULES]
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   isSupperAdmin = true;
 
   siteId: any;
@@ -107,17 +107,21 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  // keep a reference to the storage event handler so it can be removed on destroy
+  private storageListener: (event: StorageEvent) => void;
+
   ngOnInit() {
     this.siteId = localStorage.getItem('siteId');
 
-    window.addEventListener('storage', (event) => {
+    this.storageListener = (event: StorageEvent) => {
       if (event.storageArea == localStorage) {
-        let token = localStorage.getItem("token")
+        let token = localStorage.getItem("token");
         if (token == undefined) {
           this.router.navigate(["/login"]);
         }
       }
-    }, false);
+    };
+    window.addEventListener('storage', this.storageListener, false);
 
     let myObj = JSON.parse(localStorage.getItem("account"));
 
@@ -351,6 +355,16 @@ export class DashboardComponent implements OnInit {
           this.logger.error("Server Error: ", error);
         }
       );
+  }
+
+  ngOnDestroy(): void {
+    try {
+      if (this.storageListener) {
+        window.removeEventListener('storage', this.storageListener, false);
+      }
+    } catch (e) {
+      this.logger.warn('DashboardComponent: failed to remove storage listener', e);
+    }
   }
 
 }

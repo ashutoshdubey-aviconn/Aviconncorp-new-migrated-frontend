@@ -220,7 +220,6 @@ export class WhMeteringComponent implements OnInit {
     //@ViewChild(MatPaginator) paginator: MatPaginator;
 
     constructor(private dashData: DashboardDataService,
-        private UserService: UserService,
         private DataService: DataService,
         private user_service: UserService,
         private router: Router,
