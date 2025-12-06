@@ -127,13 +127,14 @@ hr {
 .panel-heading{
    position: relative;
 
-   background-color: #ff7a01;
+   /* reduced orange intensity */
+   background-color: rgba(230,111,0,0.85);
 
    border: 1px;
    border-radius: 3px;
    text-align: left;
-   padding: 5px;
-   font-size: 16px;
+   padding: 6px 8px; /* slightly tighter */
+   font-size: 15px;
 }
 .hover-effect{
    border-color: #4C4B4B;
@@ -163,9 +164,9 @@ hr {
 
 
 .panel-body{
-      width:100%;
-      border:1px solid #ff7a01;
-      padding: 5px;
+   width:100%;
+   border:1px solid rgba(230,111,0,0.14); /* softened border */
+   padding: 8px;
 }
 mat-form-field{
 
@@ -227,10 +228,10 @@ td{
 
 /* Energy status graph start */
 .heading-panel{
-   background:#ff7a01;
-   padding:5px;
+   background: rgba(230,111,0,0.9); /* toned down */
+   padding:6px 10px;
    text-align: left;
-   font-size: 16px;
+   font-size: 15px;
    border-radius: 3px;
    margin-top: 12px;
    }
