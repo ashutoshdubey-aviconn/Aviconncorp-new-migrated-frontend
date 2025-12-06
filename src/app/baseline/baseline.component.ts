@@ -1,6 +1,6 @@
-import { UntypedFormControl } from '@angular/forms';
+import { UntypedFormControl, FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
 import { UserData } from './../customer-dashboard/customer-dashboard.component';
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SHARED_MAT_MODULES } from '../shared/material-imports';
@@ -28,7 +28,7 @@ import { LoggerService } from '../services/logger.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule, ...SHARED_MAT_MODULES, HighchartsStandaloneComponent]
 })
-export class BaselineComponent implements OnInit, OnDestroy {
+export class BaselineComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   sites;
@@ -73,9 +73,11 @@ export class BaselineComponent implements OnInit, OnDestroy {
   chartConstructor;
   custBaseline = false;
 
+  rowsForm: FormArray = this.fb.array([]);
 
 
-  constructor(private UserService: UserService, private DataService: DataService, public dialog: MatDialog, private logger: LoggerService) {
+
+  constructor(private UserService: UserService, private DataService: DataService, public dialog: MatDialog, private logger: LoggerService, private fb: FormBuilder) {
 
   }
 
@@ -128,6 +130,17 @@ export class BaselineComponent implements OnInit, OnDestroy {
     this.logger.log("Dashboard type in baseline typescript file", this.dashboardType)
   }
 
+  ngAfterViewInit(): void {
+    try {
+      if (this.dataSource) {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }
+    } catch (e) {
+      this.logger.warn('BaselineComponent: failed to initialize paginator/sort', e);
+    }
+  }
+
   ngOnDestroy(): void {
     try {
       this._subs.forEach(s => s && s.unsubscribe && s.unsubscribe());
@@ -139,7 +152,11 @@ export class BaselineComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['serialNo', 'AisleGroup', 'TotalLights', 'ExpectedConsump', 'CurrentConsump', 'actions'];
   dataSource: MatTableDataSource<UserData>;
 
-    saveConsumption(row: any) {
+  trackById(index: number, item: any) {
+    return item && item.serialNo ? item.serialNo : index;
+  }
+
+  saveConsumption(row: any) {
     this.logger.log(row)
     this.logger.log('function clicked ')
   }
@@ -309,8 +326,22 @@ export class BaselineComponent implements OnInit, OnDestroy {
         }
         this.logger.log("baseline data is here...", baselinedata)
         this.dataSource = new MatTableDataSource(baselinedata);
-        this.dataSource.paginator = this.paginator;  //mandeep
-        this.dataSource.sort = this.sort;
+        // Build reactive FormArray for editable rows
+        try {
+          const groups = baselinedata.map(d => this.fb.group({ CurrentConsump: [d.CurrentConsump, Validators.required] }));
+          this.rowsForm = this.fb.array(groups);
+        } catch (e) {
+          this.logger.warn('BaselineComponent: failed to build rowsForm', e);
+          this.rowsForm = this.fb.array([]);
+        }
+
+        // Wire paginator/sort if available
+        try {
+          this.dataSource.paginator = this.paginator;  	//mandeep
+          this.dataSource.sort = this.sort;
+        } catch (e) {
+          this.logger.warn('BaselineComponent: paginator/sort not ready yet', e);
+        }
       }
     )
   }
@@ -396,15 +427,22 @@ export class BaselineComponent implements OnInit, OnDestroy {
 
   }
 
-  saveBaselineData(row) {
+  saveBaselineData(index: number, row) {
+    // Read value from FormArray to ensure we're saving the edited value
+    try {
+      const ctrl = this.rowsForm.at(index) as FormGroup;
+      const currentVal = ctrl && ctrl.get('CurrentConsump') ? ctrl.get('CurrentConsump').value : row['CurrentConsump'];
+      row['CurrentConsump'] = currentVal;
+    } catch (e) {
+      this.logger.warn('BaselineComponent: failed to read form value, falling back to row value', e);
+    }
+
     let data = { "siteId": this.siteId, "legId": row['AisleGroup'], "baselineValue": row["CurrentConsump"], "date": formatDate(this.date.value, 'yyyy/MM/dd', 'en') }
     this.logger.log("saving baseline data", row)
     this.DataService.saveBaselineData(data).subscribe(
       response => {
-
         this.logger.log("baseline saved successfully")
       }
-
     )
     this.DataService.success('Baseline saved successfully !');
 
@@ -437,7 +475,7 @@ export class BaselineComponent implements OnInit, OnDestroy {
   changeGraphStacking() {
     this.whichGraph ^= 0x1;
 
-      if (this.whichGraph == 0) {
+    if (this.whichGraph == 0) {
       this.barChartOptions.plotOptions.column.stacking = '';
       this.updateFlag = true;
       this.logger.log('Inside normal stacking false')

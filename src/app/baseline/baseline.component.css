@@ -198,3 +198,15 @@
    
 }
 
+/* Local helpers added for ui-improvements */
+.spacer {
+   margin-top: 24px;
+}
+.right-align {
+   float: right;
+}
+.custom-orange {
+   background-color: #ff7a01 !important;
+   color: #fff !important;
+}
+

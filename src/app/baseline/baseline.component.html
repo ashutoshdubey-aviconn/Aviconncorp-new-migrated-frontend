@@ -9,12 +9,8 @@
     </div>
 </div>
 
-<div class="container-fluid">
-  <br>
-  <br>
-  <br>
-  <br>
-    <!--chart start-->
+<div class="container-fluid spacer">
+        <!--chart start-->
     <div class="row">
         <div class="col-sm-12 ">
             <div class="heading-panel">
@@ -38,17 +34,16 @@
                     style="width: 100%; height: 100%; display: block;"
                 ></app-highcharts>
                 <div class="row">
-                        <div class="col-8"></div>
-                        <div class="col-4"><button class="md-raised md-primary md-button md-link-ripple" type="button" style="float: right;" (click)="changeGraphStacking()">
+                    <div class="col-8"></div>
+                    <div class="col-4">
+                        <button class="md-raised md-primary md-button md-link-ripple right-align custom-orange" type="button" aria-label="Change Graph" (click)="changeGraphStacking()">
                             <span class ="ng-scope">Change Graph</span>
                         </button>
                     </div>
-                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <br>
-    <br>
 </div>
     <div class="row" *ngIf="custBaseline">
         <div class="col-sm-12 ">
@@ -60,7 +55,7 @@
                     </div>
                     <div class="col-md-3">
                         <mat-form-field>
-                            <input matInput [max] ="maxDate" [min]="minDate" [matDatepicker]="picker2" [formControl]="date" [value]="date.value" (dateChange)="baselineData()">
+                            <input matInput [max] ="maxDate" [min]="minDate" [matDatepicker]="picker2" [formControl]="date" [value]="date.value" (dateChange)="baselineData()" aria-label="Select baseline date">
                             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                             <mat-datepicker #picker2></mat-datepicker>
                         </mat-form-field>
@@ -74,7 +69,8 @@
 
                             <div class="example-container mat-elevation-z8">
 
-                            <mat-table [dataSource]="dataSource" matSort>
+                            <form [formGroup]="rowsForm">
+                            <mat-table [dataSource]="dataSource" matSort [trackBy]="trackById">
 
                                 <!-- ID Column -->
                                 <ng-container matColumnDef="serialNo">
@@ -101,17 +97,17 @@
                                 </ng-container> 
                                 <ng-container matColumnDef="CurrentConsump">
                                 <mat-header-cell *matHeaderCellDef>Actual Consumption </mat-header-cell>
-                                <mat-cell *matCellDef="let row">
+                                <mat-cell *matCellDef="let row; let i = index">
                                     <mat-form-field floatLabel="name">
-                                    <input matInput placeholder="Actual Consumption" [value]="row.CurrentConsump" [(ngModel)]="row.CurrentConsump" [ngModelOptions]="{standalone:true}">
+                                    <input matInput placeholder="Actual Consumption" [formControl]="rowsForm.controls[i].get('CurrentConsump')" aria-label="Actual consumption for row {{i + 1}}">
                                     </mat-form-field>
                                 </mat-cell>
                                 </ng-container>
 
                                 <ng-container matColumnDef="actions">
                                     <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                                    <mat-cell *matCellDef="let row">
-                                        <button mat-raised-button color="#ff7a01" (click)="saveBaselineData(row)">Set Baseline </button>
+                                    <mat-cell *matCellDef="let row; let i = index">
+                                        <button mat-raised-button color="primary" class="custom-orange" (click)="saveBaselineData(i, row)" aria-label="Set baseline for row {{i + 1}}">Set Baseline</button>
                                     </mat-cell>
                                 </ng-container>
                                 
@@ -119,7 +115,8 @@
                                 <mat-row *matRowDef="let row; columns: displayedColumns;" >
                                 </mat-row>
                             </mat-table>
-                            <mat-paginator [pageSizeOptions]="[2, 4, 5, 50, 100]" ></mat-paginator>              
+                            <mat-paginator #paginator [pageSizeOptions]="[2, 4, 5, 50, 100]" aria-label="Baseline table paginator"></mat-paginator>
+                            </form>
                             </div>
                         </div>
                         </div>
