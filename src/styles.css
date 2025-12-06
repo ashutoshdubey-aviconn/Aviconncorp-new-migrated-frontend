@@ -13,13 +13,3 @@ body{
   line-height: 20px;
   background: #272727;
 }
-
-/* Icon helpers for migrated Font Awesome icons */
-.icon-large {
-  font-size: 2rem; /* roughly matches fa-3x */
-}
-.icon-fw {
-  display: inline-block;
-  width: 1.25em;
-  text-align: center;
-}
