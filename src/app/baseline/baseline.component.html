@@ -1,6 +1,6 @@
 <div class="row" id="breadcrumb" >
     <div id="bc2" style="left: 1% !important" class="btn-group btn-breadcrumb">
-          <a (click)="home()" *ngIf="customer_home" class="btn btn-default"><i class="fa fa-home"></i></a>
+          <a (click)="home()" *ngIf="customer_home" class="btn btn-default"><mat-icon aria-hidden="false" aria-label="Home">home</mat-icon></a>
           <a (click)="customerPage()" *ngIf="customer_name" class="btn btn-default"><div >Customer detail</div></a>
         <a (click)="sitePage()" *ngIf="saving_site_dash" class="btn btn-default">Site Details</a>
        <button *ngIf="baseline_dash" class="btn btn-default">Baseline</button>
@@ -17,7 +17,7 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <i class="fa fa-bar-chart-o"></i> Baseline Breakup History 
+                        <mat-icon aria-hidden="false" aria-label="Baseline chart">bar_chart</mat-icon> Baseline Breakup History 
                     </div>
                 </div>
             </div>
@@ -37,6 +37,7 @@
                     <div class="col-8"></div>
                     <div class="col-4">
                         <button class="md-raised md-primary md-button md-link-ripple right-align custom-orange" type="button" aria-label="Change Graph" (click)="changeGraphStacking()">
+                            <mat-icon aria-hidden="false" class="btn-icon">swap_vert</mat-icon>
                             <span class ="ng-scope">Change Graph</span>
                         </button>
                     </div>
@@ -51,7 +52,7 @@
                 <div class="panel-heading">
                     <div class="row">
                     <div class="col-md-9">
-                        <i class="fa fa-bar-chart-o"></i> Set Baseline
+                        <mat-icon aria-hidden="false" aria-label="Set baseline">bar_chart</mat-icon> Set Baseline
                     </div>
                     <div class="col-md-3">
                         <mat-form-field>
@@ -107,7 +108,10 @@
                                 <ng-container matColumnDef="actions">
                                     <mat-header-cell *matHeaderCellDef></mat-header-cell>
                                     <mat-cell *matCellDef="let row; let i = index">
-                                        <button mat-raised-button color="primary" class="custom-orange" (click)="saveBaselineData(i, row)" aria-label="Set baseline for row {{i + 1}}">Set Baseline</button>
+                                        <button mat-raised-button color="primary" class="custom-orange" (click)="saveBaselineData(i, row)" aria-label="Set baseline for row {{i + 1}}">
+                                            <mat-icon aria-hidden="false" class="btn-icon">save</mat-icon>
+                                            Set Baseline
+                                        </button>
                                     </mat-cell>
                                 </ng-container>
                                 
