@@ -2,8 +2,8 @@
     <div class="col-md-8 col-sm-12">
         <div class="row" style="margin-left:2px !important">
             <div id="bc2" style="left: 1% !important;" class="btn-group btn-breadcrumb">
-                <a (click)="home()" *ngIf="super_admin_home" class="btn btn-default"><i class="fa fa-home"></i></a>
-                <a (click)="home()" *ngIf="customer_home" class="btn btn-default"><i class="fa fa-home"></i></a>
+                <a (click)="home()" *ngIf="super_admin_home" class="btn btn-default"><mat-icon aria-hidden="false" aria-label="Home">home</mat-icon></a>
+                <a (click)="home()" *ngIf="customer_home" class="btn btn-default"><mat-icon aria-hidden="false" aria-label="Home">home</mat-icon></a>
                 <a (click)="customerPage()" *ngIf="customer_name" class="btn btn-default">
                     <div>Customer Page</div>
                 </a>
@@ -31,7 +31,7 @@
             <div class="col-lg-3 col-sm-6 col-xs-6">
                 <div class="circle-title2">
                     <div class="circle-title-heading">
-                        <!-- <i class="fa fa-bell fa-fw fa-3x"></i> -->
+                        <!-- <mat-icon class="icon-large icon-fw">notifications</mat-icon> -->
                         <img id="img-ctn" src="/assets/image/consume.png" width="45">
                     </div>
                     <div class="box2">
@@ -55,7 +55,7 @@
             <div class="col-lg-3 col-sm-6 col-xs-6">
                 <div class="circle-title2">
                     <div class="circle-title-heading">
-                        <i class="fa fa-bolt fa-3x"></i>
+                        <mat-icon class="icon-large" aria-hidden="false" aria-label="Power">flash_on</mat-icon>
                     </div>
                     <div class="box2">
                         <div class="box-heading text-faded" style="font-weight: 700;">Instantaneous Voltage</div>
@@ -126,7 +126,7 @@
             <div class="col-lg-3 col-sm-6 col-xs-6">
                 <div class="circle-title2">
                     <div class="circle-title-heading">
-                        <!-- <i class="fa fa-bell fa-fw fa-3x"></i> -->
+                                <!-- <mat-icon class="icon-large icon-fw">notifications</mat-icon> -->
                         <img id="img-ctn" src="assets/image/consume.png" width="45">
                     </div>
                     <div class="box2">
@@ -229,7 +229,7 @@
         <div class="row">
             <div class="col-md-6 col-sm-12">
                 <div class="panel-heading">
-                    <i class="fa fa-bar-chart-o"></i> Monthly Power Source Distribution
+                    <mat-icon aria-hidden="false" aria-label="Monthly power source">bar_chart</mat-icon> Monthly Power Source Distribution
                     <div class="col-md-3 ">
                     </div>
                 </div>
@@ -244,7 +244,7 @@
 
 
                 <div class="panel-heading">
-                    <i class="fa fa-bar-chart-o"></i> Site Details
+                    <mat-icon aria-hidden="false" aria-label="Site details">bar_chart</mat-icon> Site Details
                 </div>
                 <div class="panel-body details">
                     <ul class="all-details">
@@ -361,7 +361,7 @@
                 <div class="heading-panel">
                     <div class="row">
                         <div class="col-md-8" style="margin-top: 20px;">
-                            <i class="fa fa-bar-chart-o"></i>Total load-graph
+                            <mat-icon aria-hidden="false" aria-label="Total load">bar_chart</mat-icon>Total load-graph
                         </div>
                         <div class="col-md-2">
                             <mat-form-field appearance="outline">
@@ -435,13 +435,13 @@
             <div class="col-sm-12" *ngIf="showFuelGraph">
                 <div>
                     <div class="heading-panel">
-                        <div class="row">
-                            <div class="col-md-7">
-                                <i class="fa fa-bar-chart-o"></i>Monthly Trend Overview
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <mat-icon aria-hidden="false" aria-label="Monthly trend">bar_chart</mat-icon>Monthly Trend Overview
+                                </div>
                             </div>
-                        </div>
 
-                    </div>
+                        </div>
 
                 </div>
                 <div class="chart-body">
@@ -460,7 +460,7 @@
 
                     <div class="row">
                         <div class="col-md-7">
-                            <i class="fa fa-bar-chart-o"></i>Total <mat-form-field
+                            <mat-icon aria-hidden="false" aria-label="Total">bar_chart</mat-icon>Total <mat-form-field
                                 style="max-width: 34%; font-size: 16px">
                                 <mat-select [(value)]="selected_graph" #energyValue
                                     (selectionChange)="columnGraphFilterChanged($event)">

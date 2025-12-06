@@ -2,8 +2,8 @@
     <div class="col-md-6 col-sm-8">
         <div class="row" style="margin-left:4px !important">
             <div id="bc2" class="btn-group btn-breadcrumb">
-                <a (click)="home()" *ngIf="super_admin_home" class="btn btn-default"><i class="fa fa-home"></i></a>
-                <a (click)="home()" *ngIf="customer_home" class="btn btn-default"><i class="fa fa-home"></i></a>
+                <a (click)="home()" *ngIf="super_admin_home" class="btn btn-default"><mat-icon aria-hidden="false" aria-label="Home">home</mat-icon></a>
+                <a (click)="home()" *ngIf="customer_home" class="btn btn-default"><mat-icon aria-hidden="false" aria-label="Home">home</mat-icon></a>
                 <a (click)="customerPage()" *ngIf="customer_name" class="btn btn-default">
                     <div>Customer Page</div>
                 </a>
@@ -48,7 +48,7 @@
             <div class="col-lg-3 col-sm-6 col-xs-6">
                 <div class="circle-title2">
                     <div class="circle-title-heading">
-                        <i class="fa fa-bell fa-fw fa-3x"></i>
+                        <mat-icon class="icon-large icon-fw" aria-hidden="false" aria-label="Notifications">notifications</mat-icon>
                     </div>
                     <div class="box" style="cursor: pointer;" (click)="alarmTable()">
                         <div class="box-heading text-faded">Alarms</div>
@@ -56,8 +56,7 @@
                         <div class="box-number1 text-faded">{{alarms}}</div>
 
                         &nbsp;
-                        <a du-smooth-scroll="table" du-scrollspy class="footer">More Info <i
-                                class="fa fa-chevron-circle-right"></i></a>
+                        <a du-smooth-scroll="table" du-scrollspy class="footer">More Info <mat-icon aria-hidden="false" aria-label="More">chevron_right</mat-icon></a>
                     </div>
                 </div>
 
@@ -166,7 +165,7 @@
             <div class="col-md-12 col-sm-12">
 
                 <div class="panel-heading">
-                    <i class="fa fa-bar-chart-o"></i> Trend Overview
+                    <mat-icon aria-hidden="false" aria-label="Trend">bar_chart</mat-icon> Trend Overview
                 </div>
                 <div class="chart-body">
 
@@ -185,7 +184,7 @@
 
                     <div class="row">
                         <div class="col-md-7">
-                            <i class="fa fa-bar-chart-o"></i>Total <mat-form-field
+                            <mat-icon aria-hidden="false" aria-label="Total">bar_chart</mat-icon>Total <mat-form-field
                                 style="max-width: 34%; font-size: 16px">
                                 <mat-select [(value)]="selected_graph" #energyValue
                                     (selectionChange)="columnGraphFilterChanged($event)">
