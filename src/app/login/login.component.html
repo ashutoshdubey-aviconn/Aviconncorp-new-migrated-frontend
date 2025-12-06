@@ -1,53 +1,54 @@
-<div class="container-narrow">
-  <div class="card">
-    <div class="card-header">
-      <img width="64" alt="Aviconn logo" src="assets/image/1.png">
-      <div>
-        <h3 style="margin:0;color:var(--color-text)">Aviconn SEM</h3>
-        <small class="text-muted">Smart Energy Management</small>
-      </div>
+<div class="logo">
+  <img width="100" alt="Aviconn logo" src="assets/image/1.png"><br>
+  <img width="100" alt="Aviconn logo-text" src="assets/image/2.png"><br>
+  <h5 id="esm">Aviconn Smart Energy Management<br>( SEM )</h5>
+
+
+</div>
+<form (ngSubmit)="onLogin()" [formGroup]="userLogin">
+  <div class="form-group">
+    <mat-form-field class="example-full-width" appearance="none">
+      <input id="input-username" matInput class="form-control" placeholder="Username" formControlName="username">
+      <mat-error *ngIf="userLogin.get('username').hasError('required')">
+        Username is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field class="example-full-width" appearance="none">
+      <input id="input-password" matInput class="form-control" placeholder="Password" type="password"
+        formControlName="password">
+      <mat-error *ngIf="userLogin.get('password').hasError('required')">
+        Password is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <a [routerLink]="" id="fp" data-toggle="modal" data-target="#forgotpasswordModal">Forgot Password ?</a><br>
+  <button mat-ripple mat-raised-button type="submit" [disabled]="loading">Login</button><br>
+  <div class="spinner" style="margin-top: -400px;
+  margin-bottom: 1rem;
+  display: block;
+  z-index: 9999999999;
+  background: #1b1b1b;
+  position: relative;
+  height: 840px;" *ngIf="loading" layout-align="center center">
+    <!-- Use Angular Material spinner instead of external GIF -->
+    <div style="display:flex;justify-content:center;padding-top:160px;">
+      <mat-progress-spinner diameter="80" mode="indeterminate" color="accent"></mat-progress-spinner>
     </div>
-    <form (ngSubmit)="onLogin()" [formGroup]="userLogin">
-      <div class="form-group">
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-icon matPrefix>person</mat-icon>
-          <input id="input-username" matInput class="form-control" placeholder="Username" formControlName="username" aria-label="Username">
-          <mat-error *ngIf="userLogin.get('username').hasError('required')">
-            Username is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-icon matPrefix>lock</mat-icon>
-          <input id="input-password" matInput class="form-control" placeholder="Password" type="password" formControlName="password" aria-label="Password">
-          <button mat-icon-button matSuffix type="button" aria-label="Show password" tabindex="-1">
-            <mat-icon>visibility</mat-icon>
-          </button>
-          <mat-error *ngIf="userLogin.get('password').hasError('required')">
-            Password is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
-      </div>
-
-      <div class="actions-inline" style="margin-top:var(--spacing-2)">
-        <a [routerLink]="" id="fp" data-toggle="modal" data-target="#forgotpasswordModal">Forgot Password?</a>
-        <button mat-ripple mat-raised-button color="primary" type="submit" [disabled]="loading">Login</button>
-      </div>
-
-      <div *ngIf="loading" style="display:flex;justify-content:center;padding:var(--spacing-4)">
-        <mat-progress-spinner diameter="48" mode="indeterminate" color="accent"></mat-progress-spinner>
-      </div>
-
-      <div class="actions-inline" style="margin-top:var(--spacing-3)">
-        <a href="http://www.aviconn.in/" target="_blank" id="avc">www.aviconn.in</a>
-        <a href="mailto:sem@aviconn.in?Subject=Aviconn ESM Enquiry" id="sup">Support</a>
-      </div>
-    </form>
   </div>
-
-  <div class="footimg">
-    <img class="bottomImg" src="assets/image/bottom_img.png" alt="Footer background">
+  <div style="display:inline-block;">
+    <a href="http://www.aviconn.in/" target="_blank" style="float: left" id="avc">www.aviconn.in</a>
   </div>
+  <div style="display:inline-block; margin-left: 152px;">
+    <a href="mailto:sem@aviconn.in?Subject=Aviconn ESM Enquiry" style="float:right" id="sup">Support</a>
+  </div>
+  <br>
+
+</form>
+
+<div class="footimg">
+  <img class="bottomImg" src="assets/image/bottom_img.png">
 </div>
 <!-- <popup>Password Reset</popup> -->
 <div class="modal fade" id="forgotpasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
