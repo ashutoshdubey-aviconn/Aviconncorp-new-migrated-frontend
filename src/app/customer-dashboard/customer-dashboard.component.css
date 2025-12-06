@@ -49,15 +49,19 @@ hr {
 
 
      }
-    .circle-title-heading{
+   .circle-title-heading{
       position:relative;
-      height: 80px;
-      width: 80px;
-      margin: 0 auto -40px;
-      border-radius: 100%;
-      transition: all ease-in-out .3s;
+      height: 64px;
+      width: 64px;
+      margin: 0 auto 12px;
+      border-radius: 50%;
+      transition: transform 200ms ease, box-shadow 200ms ease;
       background:#ff7a01;
       color: #fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.45);
     }
     .circle-title-heading .fa{
        line-height: 80px;
@@ -66,13 +70,18 @@ hr {
       font-size: 4em;
       padding-top: 8px;
    }
-    .box{
-      padding-top: 50px;
-      background-color: #222222;
-      border: 1px solid #ff7a01;
-      border-radius: 5px;
-
-   }
+      .box{
+         padding: 14px 14px 18px;
+         background-color: #1f1f1f;
+         border: 1px solid rgba(230,111,0,0.18);
+         border-radius: 8px;
+         min-height: 130px;
+         display:flex;
+         flex-direction:column;
+         align-items:center;
+         justify-content:center;
+         transition: transform 160ms ease, box-shadow 160ms ease;
+    }
 
    .box2{
       padding-top: 50px;
@@ -83,23 +92,28 @@ hr {
       margin-bottom: 50px;
    }
    .box:hover{
-      border-color: #4C4B4B;
-      background-color: #4C4B4B;
+      transform: translateY(-6px);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.5);
+      border-color: rgba(230,111,0,0.28);
    }
-   .box-heading{
-        text-transform: uppercase;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-   }
+      .box-heading{
+         text-transform: uppercase;
+         text-overflow: ellipsis;
+         overflow: hidden;
+         white-space: nowrap;
+         font-size: 12px;
+         letter-spacing: 0.6px;
+         color: rgba(255,255,255,0.85);
+      }
    .text-faded{
       color:rgba(255,255,255,0.7);
    }
    .box-number{
-      padding:5px 0 15px;
-      font-size: 26px;
+      padding:6px 0 0;
+      font-size: 20px;
       font-weight: 700;
-      line-height: 1;
+      line-height: 1.05;
+      color: #fff;
    }
    .footer{
       display: block;
