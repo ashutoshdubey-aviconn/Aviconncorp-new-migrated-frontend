@@ -41,82 +41,10 @@ hr {
       color: #fff !important;
   }
 
-  /* Snapshot row start */
-
-  .circle-title2{
-    margin-bottom: 15px;
-    text-align: center;
-
-
-     }
-    .circle-title-heading{
-      position:relative;
-      height: 80px;
-      width: 80px;
-      margin: 0 auto -40px;
-      border-radius: 100%;
-      transition: all ease-in-out .3s;
-      background:#ff7a01;
-      color: #fff;
-    }
-    .circle-title-heading .fa{
-       line-height: 80px;
-    }
-    .circle-title-heading .fa.icon{
-      font-size: 4em;
-      padding-top: 8px;
-   }
-    .box{
-      padding-top: 50px;
-      background-color: #222222;
-      border: 1px solid #ff7a01;
-      border-radius: 5px;
-
-   }
-
-   .box2{
-      padding-top: 50px;
-      background-color: #222222;
-      border: 1px solid #ff7a01;
-      border-radius: 5px;
-      height: 140px;
-      margin-bottom: 50px;
-   }
-   .box:hover{
-      border-color: #4C4B4B;
-      background-color: #4C4B4B;
-   }
-   .box-heading{
-        text-transform: uppercase;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-   }
-   .text-faded{
-      color:rgba(255,255,255,0.7);
-   }
-   .box-number{
-      padding:5px 0 15px;
-      font-size: 26px;
-      font-weight: 700;
-      line-height: 1;
-   }
-   .footer{
-      display: block;
-      padding: 5px;
-      color:rgba(255,255,255,0.5);
-      transition: all ease-in-out .3s;
-   }
-   .footer:hover{
-      text-decoration: none;
-      color:rgba(255,255,255,0.5);
-      background-color: rgba(0,0,0,0.2);
-   }
-   #img-ctn{
-      padding-top: 14px;
-   }
-
-/* Snapshot row end */
+  /* Snapshot/card styles migrated to Tailwind utilities in the template.
+     Kept markup classes in HTML (rounded, bg, spacing, text utilities).
+     Removed legacy snapshot-specific CSS to avoid duplication.
+*/
 
 
 
@@ -245,12 +173,12 @@ td{
    position: relative;
 }
 .chart-body2{
-background-color: #222;
-border: 1px solid #ff7a01;
-padding: 10px;
-position: relative;
-height: 277px;
-
+   /* Chart container styling moved to template via Tailwind classes.
+       Keep a minimal fallback for non-Tailwind builds. */
+   background-color: #222;
+   border: 1px solid #ff7a01;
+   padding: 10px;
+   position: relative;
 }
 .chart-body3{
    background-color: #222222;
