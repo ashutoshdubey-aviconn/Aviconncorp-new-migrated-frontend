@@ -22,7 +22,7 @@ describe('GatewayStatusComponent', () => {
     http = TestBed.inject(HttpTestingController);
     fixture.detectChanges();
 
-    const req = http.expectOne(r => r.url === environment.apiUrl + 'gateway-status/');
+    const req = http.expectOne(r => r.url === environment.alarmApiUrl + 'gateway-status/');
     expect(req.request.method).toBe('GET');
     req.flush({
       status: 200, count: 3, limit: 1000, offset: 0,

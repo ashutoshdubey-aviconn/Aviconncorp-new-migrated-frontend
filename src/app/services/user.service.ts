@@ -131,13 +131,7 @@ getCustAlarmGraphData(data:any){
 
 // super admin services start here for homepage
 
-getSuperAdminSnapShot(data){
-  return this.http.post(this.baseUrl + 'snapshot/', data,this.getAuthHeaders())
-}
 
-getSuperAdminAlarmPriorityTable(data){
-  return this.http.post(this.baseUrl + 'alarmTypeApi/', data,this.getAuthHeaders())
-}
 
 getAllCustomersOnSuperAdmin(data){
   return this.http.post(this.baseUrl + 'customerDetails/', data,this.getAuthHeaders())

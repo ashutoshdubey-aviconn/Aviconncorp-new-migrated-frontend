@@ -104,7 +104,7 @@
         </div>
         <div class="chart-body customer-table">
           <div class="example-container mat-elevation-z8">
-            <mat-table [dataSource]="alarmDataSource" matSort matSortActive="lastSeen" matSortDirection="desc">
+            <mat-table [dataSource]="alarmDataSource" matSort matSortActive="lastSeen" matSortDirection="desc" class="alarm-table">
               <ng-container matColumnDef="custName">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Customer </mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="Customer"> {{row.custName}} </mat-cell>
@@ -124,7 +124,7 @@
               </ng-container>
               <ng-container matColumnDef="location">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Location </mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="Location" class="col-loc"> {{row.location || '—'}} </mat-cell>
+                <mat-cell *matCellDef="let row" data-label="Location"> {{row.location || '—'}} </mat-cell>
               </ng-container>
               <ng-container matColumnDef="occurrences">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Count </mat-header-cell>

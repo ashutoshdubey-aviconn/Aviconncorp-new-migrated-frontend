@@ -138,26 +138,23 @@ export class SuperAdminComponent {
     let userObj = JSON.parse(localStorage.getItem("account"));
     let userId = userObj['id']
     let data = { "user_id": userId }
-    // calling snapshot api
-    this.UserService.getSuperAdminSnapShot(data).subscribe(
-      response => {
-        console.log("super admin snapshot response : ", response)
-        this.date = response["current_date"]
-        this.alarms = response["alarms"]
-        this.energyConsumed = response["total_unit_consumed"]
-        this.energySaved = response["total_energy_saved"]
-        this.percentageSaved = response["total_saved_percentage"]
+    // Snapshot tiles come from the alarm server, so the alarm count matches the alarm list.
+    this.alarmApi.superAdminSnapshot(userId).subscribe({
+      next: response => {
+        this.alarms = response.alarms;
+        this.energyConsumed = response.total_unit_consumed;
+        this.energySaved = response.total_energy_saved;
+        this.percentageSaved = response.total_saved_percentage;
       },
-      error => {
+      error: error => {
         // If backend is unreachable, populate with lightweight fallback so UI renders
         console.error('SuperAdmin snapshot API failed', error);
-  try { this.serializedDate.setValue(new Date().toISOString().substring(0,10)); } catch (e) {}
-        this.alarms = [];
+        this.alarms = 0;
         this.energyConsumed = 0;
         this.energySaved = 0;
         this.percentageSaved = 0;
       }
-    )
+    });
     // Active issues of every live site, grouped by customer (alarmTypeApi/)
     this.alarmApi.allAlarmsByCustomer().subscribe({
       next: groups => {

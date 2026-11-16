@@ -174,7 +174,8 @@ export function toApiDate(d: Date): string {
 @Injectable({ providedIn: 'root' })
 export class AlarmApiService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = environment.apiUrl;
+  /** Alarm endpoints live on their own server (see environment.alarmApiUrl). */
+  private readonly baseUrl = environment.alarmApiUrl;
 
   private authOptions() {
     const token = localStorage.getItem('token');

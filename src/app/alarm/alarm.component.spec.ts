@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 import { AlarmComponent } from './alarm.component';
 import { SiteAlarmList } from './alarm-api.service';
 
-const api = environment.apiUrl;
+const api = environment.alarmApiUrl;
 
 const SUMMARY: SiteAlarmList = {
   status: 200,

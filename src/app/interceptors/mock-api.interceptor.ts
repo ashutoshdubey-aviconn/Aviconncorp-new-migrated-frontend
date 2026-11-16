@@ -72,12 +72,13 @@ export class MockApiInterceptor implements HttpInterceptor {
     try { console.info('[MockApi] Mock mode enabled — intercepting requests'); } catch (_) {}
 
     const url = req.url || '';
-    // Only mock API calls that target the production API base URL
-    if (!url.startsWith(environment.apiUrl)) {
+    // Only mock API calls that target the main or the alarm API base URL
+    const base = [environment.alarmApiUrl, environment.apiUrl].find(b => url.startsWith(b));
+    if (!base) {
       return next.handle(req);
     }
 
-    const relative = url.substring(environment.apiUrl.length);
+    const relative = url.substring(base.length);
 
     // Alarm endpoints: match the exact path, since several names share a prefix
     // (alarmList/ vs alarmListDetail/ vs alarmListOnCustomerPage/).

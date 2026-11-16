@@ -466,5 +466,5 @@ td{
 .prio-medium { background: #ffc94d; }
 .prio-low { background: #7ddc8a; }
 .alarm-empty { padding: 20px; text-align: center; color: #b5b5b5; background: #222; }
-/* Aisle / gateway codes have no spaces; let them wrap instead of clipping. */
-.mat-mdc-cell.col-loc { overflow-wrap: anywhere; word-break: break-word; }
+/* Gateway ids, aisle codes and names often have no spaces; wrap them instead of clipping. */
+.alarm-table .mat-mdc-cell { overflow-wrap: anywhere; min-width: 0; }
