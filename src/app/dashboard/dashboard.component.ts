@@ -7,6 +7,13 @@ import { CustomerDashboardComponent } from '../customer-dashboard/customer-dashb
 import { WarehouseComponent } from '../warehouse/warehouse.component';
 import { BaselineComponent } from '../baseline/baseline.component';
 import { AdminComponent } from '../admin/admin.component';
+import { SuperAdminComponent } from '../super-admin/super-admin.component';
+import { WhMeteringComponent } from '../wh-metering/wh-metering.component';
+import { FirePumpAlarmComponent } from '../fire-pump-alarm/fire-pump-alarm.component';
+import { FemsComponent } from '../fems/fems.component';
+import { SubmeteringComponent } from '../submetering/submetering.component';
+import { LoadGraphComponent } from '../load-graph/load-graph.component';
+import { LightsWattDataComponent } from '../lights-watt-data/lights-watt-data.component';
 import { HighchartsStandaloneComponent } from '../highcharts/highcharts-standalone.component';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -38,6 +45,15 @@ import { DialogSwitchdashComponent } from '../dialog-switchdash/dialog-switchdas
     WarehouseComponent,
     BaselineComponent,
     AdminComponent,
+    // Every <app-*> used in dashboard.component.html must be listed here,
+    // otherwise Angular renders it as an empty unknown element.
+    SuperAdminComponent,
+    WhMeteringComponent,
+    FirePumpAlarmComponent,
+    FemsComponent,
+    SubmeteringComponent,
+    LoadGraphComponent,
+    LightsWattDataComponent,
     MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
