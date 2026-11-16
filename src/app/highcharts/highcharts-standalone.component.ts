@@ -18,7 +18,34 @@ import Highcharts from 'highcharts/es-modules/masters/highcharts.src.js';
 @Component({
   selector: 'app-highcharts',
   standalone: true,
-  template: `<div #chartContainer style="width:100%;height:100%"></div>`,
+  // The loading panel is shown while the container is still empty, i.e. until
+  // the parent's data arrives and Highcharts draws into it. Pure CSS, so there
+  // is no extra change-detection state to keep in sync.
+  template: `<div #chartContainer class="hc-container"></div><div class="hc-loading" role="status"><span class="hc-spinner" aria-hidden="true"></span>Loading chart…</div>`,
+  styles: [`
+    :host { display: block; }
+    .hc-container { width: 100%; height: 100%; }
+    .hc-container:not(:empty) + .hc-loading { display: none; }
+    .hc-loading {
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: #222222;
+      color: #cccccc;
+      font-size: 14px;
+    }
+    .hc-spinner {
+      width: 28px;
+      height: 28px;
+      border: 3px solid rgba(255, 255, 255, 0.2);
+      border-top-color: #ff7a01;
+      border-radius: 50%;
+      animation: hc-spin 0.8s linear infinite;
+    }
+    @keyframes hc-spin { to { transform: rotate(360deg); } }
+  `],
 })
 export class HighchartsStandaloneComponent implements AfterViewInit, OnChanges, OnDestroy {
   @ViewChild('chartContainer', { static: true }) chartContainer!: ElementRef<HTMLDivElement>;
@@ -47,14 +74,27 @@ export class HighchartsStandaloneComponent implements AfterViewInit, OnChanges, 
   private chart?: Highcharts.Chart;
 
   ngAfterViewInit(): void {
+    this.createChart();
+  }
+
+  // Parents usually fill `options` after an API call. Creating the chart before
+  // then makes Highcharts draw its default white chart, which flashes on screen
+  // until the real (dark) options arrive, so wait until there is something to draw.
+  private hasOptions(): boolean {
+    return !!this.options && Object.keys(this.options).length > 0;
+  }
+
+  private createChart(): void {
+    if (this.chart || !this.hasOptions()) {
+      return;
+    }
     const hc = this.Highcharts || Highcharts;
     this.initModules(hc);
-    // Create chart
     try {
       if (this.constructorType === 'stockChart' && (hc as any).stockChart) {
-        this.chart = (hc as any).stockChart(this.chartContainer.nativeElement, this.options || {});
+        this.chart = (hc as any).stockChart(this.chartContainer.nativeElement, this.options);
       } else {
-        this.chart = (hc as any).chart(this.chartContainer.nativeElement, this.options || {});
+        this.chart = (hc as any).chart(this.chartContainer.nativeElement, this.options);
       }
       // Call optional callbackFunction like highcharts-angular used to
       try {
@@ -62,27 +102,20 @@ export class HighchartsStandaloneComponent implements AfterViewInit, OnChanges, 
           this.callbackFunction(this.chart);
         }
       } catch (cbErr) {
-        // ignore callback errors
-         
         console.error('Highcharts: callbackFunction threw', cbErr);
       }
     } catch (e) {
       // Fail gracefully in case of bad options
-       
       console.error('Highcharts: failed to create chart', e);
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!this.chart && (changes['options'] && !changes['options'].isFirstChange())) {
-      // If chart wasn't created yet but options changed, try to create it
-      this.initModules();
-      try {
-        const hc = this.Highcharts || Highcharts;
-        this.chart = (hc as any).chart(this.chartContainer.nativeElement, this.options || {});
-      } catch (e) {
-         
-        console.error('Highcharts: failed to create chart on changes', e);
+    if (!this.chart) {
+      // The view exists after the first change; create the chart once options arrive
+      // (as a new object, or filled in place and signalled with updateFlag/update).
+      if (Object.values(changes).some(c => !c.isFirstChange())) {
+        this.createChart();
       }
       return;
     }
