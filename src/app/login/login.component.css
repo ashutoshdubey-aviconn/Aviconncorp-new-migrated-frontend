@@ -143,3 +143,23 @@ label{
     padding: 0;
     min-height: 0;
 }
+
+/* Keep typed text readable: Bootstrap's .form-control:focus switches the
+   background to white, but the login text is white, so it vanished while
+   typing. Stay transparent on focus with a white caret and a faint underline. */
+.example-full-width .form-control,
+.example-full-width .form-control:focus {
+    background-color: transparent;
+    color: #fff;
+    caret-color: #fff;
+    box-shadow: none;
+    border: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 0;
+}
+.example-full-width .form-control:focus {
+    border-bottom-color: #e66f00;
+}
+.example-full-width .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.75);
+}
