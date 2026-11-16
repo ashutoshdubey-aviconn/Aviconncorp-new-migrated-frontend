@@ -151,7 +151,10 @@ export class FirePumpAlarmComponent implements OnInit {
           (
             response =>
               { 
-                // this.alarmData = response['data']
+                // Build a fresh list on every poll and replace the placeholders,
+                // instead of appending (which hid the data behind the empty
+                // defaults and grew the array every 5 seconds).
+                const latest: any[] = [];
                 for (let i = 0; i <= response['data'].length-1; i++){
                   let fire = response['data'][i]
                      var aisleName = fire['aislename']
@@ -179,7 +182,7 @@ export class FirePumpAlarmComponent implements OnInit {
                      else{
                       fire["motor_status"] = "ON"
                      }
-                     this.alarmData.push({"aislename": fire['aislename'],
+                     latest.push({"aislename": fire['aislename'],
                      "R_Voltage": fire["R_Voltage"],
                      "Y_Voltage": fire["Y_Voltage"],
                      "B_Voltage": fire["B_Voltage"],
@@ -188,7 +191,9 @@ export class FirePumpAlarmComponent implements OnInit {
                     })
 
                 }
-                console.log("response : ", response)
+                // The template reads five fixed slots; pad so fewer pumps can't crash it.
+                while (latest.length < 5) { latest.push({}); }
+                this.alarmData = latest;
               })
 
   }
