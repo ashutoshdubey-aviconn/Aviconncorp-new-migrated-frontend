@@ -170,13 +170,15 @@ table {
    border-spacing: 0;
    border-collapse: collapse;
  }
- .mat-header-cell{
+ .mat-header-cell,
+.mat-mdc-header-cell {
    background-color: black;
    padding: 8px;
    font-size: 13px;
 }
 
-.mat-cell {
+.mat-cell,
+.mat-mdc-cell {
    font-size: 12px;
    border-right: 1px solid #222;
 }
@@ -187,7 +189,8 @@ table {
    text-align: center;
    font-size: 16px;
 }
- .mat-paginator{
+ .mat-paginator,
+.mat-mdc-paginator {
    background: #000000;
 }
 
@@ -288,20 +291,24 @@ body {
    color: #ff7a01;
 }
 
-@media screen and (max-width: 960px) {
-  .mat-table {
+@media screen and (max-width: 600px) {
+  .mat-table,
+.mat-mdc-table {
     border: 0;
     vertical-align: middle
   }
 
-  .mat-table caption {
+  .mat-table caption,
+.mat-mdc-table caption {
     font-size: 1em;
   }
-  .mat-table .mat-row {
+  .mat-table .mat-row,
+.mat-mdc-table .mat-mdc-row {
     border-bottom: 5px solid #ddd;
     display: block;
   }
-  .mat-table .mat-cell {
+  .mat-table .mat-cell,
+.mat-mdc-table .mat-mdc-cell {
     border-bottom: 1px solid #ddd;
     display: block;
     font-size: 1em;
@@ -312,7 +319,8 @@ body {
     padding: 13px;
   }
   
-  .mat-table .mat-cell:before {
+  .mat-table .mat-cell:before,
+.mat-mdc-table .mat-mdc-cell:before {
     content: attr(data-label);
     float: left;
     text-transform: uppercase;
@@ -320,10 +328,12 @@ body {
     
     font-size: .85em;
   }
-  .mat-table .mat-cell:last-child {
+  .mat-table .mat-cell:last-child,
+.mat-mdc-table .mat-mdc-cell:last-child {
     border-bottom: 0;
   }
-    .mat-table .mat-cell:first-child {
+    .mat-table .mat-cell:first-child,
+.mat-mdc-table .mat-mdc-cell:first-child {
     margin-top: 4%;
   } 
 }
@@ -591,3 +601,10 @@ input[type=text], select, textarea{
    color: #ffffff;
 }
 
+
+/* Phone card layout: each cell shows its own label, so hide the column
+   header row and let cells size to their content. */
+@media screen and (max-width: 600px) {
+  .mat-mdc-table .mat-mdc-header-row { display: none; }
+  .mat-mdc-table .mat-mdc-cell { height: auto; margin-bottom: 0; }
+}

@@ -13,24 +13,29 @@
       max-height: inherit;
   }
    
-  .mat-row:nth-child(even) {
+  .mat-row:nth-child(even),
+.mat-mdc-row:nth-child(even) {
     background: #CCC;
     }
-  .mat-row:nth-child(odd) {
+  .mat-row:nth-child(odd),
+.mat-mdc-row:nth-child(odd) {
     background: red;
     }  
   
-   @media screen and (max-width: 960px) {
-     .mat-table {
+   @media screen and (max-width: 600px) {
+     .mat-table,
+.mat-mdc-table {
        border: 0;
        vertical-align: middle
      }
    
-     .mat-table caption {
+     .mat-table caption,
+.mat-mdc-table caption {
        font-size: 1em;
      }
      
-     .mat-table .mat-row {
+     .mat-table .mat-row,
+.mat-mdc-table .mat-mdc-row {
        border-bottom: 5px solid #ddd;
        display: inline;
      }
@@ -38,7 +43,8 @@
      .mat-table .mat-row:nth-child(even) {background: #CCC}
      .mat-table .mat-row:nth-child(odd) {background: #FFF}
      */
-     .mat-table .mat-cell {
+     .mat-table .mat-cell,
+.mat-mdc-table .mat-mdc-cell {
        border-bottom: 1px solid #ddd;
        display: block;
        font-size: 1em;
@@ -48,7 +54,8 @@
        margin-bottom: 4%;
        padding: 13px;
      }
-     .mat-table .mat-cell:before {
+     .mat-table .mat-cell:before,
+.mat-mdc-table .mat-mdc-cell:before {
        content: attr(data-label);
        float: left;
        text-transform: uppercase;
@@ -56,13 +63,16 @@
        
        font-size: .85em;
      }
-     .mat-table .mat-cell:last-child {
+     .mat-table .mat-cell:last-child,
+.mat-mdc-table .mat-mdc-cell:last-child {
        border-bottom: 0;
      }
-       .mat-table .mat-cell:first-child {
+       .mat-table .mat-cell:first-child,
+.mat-mdc-table .mat-mdc-cell:first-child {
        margin-top: 4%;
      }
-    .mat-header-row {
+    .mat-header-row,
+.mat-mdc-header-row {
        display: none;
      }
   
@@ -116,3 +126,9 @@
 
 }
    
+/* Phone card layout: each cell shows its own label, so hide the column
+   header row and let cells size to their content. */
+@media screen and (max-width: 600px) {
+  .mat-mdc-table .mat-mdc-header-row { display: none; }
+  .mat-mdc-table .mat-mdc-cell { height: auto; margin-bottom: 0; }
+}

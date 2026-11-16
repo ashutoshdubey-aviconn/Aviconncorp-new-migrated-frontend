@@ -1,10 +1,12 @@
-.mat-row:hover .mat-cell .customer-table{
+.mat-row:hover .mat-cell .customer-table,
+.mat-mdc-row:hover .mat-mdc-cell .customer-table {
   color: #0a0a09fd;
   font-size: large;
 }
 
 
-.mat-row:hover .mat-cell{
+.mat-row:hover .mat-cell,
+.mat-mdc-row:hover .mat-mdc-cell {
   color: #ff6600;
   font-size: large;
 }
@@ -168,13 +170,15 @@ table {
   border-spacing: 0;
   border-collapse: collapse;
 }
-.mat-header-cell{
+.mat-header-cell,
+.mat-mdc-header-cell {
   background-color: black;
   padding: 8px;
   font-size: 16px;
 }
 
-.mat-cell {
+.mat-cell,
+.mat-mdc-cell {
   font-size: 12px;
   border-right: 1px solid #222;
   padding: 10px;
@@ -186,7 +190,8 @@ table {
   text-align: center;
   font-size: 16px;
 }
-.mat-paginator{
+.mat-paginator,
+.mat-mdc-paginator {
   background: #000000;
 }
 
@@ -199,13 +204,16 @@ td{
   padding:8px;
 } 
 
-.mat-row:nth-child(even){
+.mat-row:nth-child(even),
+.mat-mdc-row:nth-child(even) {
   background-color: #696969;
 }
-.mat-row:nth-child(odd){
+.mat-row:nth-child(odd),
+.mat-mdc-row:nth-child(odd) {
   background-color: #3F3F3F;
 }
-.mat-table .mat-cell:last-child{
+.mat-table .mat-cell:last-child,
+.mat-mdc-table .mat-mdc-cell:last-child {
   border-bottom: 0;
 }
 /* Customer detail table end */

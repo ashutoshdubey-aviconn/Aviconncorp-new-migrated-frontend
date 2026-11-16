@@ -23,7 +23,8 @@ mat-cell, mat-footer-cell, mat-header-cell {
    padding:4px !important;
    text-align: center;
 }
-.mat-table[_ngcontent-c10] .mat-cell[_ngcontent-c10]:first-child {
+.mat-table[_ngcontent-c10] .mat-cell[_ngcontent-c10]:first-child,
+.mat-mdc-table[_ngcontent-c10] .mat-mdc-cell[_ngcontent-c10]:first-child {
    margin-top: 0%;
 }
 
@@ -31,7 +32,8 @@ mat-cell, mat-footer-cell, mat-header-cell {
    background: black;
 }
 
-.mat-header-cell {
+.mat-header-cell,
+.mat-mdc-header-cell {
   font-size: 14px;
   font-weight: 500;
   text-align: center!important;

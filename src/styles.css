@@ -13,3 +13,11 @@ body{
   line-height: 20px;
   background: #272727;
 }
+
+/* Angular Material 15+ (MDC) tables: let long words (site names, types)
+   wrap inside narrow cells instead of being clipped on both sides. */
+.mat-mdc-cell,
+.mat-mdc-header-cell {
+  overflow-wrap: break-word;
+  min-width: 0;
+}

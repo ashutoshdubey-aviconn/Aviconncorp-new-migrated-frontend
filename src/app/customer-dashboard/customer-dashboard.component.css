@@ -15,12 +15,14 @@ mat-cell, mat-footer-cell, mat-header-cell {
    min-height: inherit;
    padding:4px !important;
    justify-content: center;
+   text-align: center;
    /* padding: 10px; */
 }
 /* mat-header-cell, mat-cell {
    justify-content: center;
  } */
-.mat-table[_ngcontent-c10] .mat-cell[_ngcontent-c10]:first-child {
+.mat-table[_ngcontent-c10] .mat-cell[_ngcontent-c10]:first-child,
+.mat-mdc-table[_ngcontent-c10] .mat-mdc-cell[_ngcontent-c10]:first-child {
    margin-top: 0%;
 }
 
@@ -175,13 +177,15 @@ table {
    border-spacing: 0;
    border-collapse: collapse;
  }
- .mat-header-cell{
+ .mat-header-cell,
+.mat-mdc-header-cell {
    background-color: black;
    padding: 8px;
    font-size: 15px;
 }
 
-.mat-cell {
+.mat-cell,
+.mat-mdc-cell {
    font-size: 12px;
    border-right: 1px solid #222;
 }
@@ -192,7 +196,8 @@ table {
    text-align: center;
    font-size: 16px;
 }
- .mat-paginator{
+ .mat-paginator,
+.mat-mdc-paginator {
    background: #000000;
 }
 
@@ -205,19 +210,23 @@ td{
 
    padding:8px;
 }
-.mat-row:nth-child(even){
+.mat-row:nth-child(even),
+.mat-mdc-row:nth-child(even) {
    background-color: #696969;
 }
-.mat-row:nth-child(odd){
+.mat-row:nth-child(odd),
+.mat-mdc-row:nth-child(odd) {
    background-color: #3F3F3F;
 }
-.mat-table .mat-cell:last-child{
+.mat-table .mat-cell:last-child,
+.mat-mdc-table .mat-mdc-cell:last-child {
    border-bottom: 0;
 }
 /*.mat-table .mat-cell:first-child{
   margin-top: 2%;
 }*/
-.mat-header-row{
+.mat-header-row,
+.mat-mdc-header-row {
    display: flex;
 }
 /* Customer detail table end */
@@ -322,20 +331,24 @@ body {
    color: #ff7a01;
 }
 
-@media screen and (max-width: 960px) {
-  .mat-table {
+@media screen and (max-width: 600px) {
+  .mat-table,
+.mat-mdc-table {
     border: 0;
     vertical-align: middle
   }
 
-  .mat-table caption {
+  .mat-table caption,
+.mat-mdc-table caption {
     font-size: 1em;
   }
-  .mat-table .mat-row {
+  .mat-table .mat-row,
+.mat-mdc-table .mat-mdc-row {
     border-bottom: 5px solid #ddd;
     display: block;
   }
-  .mat-table .mat-cell {
+  .mat-table .mat-cell,
+.mat-mdc-table .mat-mdc-cell {
     border-bottom: 1px solid #ddd;
     display: block;
     font-size: 1em;
@@ -346,7 +359,8 @@ body {
     padding: 13px;
   }
 
-  .mat-table .mat-cell:before {
+  .mat-table .mat-cell:before,
+.mat-mdc-table .mat-mdc-cell:before {
     content: attr(data-label);
     float: left;
     text-transform: uppercase;
@@ -354,10 +368,12 @@ body {
 
     font-size: .85em;
   }
-  .mat-table .mat-cell:last-child {
+  .mat-table .mat-cell:last-child,
+.mat-mdc-table .mat-mdc-cell:last-child {
     border-bottom: 0;
   }
-    .mat-table .mat-cell:first-child {
+    .mat-table .mat-cell:first-child,
+.mat-mdc-table .mat-mdc-cell:first-child {
     margin-top: 4%;
   }
 }
@@ -525,3 +541,9 @@ dl[_ngcontent-c10], ol[_ngcontent-c10], ul[_ngcontent-c10] {
    margin-bottom: 0;
 }
  /* Customer details css end  */
+/* Phone card layout: each cell shows its own label, so hide the column
+   header row and let cells size to their content. */
+@media screen and (max-width: 600px) {
+  .mat-mdc-table .mat-mdc-header-row { display: none; }
+  .mat-mdc-table .mat-mdc-cell { height: auto; margin-bottom: 0; }
+}

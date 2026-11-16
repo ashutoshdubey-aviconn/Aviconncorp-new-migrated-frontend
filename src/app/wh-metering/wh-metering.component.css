@@ -26,7 +26,8 @@
       padding: 12px 11px 13px 11px;
       color: white;
    }
-   .mat-cell[_ngcontent-c10] {
+   .mat-cell[_ngcontent-c10],
+.mat-mdc-cell[_ngcontent-c10] {
       font-size: 12px;
       border-right: 1px solid #222;
       padding: 10px;
@@ -170,7 +171,8 @@
     border-spacing: 0;
     border-collapse: collapse;
   }
-  .mat-header-cell{
+  .mat-header-cell,
+.mat-mdc-header-cell {
     background-color: black;
     padding: 8px;
     font-size: 16px;
@@ -181,7 +183,8 @@
     text-align: center;
     font-size: 16px;
  }
-  .mat-paginator{
+  .mat-paginator,
+.mat-mdc-paginator {
     background: #000000;
  }
  
@@ -195,10 +198,12 @@
        
     padding:8px;
  } 
- .mat-row:nth-child(even){
+ .mat-row:nth-child(even),
+.mat-mdc-row:nth-child(even) {
    background-color: #696969;
 }
-.mat-row:nth-child(odd){
+.mat-row:nth-child(odd),
+.mat-mdc-row:nth-child(odd) {
    background-color: #3F3F3F;
 }
  /* Customer detail table end */

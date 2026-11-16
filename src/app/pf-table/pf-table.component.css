@@ -58,23 +58,27 @@
  width: 100%;
 }
 
-.mat-table {
+.mat-table,
+.mat-mdc-table {
  width: 100%;
  text-align:left;
  border-spacing: 0;
  border-collapse: collapse;
 }
-.mat-header-cell{
+.mat-header-cell,
+.mat-mdc-header-cell {
  background-color: black;
  padding: 8px;
  font-size: 16px;
  
  /* text-align: center; */
 }
-.mat-row:nth-child(even){
+.mat-row:nth-child(even),
+.mat-mdc-row:nth-child(even) {
     background-color: #696969;
  }
- .mat-row:nth-child(odd){
+ .mat-row:nth-child(odd),
+.mat-mdc-row:nth-child(odd) {
     background-color: #3F3F3F;
  }
 mat-cell:last-of-type, mat-footer-cell:last-of-type, mat-header-cell:last-of-type {
@@ -91,7 +95,8 @@ mat-cell, mat-footer-cell, mat-header-cell {
     padding-left: 22px;
     border-right: 1px solid #222;
 }
-.mat-header-row {
+.mat-header-row,
+.mat-mdc-header-row {
     min-height: 76px;
     /* width: 1675px; */
 }
@@ -101,25 +106,30 @@ mat-cell, mat-footer-cell, mat-header-cell {
  text-align: center;
  font-size: 16px;
 }
-.mat-paginator{
+.mat-paginator,
+.mat-mdc-paginator {
  background: #000000;
 }
 
 
-@media screen and (max-width: 960px) {
-    .mat-table {
+@media screen and (max-width: 600px) {
+    .mat-table,
+.mat-mdc-table {
       border: 0;
       vertical-align: middle
     }
   
-    .mat-table caption {
+    .mat-table caption,
+.mat-mdc-table caption {
       font-size: 1em;
     }
-    .mat-table .mat-row {
+    .mat-table .mat-row,
+.mat-mdc-table .mat-mdc-row {
       border-bottom: 5px solid #ddd;
       display: block;
     }
-    .mat-table .mat-cell {
+    .mat-table .mat-cell,
+.mat-mdc-table .mat-mdc-cell {
       border-bottom: 1px solid #ddd;
       display: block;
       font-size: 1em;
@@ -130,7 +140,8 @@ mat-cell, mat-footer-cell, mat-header-cell {
       padding: 13px;
     }
   
-    .mat-table .mat-cell:before {
+    .mat-table .mat-cell:before,
+.mat-mdc-table .mat-mdc-cell:before {
       content: attr(data-label);
       float: left;
       text-transform: uppercase;
@@ -138,11 +149,20 @@ mat-cell, mat-footer-cell, mat-header-cell {
   
       font-size: .85em;
     }
-    .mat-table .mat-cell:last-child {
+    .mat-table .mat-cell:last-child,
+.mat-mdc-table .mat-mdc-cell:last-child {
       border-bottom: 0;
     }
-      .mat-table .mat-cell:first-child {
+      .mat-table .mat-cell:first-child,
+.mat-mdc-table .mat-mdc-cell:first-child {
       margin-top: 4%;
     }
 }
   
+
+/* Phone card layout: each cell shows its own label, so hide the column
+   header row and let cells size to their content. */
+@media screen and (max-width: 600px) {
+  .mat-mdc-table .mat-mdc-header-row { display: none; }
+  .mat-mdc-table .mat-mdc-cell { height: auto; margin-bottom: 0; }
+}
