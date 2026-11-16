@@ -72,14 +72,16 @@ form button{
 }
 
 /* When the input is not focused */
-    .mat-form-field .placeholder {
+    .mat-form-field .placeholder,
+.mat-mdc-form-field .placeholder {
         color: #ffffff;
     }
     /* When the input is focused */
     .mat-focused .placeholder{
         color: white;
     }
-.mat-raised-button, .mat-mdc-raised-button.mat-mdc-button-base{
+.mat-raised-button, .mat-mdc-raised-button.mat-mdc-button-base,
+.mat-mdc-raised-button {
     background-color: #E66F00;
     background-image: linear-gradient(rgb(236, 206, 73),#e0740f);
     color: white;
@@ -123,7 +125,8 @@ label{
 .ng-invalid:not(form)  {
     border-left: 0px /* red */
   }
-  .mat-input-element {
+  .mat-input-element,
+.mat-mdc-input-element {
     caret-color: #fff;
 }
 

@@ -425,3 +425,9 @@
 .mat-mdc-table[_ngcontent-c13] .mat-mdc-cell[_ngcontent-c13]:first-child {
    margin-top: 0%;
 }
+/* Fill the grid column like the other site pages, so the date and interval
+   pickers sit side by side instead of overlapping. */
+mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}

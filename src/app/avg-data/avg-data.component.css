@@ -1,4 +1,5 @@
-.example-container .mat-form-field + .mat-form-field {
+.example-container .mat-form-field + .mat-form-field,
+.example-container .mat-mdc-form-field + .mat-mdc-form-field {
     margin-left: 8px;
   }
   
@@ -8,7 +9,8 @@
     margin-left: 15%;
     font-size: 18px;
  }
-  .mat-raised-button {
+  .mat-raised-button,
+.mat-mdc-raised-button {
   box-sizing: border-box;
   position: relative;
   background: #ea8c17d9;
@@ -43,7 +45,8 @@
   color:#E66F00!important;
  
 }
-.mat-form-field-infix {
+.mat-form-field-infix,
+.mat-mdc-form-field-infix {
     display: block;
     position: relative;
     flex: auto;

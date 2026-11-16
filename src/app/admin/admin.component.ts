@@ -106,10 +106,6 @@ export class AdminComponent implements OnInit {
       options : ['', Validators.required],
       subject : ["", Validators.required]
     });
-    //movie service
-    this.album.getAllAsFormArray(this.d).subscribe(albums => {
-      this.form.setControl('albums', albums);
-    });
     this.dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA)
   }
   // displayedColumns = ['custUserName','custEmail',];

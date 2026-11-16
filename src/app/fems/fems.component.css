@@ -6,7 +6,8 @@
    margin-right: 5px;
    font-size: 18px;
 }
-.mat-form-field {
+.mat-form-field,
+.mat-mdc-form-field {
   display: inline-block;
   position: relative;
   text-align: left;
@@ -204,11 +205,13 @@ hr {
     display:none;
   }
 
-  .mat-input-element {
+  .mat-input-element,
+.mat-mdc-input-element {
    caret-color: #E66F00 !important;
   }
 
-  .mat-input-element ng-reflect-placeholder {
+  .mat-input-element ng-reflect-placeholder,
+.mat-mdc-input-element ng-reflect-placeholder {
    color: #E66F00 !important;
   }
   /* === For phones =================================== */
@@ -348,7 +351,8 @@ dl[_ngcontent-c10], ol[_ngcontent-c10], ul[_ngcontent-c10] {
  padding: 5px;
  font-size: 16px;
 }
-.mat-raised-button {
+.mat-raised-button,
+.mat-mdc-raised-button {
  background-color: chocolate!important;
  
 }
@@ -404,7 +408,10 @@ table {
   margin-left: 70px;
 }
 
-.mat-button.mat-accent, .mat-icon-button.mat-accent, .mat-stroked-button.mat-accent {
+.mat-button.mat-accent, .mat-icon-button.mat-accent, .mat-stroked-button.mat-accent,
+.mat-mdc-button.mat-accent,
+.mat-mdc-icon-button.mat-accent,
+.mat-mdc-outlined-button.mat-accent {
   color: #E66F00;
 }
 

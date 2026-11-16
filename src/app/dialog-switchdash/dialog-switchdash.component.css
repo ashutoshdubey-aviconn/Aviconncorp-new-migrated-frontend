@@ -52,7 +52,8 @@
     border:1px solid #ff7a01;
     padding: 5px;  
 }  
-.mat-form-field{
+.mat-form-field,
+.mat-mdc-form-field {
  
  font-size: 14px;
  width: 100%;

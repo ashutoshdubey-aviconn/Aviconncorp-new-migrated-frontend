@@ -1,4 +1,4 @@
-import { Component, OnInit ,Inject ,ViewChild} from '@angular/core';
+import { Component, OnInit, Inject, Optional, ViewChild } from '@angular/core';
 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DataService } from './../services/data.service';
@@ -49,14 +49,16 @@ export class LightsWattDataComponent implements OnInit {
 
 
   constructor(private dataService:DataService,
-    public dialogRef: MatDialogRef<LightsWattDataComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    // Optional: this screen is opened as a dialog from the site pages and also
+    // rendered inline by the dashboard, where no dialog exists.
+    @Optional() public dialogRef: MatDialogRef<LightsWattDataComponent> | null,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: DialogData | null) {
 
       this.siteId = localStorage.getItem('siteId');
     }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.dialogRef?.close();
   }
   ngOnInit() {
     this.siteId = localStorage.getItem('siteId');

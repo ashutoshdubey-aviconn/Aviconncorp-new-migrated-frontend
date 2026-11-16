@@ -1,4 +1,5 @@
-.example-container .mat-form-field + .mat-form-field {
+.example-container .mat-form-field + .mat-form-field,
+.example-container .mat-mdc-form-field + .mat-mdc-form-field {
     margin-left: 8px;
   }
   
@@ -12,7 +13,8 @@
     margin-left: 5px;
  }
 
- .close.mat-button {
+ .close.mat-button,
+.close.mat-mdc-button {
    top: 0;
    right: 0;
    padding: 10px;

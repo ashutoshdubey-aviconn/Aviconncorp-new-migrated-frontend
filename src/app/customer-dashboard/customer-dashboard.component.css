@@ -455,11 +455,13 @@ body {
     display:none;
   }
 
-  .mat-input-element {
+  .mat-input-element,
+.mat-mdc-input-element {
    caret-color: #E66F00 !important;
   }
 
-  .mat-input-element ng-reflect-placeholder {
+  .mat-input-element ng-reflect-placeholder,
+.mat-mdc-input-element ng-reflect-placeholder {
    color: #E66F00 !important;
   }
   /* === For phones =================================== */

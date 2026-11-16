@@ -21,3 +21,12 @@ body{
   overflow-wrap: break-word;
   min-width: 0;
 }
+
+/* Material form fields default to a fixed 180px input area; never let one
+   spill out of a narrow grid column. */
+.mat-mdc-form-field {
+  max-width: 100%;
+}
+.mat-mdc-form-field-infix {
+  min-width: 0;
+}
