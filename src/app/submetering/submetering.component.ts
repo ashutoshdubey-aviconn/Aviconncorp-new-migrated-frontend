@@ -16,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { AlarmComponent } from '../alarm/alarm.component';
 import { HighchartsStandaloneComponent } from '../highcharts/highcharts-standalone.component';
 import { SHARED_MAT_MODULES } from '../shared/material-imports';
 import { MatPaginator } from '@angular/material/paginator';
@@ -59,6 +60,7 @@ export interface KeyValueIf {
     MatDatepickerModule,
     MatNativeDateModule,
     HighchartsStandaloneComponent,
+    AlarmComponent,
     ...SHARED_MAT_MODULES
 ],
 })
@@ -283,10 +285,13 @@ export class SubmeteringComponent implements OnInit {
       response => {
       });
   }
+  /** Alarms tile: show or hide the site alarm panel (alarmList/ API). */
   alarmTable() {
-    this.getSiteAlarmsDetails();
-    this.showAlarm = true;
+    this.showAlarm = !this.showAlarm;
 
+  }
+  get alarmSiteId(): number {
+    return Number(this.siteId);
   }
   AlarmTableClose() {
     this.showAlarm = false;
@@ -365,39 +370,6 @@ export class SubmeteringComponent implements OnInit {
 
 
   }
-  getSiteAlarmsDetails() {
-
-
-    let data1 = { "site_id": this.siteId }
-    this.UserService.getAlarmOnSitePage(data1).subscribe(
-      response => {
-        let data = [];
-        for (let i = 0; i <= response['data'].length - 1; i++) {
-          let res = response['data'][i]
-          let alarm_type = res['alarm_type'];
-          let object_type = res['object_type'];
-          let object_name = res['object_name'];
-          let alarm_priority = res['alarm_priority'];
-          let created_date = res['created_date'];
-          data.push({
-            "alarm_type": alarm_type,
-            "object_type": object_type,
-            "object_name": object_name,
-            "alarm_priority": alarm_priority,
-            "created_date": created_date
-          })
-        }
-        this.dataSource = new MatTableDataSource(data);
-        console.log(data);
-        this.dataSource.paginator = this.paginator;  //mandeep
-        this.dataSource.sort = this.sort;  //mandeep
-
-      },
-      error => { }
-    );
-  }
-
-
   getcustomerSnapshot() {
     let data = { "site_id": this.siteId }
     this.UserService.siteSnapshot(data).subscribe(

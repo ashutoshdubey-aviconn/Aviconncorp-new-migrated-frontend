@@ -1,46 +1,139 @@
-import { Component, OnInit , ViewChild} from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject, input, output, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DatePipe, DecimalPipe } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {
+  AlarmApiService,
+  AlarmTypeSummary,
+  METER_DISCONNECT_ALARM_TYPE,
+  MeterDisconnection,
+  SiteAlarmDetail,
+  SiteAlarmList,
+  apiDate,
+} from './alarm-api.service';
 
-import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { SHARED_MAT_MODULES } from '../shared/material-imports';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+type LoadState = 'loading' | 'ready' | 'error';
 
+interface TypeDetail {
+  state: LoadState;
+  rows: SiteAlarmDetail[];
+  meterEvents: MeterDisconnection[];
+}
+
+/**
+ * Site alarm panel: totals, one line per active alarm type, and the active
+ * rows of a type when it is expanded. Backed by alarmList/ and alarmListDetail/.
+ */
 @Component({
-    selector: 'app-alarm',
-    templateUrl: './alarm.component.html',
-    styleUrls: ['./alarm.component.css'],
+  selector: 'app-alarm',
+  templateUrl: './alarm.component.html',
+  styleUrls: ['./alarm.component.css'],
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatSortModule, MatFormFieldModule, MatInputModule, ...SHARED_MAT_MODULES]
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [DatePipe, DecimalPipe, MatProgressSpinnerModule],
 })
 export class AlarmComponent implements OnInit {
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  displayedColumns:any;
-  dataSource:any;
+  private readonly api = inject(AlarmApiService);
+  private readonly destroyRef = inject(DestroyRef);
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+  readonly siteId = input.required<number>();
+  readonly siteName = input<string | null>(null);
+  readonly closed = output<void>();
 
+  readonly state = signal<LoadState>('loading');
+  readonly summary = signal<SiteAlarmList | null>(null);
+  readonly expanded = signal<number | null>(null);
+  readonly details = signal<Record<number, TypeDetail>>({});
+
+  readonly apiDate = apiDate;
+  readonly meterAlarmType = METER_DISCONNECT_ALARM_TYPE;
+
+  ngOnInit(): void {
+    this.load();
   }
-  
-  constructor() { }
 
-  ngOnInit() {
-    this.displayedColumns=['custname','totalproperty','sensorbypass','powertheft','internetdown'];
+  load(): void {
+    this.state.set('loading');
+    this.expanded.set(null);
+    this.details.set({});
+    this.api
+      .siteAlarmList(this.siteId())
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: res => {
+          this.summary.set(res);
+          this.state.set('ready');
+        },
+        error: () => this.state.set('error'),
+      });
   }
- 
-}
-export interface PeriodicElement{
-  custname:string;
-  totalproperty:string;
-  sensorbypass:string;
-  powertheft:string;
-  internetdown:string;
+
+  toggle(type: AlarmTypeSummary): void {
+    const id = type.alarm_type;
+    if (this.expanded() === id) {
+      this.expanded.set(null);
+      return;
+    }
+    this.expanded.set(id);
+    const cached = this.details()[id];
+    if (!cached || cached.state === 'error') {
+      this.loadDetail(id);
+    }
+  }
+
+  retryDetail(type: AlarmTypeSummary): void {
+    this.loadDetail(type.alarm_type);
+  }
+
+  private loadDetail(alarmType: number): void {
+    this.patchDetail(alarmType, { state: 'loading', rows: [], meterEvents: [] });
+    this.api
+      .siteAlarmDetail(this.siteId(), alarmType)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: rows => this.patchDetail(alarmType, { state: 'ready', rows }),
+        error: () => this.patchDetail(alarmType, { state: 'error' }),
+      });
+
+    if (alarmType === METER_DISCONNECT_ALARM_TYPE) {
+      this.api
+        .meterDisconnections({ site_id: this.siteId(), status: 'disconnected', limit: 50 })
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: page => this.patchDetail(alarmType, { meterEvents: page?.results ?? [] }),
+          error: () => this.patchDetail(alarmType, { meterEvents: [] }),
+        });
+    }
+  }
+
+  private patchDetail(alarmType: number, patch: Partial<TypeDetail>): void {
+    this.details.update(all => {
+      const current = all[alarmType] ?? { state: 'loading', rows: [], meterEvents: [] };
+      return { ...all, [alarmType]: { ...current, ...patch } };
+    });
+  }
+
+  /** Location label: aisle group, else power source. */
+  location(row: SiteAlarmDetail): string {
+    return row.aisle_group || row.power_source || '—';
+  }
+
+  /** Electrical readings that are present on the row, e.g. "R 231 · Y 229 · Fuel 40". */
+  readings(row: SiteAlarmDetail): string {
+    const parts: string[] = [];
+    if (row.r_phase != null) parts.push(`R ${row.r_phase}`);
+    if (row.y_phase != null) parts.push(`Y ${row.y_phase}`);
+    if (row.b_phase != null) parts.push(`B ${row.b_phase}`);
+    if (row.fuel_level != null) parts.push(`Fuel ${row.fuel_level}`);
+    if (row.run_hours != null) parts.push(`Run ${row.run_hours} h`);
+    return parts.join(' · ');
+  }
+
+  hasReadings(rows: SiteAlarmDetail[]): boolean {
+    return rows.some(r => this.readings(r) !== '');
+  }
+
+  priorityClass(priority: string | null | undefined): string {
+    return 'prio prio-' + (priority || 'unknown').toLowerCase();
+  }
 }

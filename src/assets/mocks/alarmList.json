@@ -1,0 +1,27 @@
+{
+  "status": 200,
+  "total_alarm": 19,
+  "high_priority": 9,
+  "medium_priority": 2,
+  "active_alarms": 11,
+  "data": [
+    {
+      "name": "Meter Reading Issue",
+      "count": 6,
+      "priority": "High",
+      "alarm_type": 10
+    },
+    {
+      "name": "Meter Disconnected",
+      "count": 3,
+      "priority": "High",
+      "alarm_type": 14
+    },
+    {
+      "name": "High Consumption",
+      "count": 10,
+      "priority": "Medium",
+      "alarm_type": 7
+    }
+  ]
+}

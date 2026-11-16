@@ -1,0 +1,72 @@
+{
+  "10": [
+    {
+      "get_alarm_type_display": "Meter Reading Issue",
+      "power_source": null,
+      "get_alarm_priority_display": "High",
+      "r_phase": null,
+      "y_phase": null,
+      "b_phase": null,
+      "fuel_level": null,
+      "run_hours": null,
+      "created": "2026-11-02T12:20:23.984023",
+      "is_active": true,
+      "aisle_group": "F1-Part1-EL",
+      "issue": "Gateway avc_Myntra_BGLRSvng_000114_1: lower meter reading reported.",
+      "occurrences": 3,
+      "last_seen": "2026-11-02T13:10:23.982042"
+    },
+    {
+      "get_alarm_type_display": "Meter Reading Issue",
+      "power_source": null,
+      "get_alarm_priority_display": "High",
+      "r_phase": null,
+      "y_phase": null,
+      "b_phase": null,
+      "fuel_level": null,
+      "run_hours": null,
+      "created": "2026-11-02T12:17:23.982873",
+      "is_active": true,
+      "aisle_group": "F2-2K Block",
+      "issue": "Gateway avc_Myntra_BGLRSvng_000114_1: lower meter reading reported.",
+      "occurrences": 3,
+      "last_seen": "2026-11-02T13:06:24.112807"
+    }
+  ],
+  "14": [
+    {
+      "get_alarm_type_display": "Meter Disconnected",
+      "power_source": null,
+      "get_alarm_priority_display": "High",
+      "r_phase": null,
+      "y_phase": null,
+      "b_phase": null,
+      "fuel_level": null,
+      "run_hours": null,
+      "created": "2026-11-14T13:38:45.675572",
+      "is_active": true,
+      "aisle_group": "GF-Inventory",
+      "issue": "Gateway avc_Myntra_BGLRSvng_000114_1: meter801 disconnected on /dev/ttyUSB1.",
+      "occurrences": 3,
+      "last_seen": "2026-11-14T14:45:47.676374"
+    }
+  ],
+  "7": [
+    {
+      "get_alarm_type_display": "High Consumption",
+      "power_source": null,
+      "get_alarm_priority_display": "Medium",
+      "r_phase": 231,
+      "y_phase": 229,
+      "b_phase": 233,
+      "fuel_level": null,
+      "run_hours": null,
+      "created": "2026-10-06T00:00:00",
+      "is_active": true,
+      "aisle_group": "GF_FS_3&4/6&7_BS_3~5",
+      "issue": "High consumption: consumption=14.24, threshold=12.01, baseline=16.01.",
+      "occurrences": 10,
+      "last_seen": "2026-10-26T00:00:00"
+    }
+  ]
+}

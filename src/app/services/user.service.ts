@@ -125,9 +125,6 @@ getAllCustomers(){
 getAlarmsOnCustomerPage(data:any){
   return this.http.post(this.baseUrl +"alarmListOnCustomerPage/",data)
 }
-getAlarmOnSitePage(data:any){
-  return this.http.post(this.baseUrl + "alarmListOnSitePage/",data,this.getAuthHeaders())
-}
 getCustAlarmGraphData(data:any){
   return this.http.post(this.baseUrl+'getCustAlarmGraph/',data,this.getAuthHeaders())
 }

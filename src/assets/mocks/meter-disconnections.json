@@ -1,0 +1,20 @@
+{
+  "status": 200,
+  "count": 1,
+  "limit": 100,
+  "offset": 0,
+  "results": [
+    {
+      "id": 3635,
+      "logged_site_id": 102,
+      "meter_id": 801,
+      "meter_number": 80,
+      "meter_name": "meter801",
+      "status": "disconnected",
+      "port_id": "/dev/ttyUSB1",
+      "detection_window_start": "2026-11-14T13:38:45.675572",
+      "detection_window_end": "2026-11-14T14:45:46.789054",
+      "last_seen_at": "2026-11-14T14:45:47.676374"
+    }
+  ]
+}

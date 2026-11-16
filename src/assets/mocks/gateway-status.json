@@ -1,0 +1,48 @@
+{
+  "status": 200,
+  "count": 4,
+  "limit": 100,
+  "offset": 0,
+  "results": [
+    {
+      "id": 1,
+      "gateway_id": "avc_purplleOldInvt_farukhnagar_000135_1",
+      "latitude": null,
+      "longitude": null,
+      "status": true,
+      "site_id": 135,
+      "site_name": "Purplle GGN Inventory",
+      "customer_name": "Purplle"
+    },
+    {
+      "id": 2,
+      "gateway_id": "avc_myntra_bhiwSvng_000109_2",
+      "latitude": null,
+      "longitude": null,
+      "status": true,
+      "site_id": 109,
+      "site_name": "Myntra Bhiwandi Inventory Lights",
+      "customer_name": "MyntraTesting"
+    },
+    {
+      "id": 3,
+      "gateway_id": "avc_GGNFC3gf_Hassnpur_000125_1",
+      "latitude": null,
+      "longitude": null,
+      "status": false,
+      "site_id": 125,
+      "site_name": "Hassanpur-GGNFC3-GF",
+      "customer_name": "DelhiVery"
+    },
+    {
+      "id": 4,
+      "gateway_id": "avc_Myntra_BGLRSvng_000114_1",
+      "latitude": null,
+      "longitude": null,
+      "status": false,
+      "site_id": 114,
+      "site_name": "Myntra Bangalore Saving",
+      "customer_name": "Myntra"
+    }
+  ]
+}

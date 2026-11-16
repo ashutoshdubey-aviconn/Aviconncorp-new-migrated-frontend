@@ -146,6 +146,9 @@
             </div>
           </div>
           <!--Alarm details table-->
+          @if (showAlarm) {
+            <app-alarm [siteId]="alarmSiteId" [siteName]="sitename" (closed)="AlarmTableClose()"></app-alarm>
+          }
           <!--power-status and customer power-status start-->
           <div class="row mt-4">
             <div class="col-md-12 col-sm-12">

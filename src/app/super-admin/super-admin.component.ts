@@ -6,7 +6,9 @@ import { DashboardDataService } from './../services/dashboard-data.service';
 import { LoginComponent } from './../login/login.component';
 
 import { UserService } from './../services/user.service';
-import { AfterViewInit, Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ViewChildren, QueryList, inject } from '@angular/core';
+import { AlarmApiService, apiDate } from '../alarm/alarm-api.service';
+import { GatewayStatusComponent } from '../alarm/gateway-status.component';
 
 // import { MatPaginator, MatSort, MatTableDataSource, MatTable } from '@angular/material';
 import Highcharts from 'highcharts/es-modules/masters/highcharts.src.js';
@@ -43,9 +45,18 @@ export interface AlarmData {
   custName: string;
   siteName: string;
   alarmName: string;
+  issue: string;
+  /** Aisle group, power source or gateway the alarm was raised on. */
+  location: string;
+  occurrences: number;
+  /** First seen (ISO). */
   alarmDate: string;
+  lastSeen: string;
   alarmPriority: string;
 }
+
+/** Fallback when the API sends only the numeric Alarm_priority. */
+const PRIORITY_LABELS: Record<number, string> = { 0: 'Low', 1: 'Medium', 2: 'High' };
 
 @Component({
     selector: 'app-super-admin',
@@ -58,6 +69,7 @@ export interface AlarmData {
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
+    GatewayStatusComponent,
     ...SHARED_MAT_MODULES
 ]
 })
@@ -66,7 +78,15 @@ export class SuperAdminComponent {
   dataSource: MatTableDataSource<UserData>;
   customerDisplayedColumns: string[] = ['custId', 'custUserName', 'totalWH', 'liveWH', 'WHavgsaving', 'maxsaving', 'minsaving'];
   alarmDataSource: MatTableDataSource<AlarmData>;
-  alarmsColumns: string[] = ['custName', 'siteName', 'alarmName', 'alarmDate', 'alarmPriority']
+  alarmsColumns: string[] = ['custName', 'siteName', 'alarmName', 'location', 'occurrences', 'alarmDate', 'lastSeen', 'alarmPriority'];
+  alarmsLoaded = false;
+  private readonly alarmApi = inject(AlarmApiService);
+
+  applyAlarmFilter(value: string) {
+    if (this.alarmDataSource) {
+      this.alarmDataSource.filter = value.trim().toLowerCase();
+    }
+  }
   // @ViewChild(MatPaginator) paginator: MatPaginator;
   // @ViewChild(MatSort) sort: MatSort;
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -138,46 +158,34 @@ export class SuperAdminComponent {
         this.percentageSaved = 0;
       }
     )
-    // calling alarm priority table api
-    this.UserService.getSuperAdminAlarmPriorityTable(data).subscribe(
-      response => {
-        console.log("response : ", response)
-        let alarmPriorityData = []
-        for (let i = 0; i <= response['data'].length - 1; i++) {
-          let alarm_data = response['data'][i]
-          let site_data = alarm_data['alarm_list']
-          for (let j = 0; j <= site_data.length - 1; j++) {
-            let alarm_priority;
-            if (site_data[j]['Alarm_priority'] == 0) {
-              alarm_priority = 'Low'
-            }
-            else if (site_data[j]['Alarm_priority'] == 1) {
-              alarm_priority = 'Medium'
-            }
-            else {
-              alarm_priority = 'High'
-            }
-            alarmPriorityData.push({
-              "custName": alarm_data['customer_name'],
-              "siteName": site_data[j]['site_id__site_name'],
-              "alarmName": site_data[j]['alarm'],
-              "alarmDate": site_data[j]['created_time'],
-              "alarmPriority": alarm_priority
-            })
-          }
-
-        }
-        this.alarmDataSource = new MatTableDataSource(alarmPriorityData);
+    // Active issues of every live site, grouped by customer (alarmTypeApi/)
+    this.alarmApi.allAlarmsByCustomer().subscribe({
+      next: groups => {
+        const rows: AlarmData[] = groups.flatMap(g => g.alarm_list
+          .filter(a => a && typeof a === 'object')
+          .map(a => ({
+            custName: g.customer_name,
+            siteName: a.site_id__site_name,
+            alarmName: a.alarm,
+            issue: a.issue ?? '',
+            location: a.aisle_group_name || a.power_source || a.home_gateway_id || '',
+            occurrences: a.occurrences ?? 0,
+            alarmDate: apiDate(a.created_time) ?? '',
+            lastSeen: apiDate(a.last_seen) ?? '',
+            alarmPriority: a.priority || PRIORITY_LABELS[a.Alarm_priority] || 'High',
+          })));
+        this.alarmDataSource = new MatTableDataSource(rows);
         this.alarmDataSource.paginator = this.paginator.toArray()[0];
         this.alarmDataSource.sort = this.sort.toArray()[0];
-        // console.log("paginator : ", this.paginator)
+        this.alarmsLoaded = true;
       },
-      error => {
+      error: error => {
         console.error('SuperAdmin alarm table API failed', error);
         // show an empty table instead of leaving UI broken
         this.alarmDataSource = new MatTableDataSource([]);
+        this.alarmsLoaded = true;
       }
-    )
+    });
 
     // calling all customer api
     this.UserService.getAllCustomersOnSuperAdmin(data).subscribe(

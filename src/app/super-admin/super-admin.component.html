@@ -96,50 +96,72 @@
   <!-- Alarm Priority List Table Start -->
   <div class="mt-5">
     <div class="row">
-      <div class="col-sm-12 "> 
-        <div class="panel-heading">
-          <div class="row">
-          <div class="col-md-8">
-          <i class="fa fa-bar-chart-o"></i> Alarm Priority List </div>
-        </div>
+      <div class="col-sm-12 ">
+        <div class="panel-heading alarm-heading">
+          <span><i class="fa fa-bell"></i> Active Alarms <small>(last 30 days)</small></span>
+          <input class="alarm-filter" type="search" placeholder="Filter by customer, site, alarm…"
+                 aria-label="Filter alarms" (input)="applyAlarmFilter($any($event.target).value)">
         </div>
         <div class="chart-body customer-table">
           <div class="example-container mat-elevation-z8">
-            <mat-table [dataSource]="alarmDataSource" matSort>
+            <mat-table [dataSource]="alarmDataSource" matSort matSortActive="lastSeen" matSortDirection="desc">
               <ng-container matColumnDef="custName">
-                <mat-header-cell *matHeaderCellDef mat-sort-header > Customer Name </mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="custName" > {{row.custName}} </mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Customer </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="Customer"> {{row.custName}} </mat-cell>
               </ng-container>
               <ng-container matColumnDef="siteName">
-                <mat-header-cell *matHeaderCellDef mat-sort-header > Site Name </mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="siteName" > {{row.siteName}} </mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Site </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="Site"> {{row.siteName}} </mat-cell>
               </ng-container>
               <ng-container matColumnDef="alarmName">
-                <mat-header-cell *matHeaderCellDef mat-sort-header > Alarm Name </mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="alarmName" > {{row.alarmName}} </mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header class="col-alarm"> Alarm </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="Alarm" class="col-alarm">
+                  <div class="alarm-cell">
+                    <span class="alarm-name">{{row.alarmName}}</span>
+                    @if (row.issue) { <span class="alarm-issue">{{row.issue}}</span> }
+                  </div>
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="location">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Location </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="Location" class="col-loc"> {{row.location || '—'}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="occurrences">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Count </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="Count"> {{row.occurrences}} </mat-cell>
               </ng-container>
               <ng-container matColumnDef="alarmDate">
-                <mat-header-cell *matHeaderCellDef mat-sort-header > Since Time </mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="alarmDate"> {{row.alarmDate}} </mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header> First Seen </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="First Seen"> {{row.alarmDate | date:'dd MMM yyyy'}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="lastSeen">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Last Seen </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="Last Seen"> {{(row.lastSeen | date:'dd MMM yyyy') || '—'}} </mat-cell>
               </ng-container>
               <ng-container matColumnDef="alarmPriority">
-                <mat-header-cell *matHeaderCellDef mat-sort-header > Alarm Priority </mat-header-cell>
-                <!--<mat-cell *matCellDef="let row" data-label="alarmPriority" [ngStyle]="{'color': 'black', 'background-color': row.alarmPriority == 'High' ? '#ff6666': row.alarmPriority == 'Low' ? '#85e085' : row.alarmPriority == 'Medium' ? '#ffe066' : ''}" > {{row.alarmPriority}} </mat-cell>--> 
-                <mat-cell *matCellDef="let row" data-label="alarmPriority"> {{row.alarmPriority}} </mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Priority </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="Priority">
+                  <span class="prio" [class]="'prio prio-' + (row.alarmPriority | lowercase)">{{row.alarmPriority}}</span>
+                </mat-cell>
               </ng-container>
 
               <mat-header-row *matHeaderRowDef="alarmsColumns"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: alarmsColumns;">
-              </mat-row>
+              <mat-row *matRowDef="let row; columns: alarmsColumns;"></mat-row>
             </mat-table>
-            
-            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-       
+            @if (alarmsLoaded && !alarmDataSource?.filteredData?.length) {
+              <div class="alarm-empty">No active alarms.</div>
+            }
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
           </div>
         </div>
       </div>
     </div>
-  </div> 
+  </div>
+
+  <!-- Gateway online status -->
+  <app-gateway-status></app-gateway-status>
+
   <!-- Alarm Priority List Table End-->
 
 

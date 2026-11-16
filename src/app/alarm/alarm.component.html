@@ -1,60 +1,125 @@
-<div class="col-12">
-  <div class="panel-heading">
-          <i class="fa fa-bar-chart-o"></i>Alarms
+<section class="alarm-panel" aria-labelledby="site-alarms-title">
+  <header class="alarm-header">
+    <h2 id="site-alarms-title"><i class="fa fa-bell" aria-hidden="true"></i> Active Alarms
+      @if (siteName()) { <span class="site">· {{ siteName() }}</span> }
+    </h2>
+    <div class="actions">
+      <button type="button" class="icon-btn" (click)="load()" aria-label="Refresh alarms" title="Refresh">
+        <i class="fa fa-refresh" aria-hidden="true"></i>
+      </button>
+      <button type="button" class="icon-btn" (click)="closed.emit()" aria-label="Close alarms" title="Close">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </button>
+    </div>
+  </header>
+
+  @switch (state()) {
+    @case ('loading') {
+      <div class="state" role="status"><mat-spinner diameter="28"></mat-spinner> Loading alarms…</div>
+    }
+    @case ('error') {
+      <div class="state error" role="alert">
+        Couldn't load alarms.
+        <button type="button" class="link-btn" (click)="load()">Try again</button>
       </div>
-      <div class="chart-body">
-        <div class="example-header" fxLayout="row">
-              <mat-form-field>
-                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-              </mat-form-field>
-            </div>
-
-            <div class="example-container mat-elevation-z8">
-
-              <mat-table [dataSource]="dataSource" matSort>
-
-                
-                <ng-container matColumnDef="custname">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Customer Name </mat-header-cell>
-                  <mat-cell *matCellDef="let row" data-label="Site ID"> abc </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="totalproperty">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Total Property </mat-header-cell>
-                  <mat-cell *matCellDef="let row" data-label="Site Name" > A </mat-cell>
-                </ng-container>
-
-              
-                <ng-container matColumnDef="sensorbypass">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Sensor Bypaas </mat-header-cell>
-                  <mat-cell *matCellDef="let row" data-label="Site Type" > 10 </mat-cell>
-                </ng-container>
-
-                 
-                  <ng-container matColumnDef="powertheft">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Power Theft </mat-header-cell>
-                  <mat-cell *matCellDef="let row" data-label="Site Type" > 10 </mat-cell>
-                </ng-container>
-                
-                <ng-container matColumnDef="internetdown">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Internet Down </mat-header-cell>
-                  <mat-cell *matCellDef="let row" data-label="Site Type" > 10 </mat-cell>
-                </ng-container>
-
-                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns;">
-                </mat-row>
-              </mat-table>
-
-              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-            </div>
-          </div>
-
-          
+    }
+    @default {
+      @if (summary(); as s) {
+        <div class="stats">
+          <div class="stat"><span class="value">{{ s.active_alarms | number }}</span><span class="label">Active alarms</span></div>
+          <div class="stat"><span class="value">{{ s.total_alarm | number }}</span><span class="label">Occurrences</span></div>
+          <div class="stat high"><span class="value">{{ s.high_priority | number }}</span><span class="label">High priority</span></div>
+          <div class="stat medium"><span class="value">{{ s.medium_priority | number }}</span><span class="label">Medium priority</span></div>
         </div>
 
+        @if (s.data.length === 0) {
+          <div class="state empty"><i class="fa fa-check-circle" aria-hidden="true"></i> No active alarms on this site.</div>
+        } @else {
+          <ul class="types">
+            @for (t of s.data; track t.alarm_type) {
+              <li class="type" [class.open]="expanded() === t.alarm_type">
+                <button type="button" class="type-row" (click)="toggle(t)"
+                        [attr.aria-expanded]="expanded() === t.alarm_type"
+                        [attr.aria-controls]="'alarm-type-' + t.alarm_type">
+                  <i class="fa chevron" [class.fa-chevron-right]="expanded() !== t.alarm_type"
+                     [class.fa-chevron-down]="expanded() === t.alarm_type" aria-hidden="true"></i>
+                  <span class="name">{{ t.name }}</span>
+                  <span [class]="priorityClass(t.priority)">{{ t.priority }}</span>
+                  <span class="count" title="Occurrences">{{ t.count | number }}</span>
+                </button>
 
+                @if (expanded() === t.alarm_type) {
+                  <div class="detail" [id]="'alarm-type-' + t.alarm_type">
+                    @let d = details()[t.alarm_type];
+                    @if (!d || d.state === 'loading') {
+                      <div class="state" role="status"><mat-spinner diameter="22"></mat-spinner> Loading details…</div>
+                    } @else if (d.state === 'error') {
+                      <div class="state error" role="alert">Couldn't load details.
+                        <button type="button" class="link-btn" (click)="retryDetail(t)">Try again</button>
+                      </div>
+                    } @else if (d.rows.length === 0) {
+                      <div class="state empty">No active rows for this alarm.</div>
+                    } @else {
+                      <div class="table-scroll">
+                        <table class="grid">
+                          <thead>
+                            <tr>
+                              <th scope="col">Location</th>
+                              <th scope="col">Issue</th>
+                              @if (hasReadings(d.rows)) { <th scope="col">Readings</th> }
+                              <th scope="col" class="num">Occurrences</th>
+                              <th scope="col">First seen</th>
+                              <th scope="col">Last seen</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @for (r of d.rows; track $index) {
+                              <tr>
+                                <td data-label="Location">{{ location(r) }}</td>
+                                <td data-label="Issue" class="issue">{{ r.issue || r.get_alarm_type_display }}</td>
+                                @if (hasReadings(d.rows)) { <td data-label="Readings">{{ readings(r) || '—' }}</td> }
+                                <td data-label="Occurrences" class="num">{{ r.occurrences | number }}</td>
+                                <td data-label="First seen">{{ apiDate(r.created) | date: 'dd MMM yyyy, HH:mm' }}</td>
+                                <td data-label="Last seen">{{ (apiDate(r.last_seen) | date: 'dd MMM yyyy, HH:mm') || '—' }}</td>
+                              </tr>
+                            }
+                          </tbody>
+                        </table>
+                      </div>
 
-
-
-
+                      @if (t.alarm_type === meterAlarmType && d.meterEvents.length) {
+                        <h3 class="sub">Disconnected meters</h3>
+                        <div class="table-scroll">
+                          <table class="grid">
+                            <thead>
+                              <tr>
+                                <th scope="col">Meter</th>
+                                <th scope="col">Port</th>
+                                <th scope="col">Detected</th>
+                                <th scope="col">Last seen</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              @for (m of d.meterEvents; track m.id) {
+                                <tr>
+                                  <td data-label="Meter">{{ m.meter_name }} (#{{ m.meter_number }})</td>
+                                  <td data-label="Port">{{ m.port_id }}</td>
+                                  <td data-label="Detected">{{ m.detection_window_start | date: 'dd MMM yyyy, HH:mm' }}</td>
+                                  <td data-label="Last seen">{{ m.last_seen_at | date: 'dd MMM yyyy, HH:mm' }}</td>
+                                </tr>
+                              }
+                            </tbody>
+                          </table>
+                        </div>
+                      }
+                    }
+                  </div>
+                }
+              </li>
+            }
+          </ul>
+        }
+      }
+    }
+  }
+</section>

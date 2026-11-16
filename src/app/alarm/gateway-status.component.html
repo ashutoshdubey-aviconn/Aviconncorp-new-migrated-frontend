@@ -1,0 +1,62 @@
+<section class="gw-panel" aria-labelledby="gw-title">
+  <header class="gw-header">
+    <h2 id="gw-title"><i class="fa fa-wifi" aria-hidden="true"></i> Gateway Status</h2>
+    <button type="button" class="icon-btn" (click)="load()" aria-label="Refresh gateway status" title="Refresh">
+      <i class="fa fa-refresh" aria-hidden="true"></i>
+    </button>
+  </header>
+
+  <div class="gw-toolbar">
+    <div class="segmented" role="group" aria-label="Filter by status">
+      <button type="button" [class.active]="statusFilter() === 'all'" [attr.aria-pressed]="statusFilter() === 'all'"
+              (click)="setStatus('all')">All <span class="n">{{ gateways().length }}</span></button>
+      <button type="button" [class.active]="statusFilter() === 'online'" [attr.aria-pressed]="statusFilter() === 'online'"
+              (click)="setStatus('online')"><span class="dot on" aria-hidden="true"></span>Online <span class="n">{{ online() }}</span></button>
+      <button type="button" [class.active]="statusFilter() === 'offline'" [attr.aria-pressed]="statusFilter() === 'offline'"
+              (click)="setStatus('offline')"><span class="dot off" aria-hidden="true"></span>Offline <span class="n">{{ offline() }}</span></button>
+    </div>
+    <input class="gw-search" type="search" placeholder="Search gateway, site, customer…" aria-label="Search gateways"
+           (input)="setSearch($any($event.target).value)">
+  </div>
+
+  @if (state() === 'loading') {
+    <div class="gw-state" role="status"><mat-spinner diameter="26"></mat-spinner> Loading gateways…</div>
+  } @else if (state() === 'error') {
+    <div class="gw-state error" role="alert">Couldn't load gateway status.
+      <button type="button" class="link-btn" (click)="load()">Try again</button>
+    </div>
+  }
+
+  <div class="table-wrap" [hidden]="state() !== 'ready'">
+    <table mat-table [dataSource]="dataSource" matSort matSortActive="status" matSortDirection="asc" class="gw-table">
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <td mat-cell *matCellDef="let g" data-label="Status">
+          <span class="status" [class.on]="g.status" [class.off]="!g.status">
+            <span class="dot" [class.on]="g.status" [class.off]="!g.status" aria-hidden="true"></span>
+            {{ g.status ? 'Online' : 'Offline' }}
+          </span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="gateway_id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Gateway</th>
+        <td mat-cell *matCellDef="let g" data-label="Gateway" class="mono">{{ g.gateway_id }}</td>
+      </ng-container>
+      <ng-container matColumnDef="site_name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Site</th>
+        <td mat-cell *matCellDef="let g" data-label="Site">{{ g.site_name }} <span class="muted">#{{ g.site_id }}</span></td>
+      </ng-container>
+      <ng-container matColumnDef="customer_name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer</th>
+        <td mat-cell *matCellDef="let g" data-label="Customer">{{ g.customer_name }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns"></tr>
+      <tr class="mat-mdc-row" *matNoDataRow>
+        <td class="gw-empty" [attr.colspan]="columns.length">No gateways match.</td>
+      </tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons aria-label="Gateway pages"></mat-paginator>
+  </div>
+</section>

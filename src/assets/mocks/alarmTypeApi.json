@@ -1,3 +1,96 @@
 {
-  "types": [{ "id": 1, "name": "power" }, { "id": 2, "name": "sensor" }]
+  "data": [
+    {
+      "customer_id": 2,
+      "customer_name": "DelhiVery",
+      "alarm_list": [
+        {
+          "alarm": "High Consumption",
+          "Alarm_priority": 1,
+          "site_id__site_name": "Hassanpur-GGNFC3-GF",
+          "created_time": "2026-10-06 00:00:00",
+          "priority": "Medium",
+          "site_id": 125,
+          "customer_id": 2,
+          "customer_name": "DelhiVery",
+          "source": "consumption",
+          "aisle_group_id": 727,
+          "aisle_group_name": "GF_FS_3&4/6&7_BS_3~5",
+          "leg_id": "727",
+          "power_source": null,
+          "home_gateway_id": "avc_GGNFC3gf_Hassnpur_000125_1",
+          "issue": "High consumption: consumption=14.24, threshold=12.01, baseline=16.01.",
+          "alarm_type": 7,
+          "last_seen": "2026-10-26 00:00:00",
+          "occurrences": 12
+        },
+        {
+          "alarm": "Bypassed",
+          "Alarm_priority": 1,
+          "site_id__site_name": "Hassanpur-GGNFC3-GF",
+          "created_time": "2026-10-06 00:00:00",
+          "priority": "Medium",
+          "site_id": 125,
+          "customer_id": 2,
+          "customer_name": "DelhiVery",
+          "source": "consumption",
+          "aisle_group_id": 724,
+          "aisle_group_name": "GF_FS/BS_R1&BS_R2",
+          "leg_id": "724",
+          "power_source": null,
+          "home_gateway_id": "avc_GGNFC3gf_Hassnpur_000125_1",
+          "issue": "Bypassed: consumption=8.16, threshold=7.51 (100 % of baseline), baseline=7.51.",
+          "alarm_type": 11,
+          "last_seen": "2026-10-26 00:00:00",
+          "occurrences": 12
+        }
+      ]
+    },
+    {
+      "customer_id": 27,
+      "customer_name": "Myntra",
+      "alarm_list": [
+        {
+          "alarm": "High Consumption",
+          "Alarm_priority": 1,
+          "site_id__site_name": "Myntra Binola Inventory Saving",
+          "created_time": "2026-09-25 00:00:00",
+          "priority": "Medium",
+          "site_id": 29,
+          "customer_id": 27,
+          "customer_name": "Myntra",
+          "source": "consumption",
+          "aisle_group_id": 224,
+          "aisle_group_name": "F-Block-GF",
+          "leg_id": "224",
+          "power_source": null,
+          "home_gateway_id": "avc_myntra_binola_000029_2",
+          "issue": "High consumption: consumption=22.39, threshold=20.22, baseline=26.96.",
+          "alarm_type": 7,
+          "last_seen": "2026-10-26 00:00:00",
+          "occurrences": 17
+        },
+        {
+          "alarm": "Bypassed",
+          "Alarm_priority": 1,
+          "site_id__site_name": "Myntra Binola Inventory Saving",
+          "created_time": "2026-09-24 00:00:00",
+          "priority": "Medium",
+          "site_id": 29,
+          "customer_id": 27,
+          "customer_name": "Myntra",
+          "source": "consumption",
+          "aisle_group_id": 225,
+          "aisle_group_name": "EL-F-Block-GF",
+          "leg_id": "225",
+          "power_source": null,
+          "home_gateway_id": "avc_myntra_binola_000029_2",
+          "issue": "Bypassed: consumption=9.90, threshold=7.73 (100 % of baseline), baseline=7.73.",
+          "alarm_type": 11,
+          "last_seen": "2026-10-26 00:00:00",
+          "occurrences": 24
+        }
+      ]
+    }
+  ]
 }

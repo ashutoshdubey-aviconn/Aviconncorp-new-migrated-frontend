@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
-import { Observable, of, from } from 'rxjs';
+import { Observable, of, from, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 /**
@@ -78,6 +78,27 @@ export class MockApiInterceptor implements HttpInterceptor {
     }
 
     const relative = url.substring(environment.apiUrl.length);
+
+    // Alarm endpoints: match the exact path, since several names share a prefix
+    // (alarmList/ vs alarmListDetail/ vs alarmListOnCustomerPage/).
+    const path = relative.split('?')[0].replace(/\/$/, '');
+    if (path === 'alarmListDetail') {
+      const alarmType = String(req.body?.alarm_type ?? '');
+      return this.loadJsonFixture('alarmListDetail', {}).pipe(
+        map(res => res.clone({ body: { status: 200, data: res.body?.[alarmType] ?? [] } })));
+    }
+    const alarmFixtures: Record<string, string> = {
+      'alarmList': 'alarmList',
+      'alarmapi': 'alarmapi',
+      'consumptionAlarms': 'consumptionAlarms',
+      'gateway-status': 'gateway-status',
+      'meter-disconnections': 'meter-disconnections',
+      // Super-admin snapshot tiles (not the fire-device snapShotApi/ endpoint).
+      'snapshot': 'snapshot-superadmin',
+    };
+    if (alarmFixtures[path]) {
+      return this.loadJsonFixture(alarmFixtures[path], { status: 200, data: [] });
+    }
 
     // Example: mock tokens endpoint
     if (relative.startsWith('tokens')) {

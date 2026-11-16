@@ -24,6 +24,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
+import { AlarmComponent } from '../alarm/alarm.component';
 import { HighchartsStandaloneComponent } from '../highcharts/highcharts-standalone.component';
 import { SHARED_MAT_MODULES } from '../shared/material-imports';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
@@ -60,7 +61,7 @@ export interface KeyValueIf {
   templateUrl: './warehouse.component.html',
   styleUrls: ['./warehouse.component.css'],
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, MatTableModule, MatPaginatorModule, MatSortModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatButtonModule, MatIconModule, MatMenuModule, MatSidenavModule, MatToolbarModule, MatListModule, HighchartsStandaloneComponent, ...SHARED_MAT_MODULES]
+  imports: [ReactiveFormsModule, FormsModule, MatTableModule, MatPaginatorModule, MatSortModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatButtonModule, MatIconModule, MatMenuModule, MatSidenavModule, MatToolbarModule, MatListModule, HighchartsStandaloneComponent, AlarmComponent, ...SHARED_MAT_MODULES]
 })
 
 
@@ -287,10 +288,13 @@ export class WarehouseComponent implements OnInit {
       response => {
       });
   }
+  /** Alarms tile: show or hide the site alarm panel (alarmList/ API). */
   alarmTable() {
-    this.getSiteAlarmsDetails();
-    this.showAlarm = true;
+    this.showAlarm = !this.showAlarm;
 
+  }
+  get alarmSiteId(): number {
+    return Number(this.siteId);
   }
   AlarmTableClose() {
     this.showAlarm = false;
@@ -370,39 +374,6 @@ export class WarehouseComponent implements OnInit {
 
 
   }
-  getSiteAlarmsDetails() {
-
-
-    let data1 = { "site_id": this.siteId }
-    this.UserService.getAlarmOnSitePage(data1).subscribe(
-      response => {
-        let data = [];
-        for (let i = 0; i <= response['data'].length - 1; i++) {
-          let res = response['data'][i]
-          let alarm_type = res['alarm_type'];
-          let object_type = res['object_type'];
-          let object_name = res['object_name'];
-          let alarm_priority = res['alarm_priority'];
-          let created_date = res['created_date'];
-          data.push({
-            "alarm_type": alarm_type,
-            "object_type": object_type,
-            "object_name": object_name,
-            "alarm_priority": alarm_priority,
-            "created_date": created_date
-          })
-        }
-        this.dataSource = new MatTableDataSource(data);
-        console.log(data);
-        this.dataSource.paginator = this.paginator;  //mandeep
-        this.dataSource.sort = this.sort;  //mandeep
-
-      },
-      error => { }
-    );
-  }
-
-
   getcustomerSnapshot() {
     let data = { "site_id": this.siteId }
     this.UserService.siteSnapshot(data).subscribe(
