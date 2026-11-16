@@ -1,7 +1,7 @@
 import { UntypedFormControl } from '@angular/forms';
 import { UserData } from './../customer-dashboard/customer-dashboard.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -32,7 +32,7 @@ import { MatSnackBar, MatSnackBarConfig, MatSnackBarHorizontalPosition, MatSnack
   templateUrl: './baseline.component.html',
   styleUrls: ['./baseline.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatTableModule, MatPaginatorModule, MatSortModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatButtonModule, HighchartsStandaloneComponent]
+  imports: [ReactiveFormsModule, FormsModule, MatTableModule, MatPaginatorModule, MatSortModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatButtonModule, HighchartsStandaloneComponent]
 })
 export class BaselineComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;

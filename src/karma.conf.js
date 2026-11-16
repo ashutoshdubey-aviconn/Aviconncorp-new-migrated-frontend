@@ -25,7 +25,22 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    // Use a safer headless launcher with sandbox disabled to avoid GPU/VAAPI
+    // and sandboxing crashes in CI/container environments.
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-gpu',
+          '--disable-dev-shm-usage',
+          '--disable-software-rasterizer',
+          '--headless=new'
+        ]
+      }
+    },
+    browsers: ['ChromeHeadlessNoSandbox'],
     singleRun: false
   });
 };

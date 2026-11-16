@@ -1,42 +1,27 @@
-import { AdminComponent } from './admin/admin.component';
-import { WhMeteringComponent } from './wh-metering/wh-metering.component';
-// import { TestComponent } from './test/test.component';
-import { WarehouseComponent } from './warehouse/warehouse.component';
-import { CustomerDashboardComponent } from './customer-dashboard/customer-dashboard.component';
-import { ComingDashComponent } from './coming-dash/coming-dash.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { AppComponent } from './app.component';
-import { NgModule, Component } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { SuperAdminComponent } from './super-admin/super-admin.component';
-import { BaselineComponent } from './baseline/baseline.component';
-import { FirePumpAlarmComponent} from './fire-pump-alarm/fire-pump-alarm.component';
-import { FemsComponent } from './fems/fems.component'
-import { LoadGraphComponent } from './load-graph/load-graph.component';
 
-
+// Login is the landing page, so it stays in the initial bundle. Every other
+// screen is lazy-loaded and only downloaded when the user navigates to it.
 const routes: Routes = [
-  // { path: '', redirectTo: '/login', pathMatch: 'full'},
-  { path: '', component: LoginComponent},
-  { path: 'login', component: LoginComponent},
-  { path: 'dashboard', component: DashboardComponent},
-  { path: 'superadmin', component: SuperAdminComponent},
-  { path: 'comingsoon', component: ComingDashComponent},
-  { path: 'customer', component: CustomerDashboardComponent},
-  { path: 'warehouse', component: WarehouseComponent},
-  { path: 'whmetering', component: WhMeteringComponent },
-  { path: 'baseline', component:BaselineComponent},
-  { path: 'admin', component:AdminComponent},
-  { path: 'firePumpAlarm',component:FirePumpAlarmComponent},
-  { path: 'fems',component:FemsComponent},
-  { path: 'load_graph',component:LoadGraphComponent}
+  { path: '', component: LoginComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'dashboard', loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent) },
+  { path: 'superadmin', loadComponent: () => import('./super-admin/super-admin.component').then(m => m.SuperAdminComponent) },
+  { path: 'comingsoon', loadComponent: () => import('./coming-dash/coming-dash.component').then(m => m.ComingDashComponent) },
+  { path: 'customer', loadComponent: () => import('./customer-dashboard/customer-dashboard.component').then(m => m.CustomerDashboardComponent) },
+  { path: 'warehouse', loadComponent: () => import('./warehouse/warehouse.component').then(m => m.WarehouseComponent) },
+  { path: 'whmetering', loadComponent: () => import('./wh-metering/wh-metering.component').then(m => m.WhMeteringComponent) },
+  { path: 'baseline', loadComponent: () => import('./baseline/baseline.component').then(m => m.BaselineComponent) },
+  { path: 'admin', loadComponent: () => import('./admin/admin.component').then(m => m.AdminComponent) },
+  { path: 'firePumpAlarm', loadComponent: () => import('./fire-pump-alarm/fire-pump-alarm.component').then(m => m.FirePumpAlarmComponent) },
+  { path: 'fems', loadComponent: () => import('./fems/fems.component').then(m => m.FemsComponent) },
+  { path: 'load_graph', loadComponent: () => import('./load-graph/load-graph.component').then(m => m.LoadGraphComponent) }
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes)
-  ],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -4,7 +4,7 @@ import { CustomerDetailsModel } from './../models/user';
 import { UserService } from './../services/user.service';
 import { DataService } from './../services/data.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';

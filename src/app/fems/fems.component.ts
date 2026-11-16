@@ -1,5 +1,5 @@
 import { Component, OnInit ,ViewChild} from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -45,17 +45,16 @@ export interface DialogData {
     styleUrls: ['./fems.component.css'],
     standalone: true,
     imports: [
-      CommonModule,
-      MatTableModule,
-      MatPaginatorModule,
-      MatSortModule,
-      MatDialogModule,
-      MatButtonModule,
-      MatIconModule,
-      MatFormFieldModule,
-      MatInputModule,
-      ...SHARED_MAT_MODULES
-    ]
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ...SHARED_MAT_MODULES
+]
 })
 
 export class FemsComponent implements OnInit {

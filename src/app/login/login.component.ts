@@ -1,26 +1,24 @@
 import { userLogin } from './../models/userLogin';
-import { Error } from './../models/error';
-
 import { Forgotpassword } from './../models/forgotpassword';
 import { DialogOverComponent } from './../dialog-over/dialog-over.component';
 import { DashboardDataService } from './../services/dashboard-data.service';
 import { DataService } from './../services/data.service';
 
 import { GlobalService } from './../services/global.service';
-import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
-import { UntypedFormGroup, UntypedFormBuilder, Validators, NgForm } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { User } from '../models/user';
+import { MatDialog } from '@angular/material/dialog';
 import { resetpassword } from '../models/resetpassword';
-import { SHARED_MAT_MODULES } from '../shared/material-imports';
+import { MatRippleModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
     selector: 'app-login',
@@ -29,7 +27,8 @@ import { SHARED_MAT_MODULES } from '../shared/material-imports';
   encapsulation: ViewEncapsulation.None,
   providers: [UserService],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDialogModule, RouterModule, ...SHARED_MAT_MODULES]
+  // Import only what the login page uses so the landing bundle stays small.
+  imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatRippleModule, MatProgressSpinnerModule, MatDialogModule, RouterModule]
 })
 
 export class LoginComponent implements OnInit {
@@ -86,19 +85,20 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    console.log("sending value: ", this.userLoginModel.username, btoa(this.userLoginModel.password));
-    if (this.userLoginModel.username == '' || this.userLoginModel.password == '') {
+    // Read values from the reactive form instead of relying on deprecated
+    // two-way binding with `ngModel` alongside `formControlName`.
+    const username = this.userLogin.get('username')?.value || '';
+    const password = this.userLogin.get('password')?.value || '';
+
+    if (!username || !password) {
       this.loginerror = "All fields are mandatory";
-      const dialogRef = this.dialog.open(DialogOverComponent, {
-        data: this.loginerror,
-      });
-      dialogRef.afterClosed().subscribe(result => {
-      });
+      this.dialog.open(DialogOverComponent, { data: this.loginerror });
       return;
     }
 
     this.loading = true;
-    this.loginValue = { 'username': this.userLoginModel.username, 'password': btoa(this.userLoginModel.password) };
+    // Passwords are stored/transmitted base64-encoded in this app
+    this.loginValue = { username, password: btoa(password) };
     this.userService.loginUser(this.loginValue).subscribe(
       response => {
         console.log("Login Response : ", response)

@@ -1,5 +1,5 @@
 import { Component, OnInit ,Inject ,ViewChild} from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -24,7 +24,7 @@ export class DialogData{
     templateUrl: './dialog-switchdash.component.html',
     styleUrls: ['./dialog-switchdash.component.css'],
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, ...SHARED_MAT_MODULES]
+  imports: [MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, ...SHARED_MAT_MODULES]
 })
 export class DialogSwitchdashComponent implements OnInit {
   dataSource: MatTableDataSource<UserData>; //mandeep

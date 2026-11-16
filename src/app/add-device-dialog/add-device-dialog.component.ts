@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Inject} from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -34,7 +34,7 @@ export interface DialogData {
   templateUrl: './add-device-dialog.component.html',
   styleUrls: ['./add-device-dialog.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatNativeDateModule, MatDialogModule]
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatNativeDateModule, MatDialogModule]
 })
 export class AddDeviceDialogComponent implements OnInit {
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<AddDeviceDialogComponent>,

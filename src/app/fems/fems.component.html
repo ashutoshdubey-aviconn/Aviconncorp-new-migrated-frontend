@@ -1,245 +1,245 @@
 <div class="row" id="breadcrumb" >
   <div id="bc2" style="left: 1% !important" class="btn-group btn-breadcrumb">
-    <a (click)="home()" *ngIf="super_admin_home" class="btn btn-default"><i class="fa fa-home"></i></a>  
-    <a (click)="home()" *ngIf="customer_home" class="btn btn-default"><i class="fa fa-home"></i></a>
-    <a (click)="customerPage()" *ngIf="customer_name" class="btn btn-default"><div >Customer Page</div></a>
-    <a (click)="sitePage()" *ngIf="site_dash" class="btn btn-default">Site Page</a>
-</div>
+    @if (super_admin_home) {
+      <a (click)="home()" class="btn btn-default"><i class="fa fa-home"></i></a>
+    }
+    @if (customer_home) {
+      <a (click)="home()" class="btn btn-default"><i class="fa fa-home"></i></a>
+    }
+    @if (customer_name) {
+      <a (click)="customerPage()" class="btn btn-default"><div >Customer Page</div></a>
+    }
+    @if (site_dash) {
+      <a (click)="sitePage()" class="btn btn-default">Site Page</a>
+    }
+  </div>
 </div>
 <div  id="page-wrapper" class="container-fluid">
 
-<div class="row">
-<div class="dashboard_trakcer"> Aviconn Fire Equipment Management System </div>
-<hr>
-        <!-- 1st snapshot start -->
-        <div class="col-lg-3 col-sm-6 col-xs-6">
-            <div class="circle-title2">
-                <div class="circle-title-heading">
-                    <i class="fa fa-bell fa-fw fa-3x"></i>
-                </div>
-                <div class="box" >
-                    <div class="box-heading text-faded">Total Devices</div>
+  <div class="row">
+    <div class="dashboard_trakcer"> Aviconn Fire Equipment Management System </div>
+    <hr>
+      <!-- 1st snapshot start -->
+      <div class="col-lg-3 col-sm-6 col-xs-6">
+        <div class="circle-title2">
+          <div class="circle-title-heading">
+            <i class="fa fa-bell fa-fw fa-3x"></i>
+          </div>
+          <div class="box" >
+            <div class="box-heading text-faded">Total Devices</div>
 
-                    <div class="box-number text-faded"> {{totalDevices}}</div>
-                </div>
+            <div class="box-number text-faded"> {{totalDevices}}</div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- 1st snapshot end -->
+
+
+      <!-- 2nd snapshot start -->
+      <div class="col-lg-3 col-sm-6 col-xs-6">
+        <div class="circle-title2">
+          <div class="circle-title-heading">
+            <img id="img-ctn" src="assets/image/consume.png" width="45">
+          </div>
+          <div class="box" style="cursor: pointer;" (click)="warrentyDeviceData()">
+            <div class="box-heading text-faded" > # Devices Warranty Expired</div>
+
+            <div class="box-number text-faded">{{warrenty}}
             </div>
+          </div>
         </div>
 
-
-  <!-- 1st snapshot end -->
-
-
-  <!-- 2nd snapshot start -->
-  <div class="col-lg-3 col-sm-6 col-xs-6">
-  <div class="circle-title2">
-  <div class="circle-title-heading">
-  <img id="img-ctn" src="assets/image/consume.png" width="45">
-  </div>
-  <div class="box" style="cursor: pointer;" (click)="warrentyDeviceData()">
-  <div class="box-heading text-faded" > # Devices Warranty Expired</div>
-
-  <div class="box-number text-faded">{{warrenty}}
-  </div>
-  </div>
-  </div>
-
-  </div>
+      </div>
 
 
-  <!-- 2nd snapshot end -->
+      <!-- 2nd snapshot end -->
 
-  <!-- 3rd snapshot start -->
-  <div class="col-lg-3 col-sm-6 col-xs-6">
-  <div class="circle-title2">
-  <div class="circle-title-heading">
-  <img id="img-ctn" src="/assets/image/energy.png" width="45">
-  </div>
-  <div class="box" style="cursor: pointer;" (click)="expiredDeviceData()">
-  <div class="box-heading text-faded"># Devices Service Expired</div>
+      <!-- 3rd snapshot start -->
+      <div class="col-lg-3 col-sm-6 col-xs-6">
+        <div class="circle-title2">
+          <div class="circle-title-heading">
+            <img id="img-ctn" src="/assets/image/energy.png" width="45">
+          </div>
+          <div class="box" style="cursor: pointer;" (click)="expiredDeviceData()">
+            <div class="box-heading text-faded"># Devices Service Expired</div>
 
-  <div class="box-number text-faded">{{expiry}}
-  </div>
+            <div class="box-number text-faded">{{expiry}}
+            </div>
 
-  </div>
-  </div>
+          </div>
+        </div>
 
-  </div>
-
-
-  <!-- 3rd snapshot end -->
-
-  <!-- 4th snapshot start -->
-  <div class="col-lg-3 col-sm-6 col-xs-6">
-  <div class="circle-title2">
-  <div class="circle-title-heading">
-  <img id="img-ctn" src="/assets/image/low.png" width="45">
-  </div>
-  <div class="box">
-  <div class="box-heading text-faded">Mail History</div>
-
-  <div class="box-number text-faded">0</div>
-
-  </div>
-  </div>
-
-  </div>
-  </div>
+      </div>
 
 
-  <div class="row" >
-    <div class="col-sm-12 ">
-    <div class="row"></div>
-    <div class="panel-heading">
-    <div class="row">
-    <div class="col-md-9">
-      <i class="fa fa-bar-chart-o"></i> Device Type List
+      <!-- 3rd snapshot end -->
+
+      <!-- 4th snapshot start -->
+      <div class="col-lg-3 col-sm-6 col-xs-6">
+        <div class="circle-title2">
+          <div class="circle-title-heading">
+            <img id="img-ctn" src="/assets/image/low.png" width="45">
+          </div>
+          <div class="box">
+            <div class="box-heading text-faded">Mail History</div>
+
+            <div class="box-number text-faded">0</div>
+
+          </div>
+        </div>
+
+      </div>
     </div>
-    <div class="col-md-3">
-        <button mat-raised-button id="add-device-Type"(click)="addDevType()">Add-Device-Type</button>
-    </div>
-    </div>
-  
-    </div>
-    <div class="chart-body">
-      <div class="example-header" fxLayout="row">                  
-          </div> 
+
+
+    <div class="row" >
+      <div class="col-sm-12 ">
+        <div class="row"></div>
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-9">
+              <i class="fa fa-bar-chart-o"></i> Device Type List
+            </div>
+            <div class="col-md-3">
+              <button mat-raised-button id="add-device-Type"(click)="addDevType()">Add-Device-Type</button>
+            </div>
+          </div>
+
+        </div>
+        <div class="chart-body">
+          <div class="example-header" fxLayout="row">
+          </div>
           <div class="mat-elevation-z8">
             <table mat-table [dataSource]="femsAddDevTypeDataSource">
-          
+
               <!-- Position Column -->
               <ng-container matColumnDef="serialNo">
                 <th mat-header-cell *matHeaderCellDef> Serial No. </th>
                 <td mat-cell *matCellDef="let row; let i = index;"> {{(i+1) + (mypaginator.pageIndex *mypaginator.pageSize)}} </td>
               </ng-container>
-          
+
               <!-- Name Column -->
               <ng-container matColumnDef="devName">
                 <th mat-header-cell *matHeaderCellDef> Device Name </th>
                 <td mat-cell *matCellDef="let element"> {{element.devName}} </td>
               </ng-container>
-          
+
               <!-- Weight Column -->
               <ng-container matColumnDef="deviceCat">
                 <th mat-header-cell *matHeaderCellDef>Device Category</th>
                 <td mat-cell *matCellDef="let element"> {{element.deviceCat}} </td>
               </ng-container>
-                   <!-- Symbol Column -->
-                   <ng-container matColumnDef="actions">
-                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                    <mat-cell *matCellDef="let row">
-                    </mat-cell>
-                </ng-container>
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                </mat-cell>
+              </ng-container>
               <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns2; "(click)="DeviceListTable(row)" ></tr>
             </table>
-          
+
             <mat-paginator #mypaginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons >
             </mat-paginator>
-         </div>
+          </div>
+        </div>
       </div>
-      </div>
-    </div> 
+    </div>
 
-   
-<br>
 
-  
-  <div *ngIf="showDevList">
-  <div class="row" >
-  <div class="col-sm-12 ">
-  <div class="row"></div>
-  <div class="panel-heading">
-  <div class="row">
-  <div class="col-md-9">
-    <i class="fa fa-bar-chart-o"></i> Detailed Device info
-  </div>
-  <div class="col-md-3">
-      <button mat-raised-button id="add-device"  (click)="addDevice()">Add-Device</button>
-  </div>
-  </div>
+    <br>
 
-  </div>
-  <div class="chart-body">
-    <div class="example-header" fxLayout="row"> 
-      <mat-form-field >
-        <input matInput class="matInputFilterBar" (keyup)="applyFilter($event.target.value)" placeholder="Search anything here..." autocomplete="off">
-      </mat-form-field>
-    </div> 
-        <div class="mat-elevation-z8">
-          <table mat-table [dataSource]="femsDataSource">
-        
-            <!-- Position Column -->
-            <ng-container matColumnDef="serialNo">
-              <th mat-header-cell *matHeaderCellDef> Serial No. </th>
-              <td mat-cell *matCellDef="let row; let i = index;"> {{(i+1) + (mypaginator.pageIndex *mypaginator.pageSize)}} </td>
-            </ng-container>
 
-            <ng-container matColumnDef="assetNo">
-              <th mat-header-cell *matHeaderCellDef> Asset No. </th>
-              <td mat-cell *matCellDef="let element"> {{element.assetNo}} </td>
-            </ng-container>
-        
-            <!-- Name Column -->
-            <ng-container matColumnDef="deviceName">
-              <th mat-header-cell *matHeaderCellDef> Device Name </th>
-              <td mat-cell *matCellDef="let element"> {{element.deviceName}} </td>
-            </ng-container>
-        
-            <!-- Weight Column -->
-            <ng-container matColumnDef="updatedBy">
-              <th mat-header-cell *matHeaderCellDef> Model No </th>
-              <td mat-cell *matCellDef="let element"> {{element.updatedBy}} </td>
-            </ng-container>
-        
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="LocInWH">
-              <th mat-header-cell *matHeaderCellDef> Location in WH </th>
-              <td mat-cell *matCellDef="let element"> {{element.location}} </td>
-            </ng-container>
-               <!-- Symbol Column -->
-               <ng-container matColumnDef="WarrentyTill">
-                <th mat-header-cell *matHeaderCellDef> Warranty Till </th>
-                <td mat-cell *matCellDef="let element"> {{element.warrenty}} </td>
-              </ng-container>
-                <!-- Symbol Column -->
-                <ng-container matColumnDef="LastService">
-                  <th mat-header-cell *matHeaderCellDef> Last Service </th>
-                  <td mat-cell *matCellDef="let element"> {{element.last_service}} </td>
-                </ng-container>
-                  <!-- Symbol Column -->
-               <ng-container matColumnDef="NextService">
-                <th mat-header-cell *matHeaderCellDef> Next Service </th>
-                <td mat-cell *matCellDef="let element"> {{element.next_service}} </td>
-              </ng-container>
-              <ng-container matColumnDef="ModalNo">
-                <th mat-header-cell *matHeaderCellDef> Updated By</th>
-                <td mat-cell *matCellDef="let element"> {{element.modelno}} </td>
-              </ng-container>
-              
-                 <!-- Symbol Column -->
-                 <ng-container matColumnDef="actions">
-                  <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                  <mat-cell *matCellDef="let row">
-                    
-                      <button mat-icon-button color="accent" (click)="editData(row)"><mat-icon>edit</mat-icon></button>
-                      <!-- <button mat-icon-button color="accent" (click)="AddDevice()">
+      @if (showDevList) {
+        <div>
+          <div class="row" >
+            <div class="col-sm-12 ">
+              <div class="row"></div>
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-md-9">
+                    <i class="fa fa-bar-chart-o"></i> Detailed Device info
+                  </div>
+                  <div class="col-md-3">
+                    <button mat-raised-button id="add-device"  (click)="addDevice()">Add-Device</button>
+                  </div>
+                </div>
+              </div>
+              <div class="chart-body">
+                <div class="example-header" fxLayout="row">
+                  <mat-form-field >
+                    <input matInput class="matInputFilterBar" (keyup)="applyFilter($event.target.value)" placeholder="Search anything here..." autocomplete="off">
+                  </mat-form-field>
+                </div>
+                <div class="mat-elevation-z8">
+                  <table mat-table [dataSource]="femsDataSource">
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="serialNo">
+                      <th mat-header-cell *matHeaderCellDef> Serial No. </th>
+                      <td mat-cell *matCellDef="let row; let i = index;"> {{(i+1) + (mypaginator.pageIndex *mypaginator.pageSize)}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="assetNo">
+                      <th mat-header-cell *matHeaderCellDef> Asset No. </th>
+                      <td mat-cell *matCellDef="let element"> {{element.assetNo}} </td>
+                    </ng-container>
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="deviceName">
+                      <th mat-header-cell *matHeaderCellDef> Device Name </th>
+                      <td mat-cell *matCellDef="let element"> {{element.deviceName}} </td>
+                    </ng-container>
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="updatedBy">
+                      <th mat-header-cell *matHeaderCellDef> Model No </th>
+                      <td mat-cell *matCellDef="let element"> {{element.updatedBy}} </td>
+                    </ng-container>
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="LocInWH">
+                      <th mat-header-cell *matHeaderCellDef> Location in WH </th>
+                      <td mat-cell *matCellDef="let element"> {{element.location}} </td>
+                    </ng-container>
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="WarrentyTill">
+                      <th mat-header-cell *matHeaderCellDef> Warranty Till </th>
+                      <td mat-cell *matCellDef="let element"> {{element.warrenty}} </td>
+                    </ng-container>
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="LastService">
+                      <th mat-header-cell *matHeaderCellDef> Last Service </th>
+                      <td mat-cell *matCellDef="let element"> {{element.last_service}} </td>
+                    </ng-container>
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="NextService">
+                      <th mat-header-cell *matHeaderCellDef> Next Service </th>
+                      <td mat-cell *matCellDef="let element"> {{element.next_service}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ModalNo">
+                      <th mat-header-cell *matHeaderCellDef> Updated By</th>
+                      <td mat-cell *matCellDef="let element"> {{element.modelno}} </td>
+                    </ng-container>
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="actions">
+                      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                      <mat-cell *matCellDef="let row">
+                        <button mat-icon-button color="accent" (click)="editData(row)"><mat-icon>edit</mat-icon></button>
+                        <!-- <button mat-icon-button color="accent" (click)="AddDevice()">
                         <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
-                        </button> -->
-                        <button mat-icon-button color="accent" (click)="deleteData(row)">
-                          <mat-icon aria-label="Delete">delete</mat-icon>
-                          </button>
-                  </mat-cell>
-              </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
-        
-          <mat-paginator #mypaginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons >
-          </mat-paginator>
-       </div>
-        
-    </div>
-    </div>
-  </div>     
-  </div>
+                      </button> -->
+                      <button mat-icon-button color="accent" (click)="deleteData(row)">
+                        <mat-icon aria-label="Delete">delete</mat-icon>
+                      </button>
+                    </mat-cell>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator #mypaginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons >
+                </mat-paginator>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
   </div>

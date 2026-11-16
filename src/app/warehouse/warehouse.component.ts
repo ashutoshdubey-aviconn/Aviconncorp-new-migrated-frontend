@@ -8,7 +8,7 @@ import { LoginComponent } from './../login/login.component';
 
 import { UserService } from './../services/user.service';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -60,7 +60,7 @@ export interface KeyValueIf {
   templateUrl: './warehouse.component.html',
   styleUrls: ['./warehouse.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatTableModule, MatPaginatorModule, MatSortModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatButtonModule, MatIconModule, MatMenuModule, MatSidenavModule, MatToolbarModule, MatListModule, HighchartsStandaloneComponent, ...SHARED_MAT_MODULES]
+  imports: [ReactiveFormsModule, FormsModule, MatTableModule, MatPaginatorModule, MatSortModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatButtonModule, MatIconModule, MatMenuModule, MatSidenavModule, MatToolbarModule, MatListModule, HighchartsStandaloneComponent, ...SHARED_MAT_MODULES]
 })
 
 

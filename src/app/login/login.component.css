@@ -79,7 +79,7 @@ form button{
     .mat-focused .placeholder{
         color: white;
     }
-.mat-raised-button{
+.mat-raised-button, .mat-mdc-raised-button.mat-mdc-button-base{
     background-color: #E66F00;
     background-image: linear-gradient(rgb(236, 206, 73),#e0740f);
     color: white;
@@ -125,4 +125,21 @@ label{
   }
   .mat-input-element {
     caret-color: #fff;
+}
+
+/* Angular Material 15+ (MDC) equivalents of the legacy overrides above:
+   render the login inputs as plain Bootstrap fields with no Material
+   fill background, underline or extra padding. */
+.example-full-width.mat-mdc-form-field .mdc-text-field--filled,
+.example-full-width.mat-mdc-form-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: transparent;
+    padding: 0;
+}
+.example-full-width.mat-mdc-form-field .mdc-line-ripple,
+.example-full-width.mat-mdc-form-field .mat-mdc-form-field-focus-overlay {
+    display: none;
+}
+.example-full-width.mat-mdc-form-field .mat-mdc-form-field-infix {
+    padding: 0;
+    min-height: 0;
 }

@@ -1,131 +1,131 @@
 <div class="row" id="breadcrumb" >
-    <div id="bc2" style="left: 1% !important" class="btn-group btn-breadcrumb">
-          <a (click)="home()" *ngIf="customer_home" class="btn btn-default"><i class="fa fa-home"></i></a>
-          <a (click)="customerPage()" *ngIf="customer_name" class="btn btn-default"><div >Customer detail</div></a>
-        <a (click)="sitePage()" *ngIf="saving_site_dash" class="btn btn-default">Site Details</a>
-       <button *ngIf="baseline_dash" class="btn btn-default">Baseline</button>
+  <div id="bc2" style="left: 1% !important" class="btn-group btn-breadcrumb">
+    @if (customer_home) {
+      <a (click)="home()" class="btn btn-default"><i class="fa fa-home"></i></a>
+    }
+    @if (customer_name) {
+      <a (click)="customerPage()" class="btn btn-default"><div >Customer detail</div></a>
+    }
+    @if (saving_site_dash) {
+      <a (click)="sitePage()" class="btn btn-default">Site Details</a>
+    }
+    @if (baseline_dash) {
+      <button class="btn btn-default">Baseline</button>
+    }
 
-                                            
-    </div>
+
+  </div>
 </div>
 
 <div class="container-fluid">
   <br>
-  <br>
-  <br>
-  <br>
-    <!--chart start-->
-    <div class="row">
-        <div class="col-sm-12 ">
-            <div class="heading-panel">
+    <br>
+      <br>
+        <br>
+          <!--chart start-->
+          <div class="row">
+            <div class="col-sm-12 ">
+              <div class="heading-panel">
 
                 <div class="row">
-                    <div class="col-md-12">
-                        <i class="fa fa-bar-chart-o"></i> Baseline Breakup History 
-                    </div>
+                  <div class="col-md-12">
+                    <i class="fa fa-bar-chart-o"></i> Baseline Breakup History
+                  </div>
                 </div>
-            </div>
-            <div class="chart-body">
+              </div>
+              <div class="chart-body">
                 <app-highcharts
-                    [Highcharts]="Highcharts"
-                    [constructorType]="chartConstructor"
-                    [options]="barChartOptions"
-                    [callbackFunction]="chartCallback"
-            
-                    [(update)]="updateFlag"
-                    [isOneToOne]="oneToOneFlag"
-            
-                    style="width: 100%; height: 100%; display: block;"
+                  [Highcharts]="Highcharts"
+                  [constructorType]="chartConstructor"
+                  [options]="barChartOptions"
+                  [callbackFunction]="chartCallback"
+
+                  [(update)]="updateFlag"
+                  [isOneToOne]="oneToOneFlag"
+
+                  style="width: 100%; height: 100%; display: block;"
                 ></app-highcharts>
                 <div class="row">
-                        <div class="col-8"></div>
-                        <div class="col-4"><button class="md-raised md-primary md-button md-link-ripple" type="button" style="float: right;" (click)="changeGraphStacking()">
-                            <span class ="ng-scope">Change Graph</span>
-                        </button>
-                    </div>
-                    </div>
+                  <div class="col-8"></div>
+                  <div class="col-4"><button class="md-raised md-primary md-button md-link-ripple" type="button" style="float: right;" (click)="changeGraphStacking()">
+                    <span class ="ng-scope">Change Graph</span>
+                  </button>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-    <br>
-    <br>
-</div>
-    <div class="row" *ngIf="custBaseline">
-        <div class="col-sm-12 ">
-            <div class="row"></div>
+        <br>
+          <br>
+          </div>
+          @if (custBaseline) {
+            <div class="row">
+              <div class="col-sm-12 ">
+                <div class="row"></div>
                 <div class="panel-heading">
-                    <div class="row">
+                  <div class="row">
                     <div class="col-md-9">
-                        <i class="fa fa-bar-chart-o"></i> Set Baseline
+                      <i class="fa fa-bar-chart-o"></i> Set Baseline
                     </div>
                     <div class="col-md-3">
-                        <mat-form-field>
-                            <input matInput [max] ="maxDate" [min]="minDate" [matDatepicker]="picker2" [formControl]="date" [value]="date.value" (dateChange)="baselineData()">
-                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                            <mat-datepicker #picker2></mat-datepicker>
-                        </mat-form-field>
+                      <mat-form-field>
+                        <input matInput [max] ="maxDate" [min]="minDate" [matDatepicker]="picker2" [formControl]="date" [value]="date.value" (dateChange)="baselineData()">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                      </mat-form-field>
                     </div>
+                  </div>
                 </div>
-        
-                    </div>
-                    <div class="chart-body">
-                        <div class="example-header" fxLayout="row">                   
-                            </div> 
-
-                            <div class="example-container mat-elevation-z8">
-
-                            <mat-table [dataSource]="dataSource" matSort>
-
-                                <!-- ID Column -->
-                                <ng-container matColumnDef="serialNo">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 10%;"> Serial Number </mat-header-cell>
-                                <mat-cell *matCellDef="let row" data-label="id" style="max-width: 10%;"> {{row.serialNo}} </mat-cell>
-                                </ng-container>
-
-                                <!-- Site Name Column -->
-                                <ng-container matColumnDef="AisleGroup">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 15%;"> Aisle Group </mat-header-cell>
-                                <mat-cell *matCellDef="let row" data-label="progress" style="max-width: 15%;"> {{row.AisleGroup}} </mat-cell>
-                                </ng-container>
-
-                                <!-- Site Type -->
-                                <ng-container matColumnDef="TotalLights">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 10%;">Total Lights </mat-header-cell>
-                                <mat-cell *matCellDef="let row" data-label="progress" style="max-width: 10%;"> {{row.TotalLights}} </mat-cell>
-                                </ng-container>
-                                <!-- Color Column -->
-
-                                <ng-container matColumnDef="ExpectedConsump">
-                                    <mat-header-cell *matHeaderCellDef mat-sort-header> Expected Consumption </mat-header-cell>
-                                    <mat-cell *matCellDef="let row" [style.color]="row.color" data-label="color"> {{row.ExpectedConsump}} </mat-cell>
-                                </ng-container> 
-                                <ng-container matColumnDef="CurrentConsump">
-                                <mat-header-cell *matHeaderCellDef>Actual Consumption </mat-header-cell>
-                                <mat-cell *matCellDef="let row">
-                                    <mat-form-field floatLabel="name">
-                                    <input matInput placeholder="Actual Consumption" [value]="row.CurrentConsump" [(ngModel)]="row.CurrentConsump">
-                                    </mat-form-field>
-                                </mat-cell>
-                                </ng-container>
-
-                                <ng-container matColumnDef="actions">
-                                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                                    <mat-cell *matCellDef="let row">
-                                        <button mat-raised-button color="#ff7a01" (click)="saveBaselineData(row)">Set Baseline </button>
-                                    </mat-cell>
-                                </ng-container>
-                                
-                                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                                <mat-row *matRowDef="let row; columns: displayedColumns;" >
-                                </mat-row>
-                            </mat-table>
-                            <mat-paginator [pageSizeOptions]="[2, 4, 5, 50, 100]" ></mat-paginator>              
-                            </div>
-                        </div>
-                        </div>
-    </div><br>
-    <br>
-    <br>
-    <br>
-    <br>
-              
+                <div class="chart-body">
+                  <div class="example-header" fxLayout="row">
+                  </div>
+                  <div class="example-container mat-elevation-z8">
+                    <mat-table [dataSource]="dataSource" matSort>
+                      <!-- ID Column -->
+                      <ng-container matColumnDef="serialNo">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 10%;"> Serial Number </mat-header-cell>
+                        <mat-cell *matCellDef="let row" data-label="id" style="max-width: 10%;"> {{row.serialNo}} </mat-cell>
+                      </ng-container>
+                      <!-- Site Name Column -->
+                      <ng-container matColumnDef="AisleGroup">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 15%;"> Aisle Group </mat-header-cell>
+                        <mat-cell *matCellDef="let row" data-label="progress" style="max-width: 15%;"> {{row.AisleGroup}} </mat-cell>
+                      </ng-container>
+                      <!-- Site Type -->
+                      <ng-container matColumnDef="TotalLights">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width: 10%;">Total Lights </mat-header-cell>
+                        <mat-cell *matCellDef="let row" data-label="progress" style="max-width: 10%;"> {{row.TotalLights}} </mat-cell>
+                      </ng-container>
+                      <!-- Color Column -->
+                      <ng-container matColumnDef="ExpectedConsump">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Expected Consumption </mat-header-cell>
+                        <mat-cell *matCellDef="let row" [style.color]="row.color" data-label="color"> {{row.ExpectedConsump}} </mat-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="CurrentConsump">
+                        <mat-header-cell *matHeaderCellDef>Actual Consumption </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          <mat-form-field floatLabel="name">
+                            <input matInput placeholder="Actual Consumption" [value]="row.CurrentConsump" [(ngModel)]="row.CurrentConsump">
+                          </mat-form-field>
+                        </mat-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="actions">
+                        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          <button mat-raised-button color="#ff7a01" (click)="saveBaselineData(row)">Set Baseline </button>
+                        </mat-cell>
+                      </ng-container>
+                      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: displayedColumns;" >
+                      </mat-row>
+                    </mat-table>
+                    <mat-paginator [pageSizeOptions]="[2, 4, 5, 50, 100]" ></mat-paginator>
+                  </div>
+                </div>
+              </div>
+            </div>
+            }<br>
+            <br>
+              <br>
+                <br>
+                  <br>

@@ -1,5 +1,5 @@
 import { Component, OnInit ,Inject ,ViewChild} from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DataService } from './../services/data.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -27,7 +27,7 @@ export class DialogData{
   templateUrl: './pf-table.component.html',
   styleUrls: ['./pf-table.component.css'],
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule, MatFormFieldModule, MatInputModule, ...SHARED_MAT_MODULES]
+  imports: [MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule, MatFormFieldModule, MatInputModule, ...SHARED_MAT_MODULES]
 })
 export class PfTableComponent implements OnInit {
   dataSource: MatTableDataSource<UserData>; 

@@ -7,7 +7,7 @@ import { LoginComponent } from './../login/login.component';
 
 import { UserService } from './../services/user.service';
 import { AfterViewInit, Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 // import { MatPaginator, MatSort, MatTableDataSource, MatTable } from '@angular/material';
 import Highcharts from 'highcharts/es-modules/masters/highcharts.src.js';
 import { SHARED_MAT_MODULES } from '../shared/material-imports';
@@ -53,15 +53,13 @@ export interface AlarmData {
     styleUrls: ['./super-admin.component.css'],
     standalone: true,
     imports: [
-      CommonModule,
-      // Material modules used in the template
-      MatTableModule,
-      MatPaginatorModule,
-      MatSortModule,
-      MatFormFieldModule,
-      MatInputModule,
-      ...SHARED_MAT_MODULES
-    ]
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ...SHARED_MAT_MODULES
+]
 })
 
 export class SuperAdminComponent {

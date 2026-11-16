@@ -1,243 +1,225 @@
 <div class="row" id="breadcrumb">
   <div id="bc2" style="left: 1% !important" class="btn-group btn-breadcrumb">
-    <a (click)="home()" *ngIf="super_admin_home" class="btn btn-default"><i class="fa fa-home"></i></a> 
-    <a (click)="home()" *ngIf="customer_home" class="btn btn-default"><i class="fa fa-home"></i></a>
-    <a (click)="customerPage()" *ngIf="customer_name" class="btn btn-default">
-      <div>Customer Page</div>
-    </a>
-    <a (click)="sitePage()" *ngIf="site_dash" class="btn btn-default">Site Page</a>
+    @if (super_admin_home) {
+      <a (click)="home()" class="btn btn-default"><i class="fa fa-home"></i></a>
+    }
+    @if (customer_home) {
+      <a (click)="home()" class="btn btn-default"><i class="fa fa-home"></i></a>
+    }
+    @if (customer_name) {
+      <a (click)="customerPage()" class="btn btn-default">
+        <div>Customer Page</div>
+      </a>
+    }
+    @if (site_dash) {
+      <a (click)="sitePage()" class="btn btn-default">Site Page</a>
+    }
   </div>
 </div>
 <div id="page-wrapper" class="container-fluid">
-  <div *ngIf="!isShown">
-
-    <div class="row">
-      <div class="dashboard_trakcer"> Customer Home </div>
-      <hr>
-      <!-- 1st snapshot start -->
-      <div class="col-lg-3 col-sm-6 col-xs-6">
-        <div class="circle-title2">
-          <div class="circle-title-heading">
-            <i class="fa fa-bell fa-fw fa-3x"></i>
-          </div>
-          <div class="box" style="cursor: pointer;" (click)="alarmTable()">
-            <div class="box-heading text-faded">Alarms</div>
-
-            <div class="box-number text-faded">{{Custalarms}}</div>
-          </div>
-        </div>
-      </div>
-
-
-      <!-- 1st snapshot end -->
-
-
-      <!-- 2nd snapshot start -->
-      <div class="col-lg-3 col-sm-6 col-xs-6">
-        <div class="circle-title2">
-          <div class="circle-title-heading">
-            <img id="img-ctn" src="assets/image/consume.png" width="45">
-          </div>
-          <div class="box">
-            <div class="box-heading text-faded">Energy Consumed</div>
-
-            <div class="box-number text-faded">{{CustenergyConsumed}} kWh
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-
-
-      <!-- 2nd snapshot end -->
-
-      <!-- 3rd snapshot start -->
-      <div *ngIf="!is_carbon_emission_visible" class="col-lg-3 col-sm-6 col-xs-6">
-        <div class="circle-title2">
-          <div class="circle-title-heading">
-            <img id="img-ctn" src="/assets/image/energy.png" width="45">
-          </div>
-          <div class="box">
-            <div class="box-heading text-faded">Energy Saved</div>
-
-            <div class="box-number text-faded">{{CustsavedEnergy}} kWh
+  @if (!isShown) {
+    <div>
+      <div class="row">
+        <div class="dashboard_trakcer"> Customer Home </div>
+        <hr>
+          <!-- 1st snapshot start -->
+          <div class="col-lg-3 col-sm-6 col-xs-6">
+            <div class="circle-title2">
+              <div class="circle-title-heading">
+                <i class="fa fa-bell fa-fw fa-3x"></i>
+              </div>
+              <div class="box" style="cursor: pointer;" (click)="alarmTable()">
+                <div class="box-heading text-faded">Alarms</div>
+                <div class="box-number text-faded">{{Custalarms}}</div>
+              </div>
             </div>
           </div>
-        </div>
-
-      </div>
-      <div *ngIf="is_carbon_emission_visible" class="col-lg-3 col-sm-6 col-xs-6">
-        <div class="circle-title2">
-          <div class="circle-title-heading">
-            <img id="img-ctn" src="/assets/image/energy.png" width="45">
-          </div>
-          <div class="box">
-            <div class="box-heading text-faded">Energy Saved/Carbon Emission Saved</div>
-            <div class="box-heading text-faded">
-              <small>
-                <span style="font-weight: 700">Enery Saved :</span> {{CustsavedEnergy}} kWH<br>
-                <span style="font-weight: 700">Carbon Emission Saved :</span> {{CustcarbonSaved}} <br>
-              </small>
+          <!-- 1st snapshot end -->
+          <!-- 2nd snapshot start -->
+          <div class="col-lg-3 col-sm-6 col-xs-6">
+            <div class="circle-title2">
+              <div class="circle-title-heading">
+                <img id="img-ctn" src="assets/image/consume.png" width="45">
+              </div>
+              <div class="box">
+                <div class="box-heading text-faded">Energy Consumed</div>
+                <div class="box-number text-faded">{{CustenergyConsumed}} kWh
+                </div>
+              </div>
             </div>
-
+          </div>
+          <!-- 2nd snapshot end -->
+          <!-- 3rd snapshot start -->
+          @if (!is_carbon_emission_visible) {
+            <div class="col-lg-3 col-sm-6 col-xs-6">
+              <div class="circle-title2">
+                <div class="circle-title-heading">
+                  <img id="img-ctn" src="/assets/image/energy.png" width="45">
+                </div>
+                <div class="box">
+                  <div class="box-heading text-faded">Energy Saved</div>
+                  <div class="box-number text-faded">{{CustsavedEnergy}} kWh
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+          @if (is_carbon_emission_visible) {
+            <div class="col-lg-3 col-sm-6 col-xs-6">
+              <div class="circle-title2">
+                <div class="circle-title-heading">
+                  <img id="img-ctn" src="/assets/image/energy.png" width="45">
+                </div>
+                <div class="box">
+                  <div class="box-heading text-faded">Energy Saved/Carbon Emission Saved</div>
+                  <div class="box-heading text-faded">
+                    <small>
+                      <span style="font-weight: 700">Enery Saved :</span> {{CustsavedEnergy}} kWH<br>
+                      <span style="font-weight: 700">Carbon Emission Saved :</span> {{CustcarbonSaved}} <br>
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+          <!-- 3rd snapshot end -->
+          <!-- 4th snapshot start -->
+          <div class="col-lg-3 col-sm-6 col-xs-6">
+            <div class="circle-title2">
+              <div class="circle-title-heading">
+                <img id="img-ctn" src="/assets/image/low.png" width="45">
+              </div>
+              <div class="box">
+                <div class="box-heading text-faded">% saved</div>
+                <div class="box-number text-faded">{{CustpercentageSaved}}</div>
+              </div>
+            </div>
           </div>
         </div>
-
-      </div>
-
-
-      <!-- 3rd snapshot end -->
-
-      <!-- 4th snapshot start -->
-      <div class="col-lg-3 col-sm-6 col-xs-6">
-        <div class="circle-title2">
-          <div class="circle-title-heading">
-            <img id="img-ctn" src="/assets/image/low.png" width="45">
-          </div>
-          <div class="box">
-            <div class="box-heading text-faded">% saved</div>
-
-            <div class="box-number text-faded">{{CustpercentageSaved}}</div>
-          </div>
+        <div class="row mt-3">
+          <div class=" col-lg-5">
+            <div class="panel-heading">
+              <i class="fa fa-bar-chart-o"></i> Customer Details
+            </div>
+            <div class="panel-body details">
+              <ul class="all-details">
+                <li>
+                  <p>Customer ID:</p>
+                </li>
+                <li>{{ customerDetails.id }}</li>
+              </ul>
+              <ul class="all-details">
+                <li>
+                  <p>Username : </p>
+                </li>
+                <li> {{ customerDetails.username }}</li>
+              </ul>
+              <ul class="all-details">
+                <li>
+                  <p>Customer Name:</p>
+                </li>
+                <li> {{ customerDetails.name }}</li>
+              </ul>
+              <ul class="all-details">
+                <li>
+                  <p>Address:</p>
+                </li>
+                <li> {{ customerDetails.address }} </li>
+              </ul>
+              <ul class="all-details">
+                <li>
+                  <p>Total Property:</p>
+                </li>
+                <li> {{ customerDetails.totalProperties }} </li>
+              </ul>
+              <ul class="all-details">
+                <li>
+                  <p>Email Id :</p>
+                </li>
+                <li>{{ customerDetails.email }}</li>
+              </ul>
+              <ul class="all-details">
+                <li>
+                  <p>Contact No. :</p>
+                </li>
+                <li> {{ customerDetails.contactNumber}}</li>
+              </ul>
+            </div>
+          <!-- </div> -->
         </div>
-
-      </div>
-    </div>
-    <div class="row mt-3">
-      <div class=" col-lg-5">
-
-        <div class="panel-heading">
-          <i class="fa fa-bar-chart-o"></i> Customer Details
-        </div>
-        <div class="panel-body details">
-          <ul class="all-details">
-            <li>
-              <p>Customer ID:</p>
-            </li>
-            <li>{{ customerDetails.id }}</li>
-          </ul>
-          <ul class="all-details">
-            <li>
-              <p>Username : </p>
-            </li>
-            <li> {{ customerDetails.username }}</li>
-          </ul>
-
-          <ul class="all-details">
-            <li>
-              <p>Customer Name:</p>
-            </li>
-            <li> {{ customerDetails.name }}</li>
-          </ul>
-          <ul class="all-details">
-            <li>
-              <p>Address:</p>
-            </li>
-            <li> {{ customerDetails.address }} </li>
-          </ul>
-          <ul class="all-details">
-            <li>
-              <p>Total Property:</p>
-            </li>
-            <li> {{ customerDetails.totalProperties }} </li>
-          </ul>
-          <ul class="all-details">
-            <li>
-              <p>Email Id :</p>
-            </li>
-            <li>{{ customerDetails.email }}</li>
-          </ul>
-          <ul class="all-details">
-            <li>
-              <p>Contact No. :</p>
-            </li>
-            <li> {{ customerDetails.contactNumber}}</li>
-          </ul>
-        </div>
-        <!-- </div> -->
-      </div>
-      <div class="col-lg-7">
-
-        <div class="panel-heading">
-          <i class="fa fa-bar-chart-o"></i> Alarm Distribution
-        </div>
-        <div class="chart-body2">
-          <app-highcharts [Highcharts]="Highcharts" [constructorType]="chartConstructor" [options]="lineChartOptions"
-            [callbackFunction]="chartCallback" [(update)]="updateFlag" [isOneToOne]="oneToOneFlag"
-            style="width: 100%; height: 100%; display: block;"></app-highcharts>
-        </div>
-      </div>
-    </div>
-    <!-- </div> -->
-    <div *ngIf="showAlarm">
-      <div class="row mt-4">
-        <div class=" col-lg-12 col-sm-6 ">
+        <div class="col-lg-7">
           <div class="panel-heading">
-            <i class="fa fa-bar-chart-o"></i> Alarm Details
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true" (click)="AlarmTableClose()">&times;</span>
-            </button>
+            <i class="fa fa-bar-chart-o"></i> Alarm Distribution
           </div>
-          <div class="chart-body">
-            <div class="example-header" fxLayout="row">
-              <mat-form-field>
-                <input matInput class="matInputFilterBar" (keyup)="applyFilter($event.target.value)"
-                  placeholder="Search anything in table here ...">
-              </mat-form-field>
+          <div class="chart-body2">
+            <app-highcharts [Highcharts]="Highcharts" [constructorType]="chartConstructor" [options]="lineChartOptions"
+              [callbackFunction]="chartCallback" [(update)]="updateFlag" [isOneToOne]="oneToOneFlag"
+            style="width: 100%; height: 100%; display: block;"></app-highcharts>
+          </div>
+        </div>
+      </div>
+    <!-- </div> -->
+    @if (showAlarm) {
+      <div>
+        <div class="row mt-4">
+          <div class=" col-lg-12 col-sm-6 ">
+            <div class="panel-heading">
+              <i class="fa fa-bar-chart-o"></i> Alarm Details
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true" (click)="AlarmTableClose()">&times;</span>
+              </button>
             </div>
-
-            <div class="example-container mat-elevation-z8">
-
-              <mat-table [dataSource]="dataSource1" matSort>
-
-                <!-- ID Column -->
-                <ng-container matColumnDef="siteid">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Site ID </mat-header-cell>
-                  <mat-cell *matCellDef="let row" data-label="Site ID"> {{row.siteid}} </mat-cell>
-                </ng-container>
-
-                <!-- Site Name Column -->
-                <ng-container matColumnDef="site_name">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Site Name </mat-header-cell>
-                  <mat-cell *matCellDef="let row" data-label="Site Name"> {{row.sitename}} </mat-cell>
-                </ng-container>
-                <!-- Site Type -->
-                <ng-container matColumnDef="internet_down">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Internet Down </mat-header-cell>
-                  <mat-cell *matCellDef="let row" data-label="Internet Down"> {{row.internet_down}} </mat-cell>
-                </ng-container>
-
-                <!-- Site Type -->
-                <ng-container matColumnDef="light_faulty">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Light Damage</mat-header-cell>
-                  <mat-cell *matCellDef="let row" data-label="Light Damage"> {{row.light_faulty}} </mat-cell>
-                </ng-container>
-
-                <!-- Site Type -->
-                <ng-container matColumnDef="high_consump">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> High Consumption </mat-header-cell>
-                  <mat-cell *matCellDef="let row" data-label="High Consumption"> {{row.high_consump}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="totalalarms">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Total Alarms </mat-header-cell>
-                  <mat-cell *matCellDef="let row" [style.color]="row.color" data-label="Total Alarms">
+            <div class="chart-body">
+              <div class="example-header" fxLayout="row">
+                <mat-form-field>
+                  <input matInput class="matInputFilterBar" (keyup)="applyFilter($event.target.value)"
+                    placeholder="Search anything in table here ...">
+                </mat-form-field>
+              </div>
+              <div class="example-container mat-elevation-z8">
+                <mat-table [dataSource]="dataSource1" matSort>
+                  <!-- ID Column -->
+                  <ng-container matColumnDef="siteid">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Site ID </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="Site ID"> {{row.siteid}} </mat-cell>
+                  </ng-container>
+                  <!-- Site Name Column -->
+                  <ng-container matColumnDef="site_name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Site Name </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="Site Name"> {{row.sitename}} </mat-cell>
+                  </ng-container>
+                  <!-- Site Type -->
+                  <ng-container matColumnDef="internet_down">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Internet Down </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="Internet Down"> {{row.internet_down}} </mat-cell>
+                  </ng-container>
+                  <!-- Site Type -->
+                  <ng-container matColumnDef="light_faulty">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Light Damage</mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="Light Damage"> {{row.light_faulty}} </mat-cell>
+                  </ng-container>
+                  <!-- Site Type -->
+                  <ng-container matColumnDef="high_consump">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> High Consumption </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="High Consumption"> {{row.high_consump}} </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="totalalarms">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Total Alarms </mat-header-cell>
+                    <mat-cell *matCellDef="let row" [style.color]="row.color" data-label="Total Alarms">
                     {{row.totalalarms}} </mat-cell>
-                </ng-container>
-                <mat-header-row *matHeaderRowDef="displayedColumns1"></mat-header-row>
-                <mat-row style="cursor: pointer;" *matRowDef="let row; columns: displayedColumns1;"
-                  (click)="openSiteDashOnAlarmClick(row)">
-                </mat-row>
-              </mat-table>
-              <mat-paginator [pageSizeOptions]="[5, 10, 20, 50, 100]"></mat-paginator>
-
+                  </ng-container>
+                  <mat-header-row *matHeaderRowDef="displayedColumns1"></mat-header-row>
+                  <mat-row style="cursor: pointer;" *matRowDef="let row; columns: displayedColumns1;"
+                    (click)="openSiteDashOnAlarmClick(row)">
+                  </mat-row>
+                </mat-table>
+                <mat-paginator [pageSizeOptions]="[5, 10, 20, 50, 100]"></mat-paginator>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-
+    }
     <div class="row mt-4">
       <div class=" col-lg-12 col-sm-6 ">
         <div class="panel-heading">
@@ -250,23 +232,18 @@
                 placeholder="Search anything in table here ...">
             </mat-form-field>
           </div>
-
           <div class="example-container mat-elevation-z8">
-
             <mat-table [dataSource]="dataSource" matSort>
-
               <!-- ID Column -->
               <ng-container matColumnDef="siteid">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Site ID </mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="Site ID"> {{row.siteid}} </mat-cell>
               </ng-container>
-
               <!-- Site Name Column -->
               <ng-container matColumnDef="sitename">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Site Name </mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="Site Name"> {{row.sitename}} </mat-cell>
               </ng-container>
-
               <!-- Site Type -->
               <ng-container matColumnDef="sitetype">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Site Type </mat-header-cell>
@@ -278,13 +255,11 @@
                 <mat-cell *matCellDef="let row" [style.color]="row.color" data-label="Site Address"> {{ row.siteaddr}}
                 </mat-cell>
               </ng-container>
-
               <ng-container matColumnDef="sitemanager">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Site Manager </mat-header-cell>
                 <mat-cell *matCellDef="let row" [style.color]="row.color" data-label="Site Manager"> {{row.sitemanager}}
                 </mat-cell>
               </ng-container>
-
               <!-- Site Manager Contact Number -->
               <ng-container matColumnDef="contact">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Site Manager Mob No</mat-header-cell>
@@ -296,10 +271,10 @@
               </mat-row>
             </mat-table>
             <mat-paginator [pageSizeOptions]="[5, 10, 20, 50, 100]"></mat-paginator>
-
           </div>
         </div>
       </div>
     </div>
   </div>
+}
 </div>

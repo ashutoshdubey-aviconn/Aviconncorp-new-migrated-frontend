@@ -70,6 +70,11 @@ try {
     // record a minimal series type so modules can reference it
     anyH.seriesTypes[type] = proto || {};
   };
+  // Provide a minimal 'gauge' base so modules that extend the gauge series
+  // (for example solid-gauge) can safely subclass during tests.
+  if (!anyH.seriesTypes['gauge']) {
+    anyH.seriesTypes['gauge'] = anyH.Series;
+  }
   // Replace the real chart factory with a test-safe stub so components that call
   // Highcharts.chart/Chart during ngOnInit don't execute the full Highcharts
   // initialization (which expects complex internal state).

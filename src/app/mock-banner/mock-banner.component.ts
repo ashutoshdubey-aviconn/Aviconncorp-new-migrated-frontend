@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-mock-banner',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
-    <div *ngIf="visible" class="mock-banner">Mock data served: {{ last }} ({{ count }})</div>
-  `,
+    @if (visible) {
+      <div class="mock-banner">Mock data served: {{ last }} ({{ count }})</div>
+    }
+    `,
   styles: [
     `
     .mock-banner {

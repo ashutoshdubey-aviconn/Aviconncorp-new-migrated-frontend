@@ -21,7 +21,7 @@ npm start
 
 ```powershell
 npm run build
-# outputs to dist/Aviconncorp-new-migrated-frontend
+# outputs to dist/movie-rater-web/browser
 ```
 
 4. Run unit tests (Karma/Jasmine)
@@ -55,51 +55,41 @@ Mock responses are controlled by `src/app/interceptors/mock-api.interceptor.ts` 
 
 ## Environment & exact versions
 
-This project was prepared and tested with the following runtime and package versions (exact installed versions from `npm ls --depth=0` on this machine):
+Tested with (from `npm ls --depth=0`):
 
-- Node: v20.17.0
+- Node: v20.20.2 (Angular 21 needs Node `^20.19 || ^22.12 || >=24`)
 - npm: 10.8.2
-- Angular CLI: 19.2.19
+- Angular CLI: 21.2.30
 
 Key Angular packages:
 
-- @angular/core: 19.2.15
-- @angular/common: 19.2.15
-- @angular/compiler: 19.2.15
-- @angular/platform-browser: 19.2.15
-- @angular/platform-browser-dynamic: 19.2.15
-- @angular/forms: 19.2.15
-- @angular/router: 19.2.15
-- @angular/animations: 19.2.15
-- @angular/compiler-cli: 19.2.15
-- @angular/language-service: 19.2.15
-- @angular/material: 19.2.19
-- @angular/cdk: 19.2.19
+- @angular/core, common, compiler, forms, router, animations, platform-browser(-dynamic), compiler-cli, language-service: 21.2.26
+- @angular/material, @angular/cdk: 21.2.14
 
 Runtime / 3rd-party libraries (top-level):
 
-- bootstrap: 4.6.2
+- bootstrap: 4.6.2 (CSS is loaded from CDN in `src/index.html`)
 - font-awesome: 4.7.0
-- hammerjs: 2.0.8
-- highcharts: 12.3.0
-- highcharts-angular: 5.2.0
-- rxjs: 6.6.7
-- tslib: 2.8.1
-- zone.js: 0.15.1
+- highcharts: 12.6.2
+- highcharts-angular: 5.4.1
+- rxjs: 7.8.2
+- tslib: 2.9.1
+- zone.js: 0.16.3
 
 Dev / tooling (top-level):
 
-- typescript: 5.5.4
-- eslint: 9.39.1
-- @typescript-eslint/parser: 8.46.4
-- @typescript-eslint/eslint-plugin: 8.46.4
-- @angular-eslint/eslint-plugin: 20.6.0
-- @angular-eslint/eslint-plugin-template: 20.6.0
-- @angular-eslint/template-parser: 20.6.0
+- typescript: 5.9.3
+- eslint: 9.39.5
+- @typescript-eslint/parser, eslint-plugin: 8.72.2
+- @angular-eslint/eslint-plugin, eslint-plugin-template, template-parser: 21.4.0
 - karma: 6.4.4
-- jasmine-core: 3.99.1
+- jasmine-core: 5.6.0
 
-If you need reproducible installs, consider using the exact Node version above (nvm or nvm-windows) before running `npm ci`.
+Upgrading to Angular 22 requires Node `^22.22.3 || ^24.15.0` first.
+
+Build configurations: `npm run build` is a **production** build (hashed files, `environment.prod.ts`);
+`npm start` serves the `development` configuration. All routes except login are lazy-loaded
+(`src/app/app-routing.module.ts`).
 
 
 ## Repo layout & important files

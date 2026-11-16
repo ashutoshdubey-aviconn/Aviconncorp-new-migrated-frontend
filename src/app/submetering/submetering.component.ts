@@ -6,7 +6,7 @@ import { LoginComponent } from './../login/login.component';
 
 import { UserService } from './../services/user.service';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { CommonModule, formatDate as _formatDate } from '@angular/common';
+import { formatDate as _formatDate } from '@angular/common';
 import { MatTableDataSource, MatTable, MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -48,7 +48,6 @@ export interface KeyValueIf {
   styleUrls: ['./submetering.component.css'],
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
@@ -59,10 +58,9 @@ export interface KeyValueIf {
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    // local Highcharts wrapper used across the app
     HighchartsStandaloneComponent,
-    ...SHARED_MAT_MODULES,
-  ],
+    ...SHARED_MAT_MODULES
+],
 })
 
 

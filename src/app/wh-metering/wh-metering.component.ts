@@ -8,7 +8,8 @@ import { DashboardDataService } from './../services/dashboard-data.service';
 // import { LoginComponent } from './../login/login.component';
 
 import { UserService } from './../services/user.service';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, OnInit, ViewChild, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 // Note: removed use of internal throwMatDialogContentAlreadyAttachedError which is no longer exported
@@ -238,6 +239,9 @@ export class WhMeteringComponent implements OnInit {
 
     //@ViewChild(MatPaginator) paginator: MatPaginator;
 
+    // Stops the polling intervals when the user leaves this page.
+    private readonly destroyRef = inject(DestroyRef);
+
     constructor(private dashData: DashboardDataService,
         private UserService: UserService,
         private DataService: DataService,
@@ -439,9 +443,10 @@ export class WhMeteringComponent implements OnInit {
         this.loadDate.setValue(new Date());
 
         // Wait until view is initialized so chart exists
-        setTimeout(() => {
+        const deferredLoad = setTimeout(() => {
             this.loadGraphFilterChanged();
         }, 0);
+        this.destroyRef.onDestroy(() => clearTimeout(deferredLoad));
 
         if (this.is_load_graph_visible == "true") {
             this.load_graph({}); // call with empty data object (previous accidental import created a global 'data')
@@ -465,7 +470,7 @@ export class WhMeteringComponent implements OnInit {
 
 
     ngAfterViewInit() {
-        interval(15000).subscribe(
+        interval(15000).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
             response => {
                 if (this.selected_load_options == "4" && this.liveLoadApiCal) {
                     this.load_data_every_second();
@@ -473,7 +478,7 @@ export class WhMeteringComponent implements OnInit {
 
             }
         );
-        interval(5000).subscribe(
+        interval(5000).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
             response => {
                 this.getSiteCurrLoadInfoData();
             });

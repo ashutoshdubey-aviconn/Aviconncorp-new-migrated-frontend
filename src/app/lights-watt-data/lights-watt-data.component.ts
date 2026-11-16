@@ -1,5 +1,5 @@
 import { Component, OnInit ,Inject ,ViewChild} from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DataService } from './../services/data.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -27,15 +27,14 @@ export class DialogData{
     styleUrls: ['./lights-watt-data.component.css'],
     standalone: true,
     imports: [
-      CommonModule,
-      MatTableModule,
-      MatPaginatorModule,
-      MatSortModule,
-      MatFormFieldModule,
-      MatInputModule,
-      MatDialogModule,
-      ...SHARED_MAT_MODULES
-    ]
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
+    ...SHARED_MAT_MODULES
+]
 })
 
 

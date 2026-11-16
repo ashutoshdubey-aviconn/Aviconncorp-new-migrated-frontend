@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { SHARED_MAT_MODULES } from '../shared/material-imports';
 
@@ -8,7 +8,7 @@ import { SHARED_MAT_MODULES } from '../shared/material-imports';
     templateUrl: './coming-dash.component.html',
     styleUrls: ['./coming-dash.component.css'],
   standalone: true,
-  imports: [CommonModule, MatCardModule, ...SHARED_MAT_MODULES]
+  imports: [MatCardModule, ...SHARED_MAT_MODULES]
 })
 export class ComingDashComponent implements OnInit {
 

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -41,6 +42,9 @@ export class FirePumpAlarmComponent implements OnInit {
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChild(MatTable, { static: true }) table: MatTable<DataTableItem>;
   
+  // Stops the polling interval when the user leaves this page.
+  private readonly destroyRef = inject(DestroyRef);
+
   constructor(private user: UserService,private dataService:DataService) { }
   myObj = JSON.parse(localStorage.getItem("account"));
   user_id = this.myObj["id"];
@@ -82,7 +86,7 @@ export class FirePumpAlarmComponent implements OnInit {
   }
 
    ngAfterViewInit() {
-     interval(5000).subscribe(
+     interval(5000).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
            () => { this.getFireAlarmData(); }
        );
    }

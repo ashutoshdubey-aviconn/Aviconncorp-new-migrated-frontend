@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Inject} from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -22,7 +22,7 @@ export interface DialogData {
   templateUrl: './avg-data.component.html',
   styleUrls: ['./avg-data.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, ...SHARED_MAT_MODULES]
+  imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, ...SHARED_MAT_MODULES]
 })
 
 

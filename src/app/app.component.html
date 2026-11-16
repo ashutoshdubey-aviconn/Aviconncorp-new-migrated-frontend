@@ -8,8 +8,10 @@
 
         <router-outlet></router-outlet>
         <!-- Dev-only mock toggle -->
-  <app-mock-banner></app-mock-banner>
-  <app-dev-toggle *ngIf="!isProduction"></app-dev-toggle>
+        <app-mock-banner></app-mock-banner>
+        @if (!isProduction) {
+          <app-dev-toggle></app-dev-toggle>
+        }
 
       </div>
     </div>

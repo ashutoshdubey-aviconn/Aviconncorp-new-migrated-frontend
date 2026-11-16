@@ -1,5 +1,5 @@
 import { Component, OnInit,Inject ,ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -36,7 +36,7 @@ export interface UserData {
     templateUrl: './device-details-fems.component.html',
     styleUrls: ['./device-details-fems.component.css'],
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule, MatFormFieldModule, MatInputModule, ...SHARED_MAT_MODULES]
+  imports: [MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule, MatFormFieldModule, MatInputModule, ...SHARED_MAT_MODULES]
 })
 export class DeviceDetailsFemsComponent implements OnInit {
   dataSource: MatTableDataSource<UserData>; 

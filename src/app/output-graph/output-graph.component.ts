@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from './../services/user.service';
-import { CommonModule } from '@angular/common';
+
 import { HighchartsStandaloneComponent } from '../highcharts/highcharts-standalone.component';
 import { SHARED_MAT_MODULES } from '../shared/material-imports';
 // Defer loading Highcharts modules to runtime via dynamic import() to avoid
@@ -11,7 +11,7 @@ import { SHARED_MAT_MODULES } from '../shared/material-imports';
     templateUrl: './output-graph.component.html',
     styleUrls: ['./output-graph.component.css'],
   standalone: true,
-  imports: [CommonModule, HighchartsStandaloneComponent, ...SHARED_MAT_MODULES]
+  imports: [HighchartsStandaloneComponent, ...SHARED_MAT_MODULES]
 })
 export class OutputGraphComponent implements OnInit {
   lineChartOptions: any;
